@@ -17,6 +17,6 @@ import { SearchSectionComponent } from './components/search-section.component';
   ],
   imports: [BrowserModule],
   providers: [],
-  bootstrap: [AppComponent, CourseListSectionComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

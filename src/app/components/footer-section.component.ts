@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-interface',
-  template: ``,
+  selector: 'footer-section',
+  templateUrl: '../app.component.html',
 })
 export class FooterSectionComponent {}
