@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "plugins": ["@tinkoff/eslint-plugin"],
+  "overrides": [
+    {  
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+        },
+      "files": [
+        "*.ts"
+      ],
+      "extends": ["@tinkoff/eslint-config/app", "@tinkoff/eslint-config-angular"]
+    }
+  ]
+}
