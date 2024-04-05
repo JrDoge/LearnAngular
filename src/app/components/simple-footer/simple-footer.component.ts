@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './simple-footer.component.html',
   styleUrl: './simple-footer.component.less',
 })
-export class SimpleFooterComponent {}
+export class SimpleFooterComponent {
+  footer = '© Coursenta 2021';
+}

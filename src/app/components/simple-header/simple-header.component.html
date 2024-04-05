@@ -1,5 +1,17 @@
-<div id="simpleHeader">
-   <a href=""><img src="" alt="logo" id="compLogo"></a>
-   <p id="userName"></p>
-   <p><a href="" id="LogOut">Log out</a></p>
- </div>
+<body>
+  <div class="simple-header">
+    <img [src]="logoSrc" alt="logo" id="compLogo">
+    <div class="user-navigation">
+     <div class="user-container">
+       <img [src]="iconsSrc[1]" alt="iconStar" id="userIcon">
+       <a id="userName" tuiLink>{{userName}}</a>
+     </div>
+     <div class="logout">
+       <img [src]="iconsSrc[0]" alt="icon" id="logoutIcon">
+       <a tuiLink id="logOutBtn">Log out</a>
+     </div>
+    </div>
+  </div>
+</body>
+
+ 
