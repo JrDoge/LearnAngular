@@ -5,4 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.less',
 })
-export class CourseListComponent {}
+export class CourseListComponent {
+  loadNewCourses() {
+    console.log('Done');
+  }
+}

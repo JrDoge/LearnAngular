@@ -1,0 +1,74 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.less';
+
+
+body {
+    margin: 0;
+    width: 1152px;
+    height: 115px;
+}
+
+#searchContainer {
+    display: flex;
+    width: 720px;
+    height: 56px;
+    gap: 16px;
+    background-color: hsl(0, 0%, 100%, 1);
+    cursor: pointer;
+}
+
+#mainSection {
+    display: flex;
+    width: 1152px;
+    height: 56px;
+    padding: 32px 24px;
+    justify-content: space-between;
+    background-color: hsl(0, 0%, 100%, 1);
+    border-bottom: 2px solid hsl(0, 0%, 84%, 1);
+    z-index: 2;
+}
+
+tui-input {
+    width: 579px;
+    height: 56px;
+}
+
+[tuiButton][id='searchBtn'] {
+    width: 125px;
+    height: 56px;
+    border-radius: 12px;
+    background-color: hsl(228, 100%, 96%, 1);
+    color: hsl(227, 59%, 57%, 1);
+    font-size: 15px;
+    cursor: pointer;
+}
+
+[tuiButton][id='searchBtn']:hover {
+    background-color: hsl(227, 33%, 89%);
+}
+
+[tuiButton][id='searchBtn']:active {
+    background-color: hsl(227, 33%, 85%);
+}
+
+[tuiButton][id='addCourseBtn'] {
+    font-size: 15px;
+    line-height: 24px;
+    width: 187px;
+    height: 56px;
+    border-radius: 12px;
+    background-color: hsl(227, 59%, 57%, 1);
+    color: white;
+    cursor: pointer;
+}
+
+[tuiButton][id='addCourseBtn']:hover {
+    background-color: hsl(227, 70%, 70%, 1);
+}
+
+[tuiButton][id='addCourseBtn']:active {
+    background-color: hsl(227, 70%, 50%, 1);
+}
+hr{
+    position: relative;
+    width: 1104px;
+}

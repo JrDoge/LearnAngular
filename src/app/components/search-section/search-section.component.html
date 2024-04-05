@@ -1,1 +1,16 @@
-<input type="search" name="" id=""> <button>search</button> <button>+ Add course</button>
+<body>
+    <div id="mainSection">
+        <div id="searchContainer">
+            <form>
+                <tui-input
+                tuiTextfieldIconLeft = "tuiIconSearchLarge"
+                class="input" name="searchSection" [(ngModel)]="searchSection">{{searchHint}}
+                    <input id="searchSection"  placeholder="Placeholder"
+                        tuiTextfield>
+                </tui-input>
+            </form>
+            <button id="searchBtn" appearance="custom" (click)="startSearching()" tuiButton>Search</button>
+        </div>
+        <button id="addCourseBtn" appearance="custom" tuiButton ><img [src]="plusSrc" alt="">Add Course</button>
+    </div>
+</body>
