@@ -41,10 +41,7 @@ import { SearchSectionComponent } from './components/search-section/search-secti
     TuiTextfieldControllerModule,
     TuiButtonModule,
   ],
-  providers: [
-    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-  ],
+  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
