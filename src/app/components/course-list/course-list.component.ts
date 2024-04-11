@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import { CourseMock } from './course-mock';
 
 @Component({
   selector: 'app-course-list',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class CourseListComponent {
   loadNewCourses() {
+    // console.log(CourseMock.courseMock[0]);
     console.log('Done');
   }
 }

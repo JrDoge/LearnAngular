@@ -1,47 +1,25 @@
-import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
-import {
-  TuiRootModule,
-  TuiAlertModule,
-  TUI_SANITIZER,
-  TuiLinkModule,
-  TuiSvgModule,
-  TuiTextfieldControllerModule,
-  TuiButtonModule,
-} from '@taiga-ui/core';
+import { TuiRootModule } from '@taiga-ui/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { TuiInputModule } from '@taiga-ui/kit';
 import { AppComponent } from './app.component';
-import { CourseListComponent } from './components/course-list/course-list.component';
-import { SimpleFooterComponent } from './components/simple-footer/simple-footer.component';
-import { SimpleHeaderComponent } from './components/simple-header/simple-header.component';
-import { SearchSectionComponent } from './components/search-section/search-section.component';
+import { SimpleHeaderModule } from './components/simple-header/simple-header.module';
+import { SimpleFooterModule } from './components/simple-footer/simple-footer.module';
+import { SearchSectionModule } from './components/search-section/search-section.module';
+import { CourseListModule } from './components/course-list/course-list.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CourseListComponent,
-    SimpleFooterComponent,
-    SimpleHeaderComponent,
-    SearchSectionComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
+    SimpleFooterModule,
     BrowserModule,
+    SimpleHeaderModule,
     BrowserAnimationsModule,
     TuiRootModule,
-    TuiAlertModule,
-    TuiLinkModule,
-    TuiSvgModule,
-    FormsModule,
-    TuiInputModule,
-    ReactiveFormsModule,
-    TuiTextfieldControllerModule,
-    TuiButtonModule,
+    SearchSectionModule,
+    CourseListModule,
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
