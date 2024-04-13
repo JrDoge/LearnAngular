@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-simple-header',
@@ -7,7 +7,7 @@ import {ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleHeaderComponent {
-  userName = "Konstantin"
-  logoSrc  = "assets/svgs/Logo.svg"
-  iconsSrc = ["assets/svgs/icon-16.svg","assets/svgs/Icon.svg"]
+  userName = 'Konstantin';
+  logoSrc = 'assets/svgs/Logo.svg';
+  iconsSrc = ['assets/svgs/icon-16.svg', 'assets/svgs/Icon.svg'];
 }

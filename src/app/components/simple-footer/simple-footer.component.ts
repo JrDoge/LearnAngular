@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './simple-footer.component.less',
 })
 export class SimpleFooterComponent {
-  footer = '© Coursenta 2021'
+  footer = '© Coursenta 2021';
 }

@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-search-section',
   templateUrl: './search-section.component.html',
   styleUrl: './search-section.component.less',
 })
-export class SearchSectionComponent{
-  searchSection: string = "";
+export class SearchSectionComponent {
+  searchSection = '';
 
-  searchHint = "Name, fragment or date"
-  
-  plusSrc  = "assets/svgs/+.svg"
-  lineSrc = "assets/svgs/Rectangle 6.svg"
+  searchHint = 'Name, fragment or date';
 
-  startSearching(){
-    console.log(this.searchSection)
+  plusSrc = 'assets/svgs/+.svg';
+  lineSrc = 'assets/svgs/Rectangle 6.svg';
+
+  startSearching() {
+    console.log(this.searchSection);
   }
 }

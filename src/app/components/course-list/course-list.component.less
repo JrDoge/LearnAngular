@@ -1,24 +1,16 @@
 @import '@taiga-ui/core/styles/taiga-ui-local.less';
 
-#listContainer{
-    display: grid;
+.list-container{
+    position: relative;
+    display: flex;
     flex-direction: column;
     margin-top: 8px;
     width: 1152px;
-    height: 100vh;
+    height: 1328px;
     background-color: hsl(0, 0%, 100%, 1);
     padding: 32px 24px;
     z-index: 1;
 }
-[tuiButton][id = "LoadBtn"]{
+.list-container[tuiButton]{
     align-self: flex-end;
-    background: hsl(228, 100%, 96%, 1);
-    color: 
-    hsl(227, 59%, 57%, 1);
-}
-[tuiButton][id = "LoadBtn"]:hover{
-    background: hsl(227, 33%, 89%);
-}
-[tuiButton][id = "LoadBtn"]:active{
-    background: hsl(226, 16%, 79%);
 }
