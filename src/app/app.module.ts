@@ -8,6 +8,7 @@ import { SimpleHeaderModule } from './components/simple-header/simple-header.mod
 import { SimpleFooterModule } from './components/simple-footer/simple-footer.module';
 import { SearchSectionModule } from './components/search-section/search-section.module';
 import { CourseListModule } from './components/course-list/course-list.module';
+import { CourseDataModule } from './components/course-data/course-data.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { CourseListModule } from './components/course-list/course-list.module';
     TuiRootModule,
     SearchSectionModule,
     CourseListModule,
+    CourseDataModule,
   ],
   bootstrap: [AppComponent],
 })
