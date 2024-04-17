@@ -10,9 +10,6 @@ export class SearchSectionComponent {
 
   searchHint = 'Name, fragment or date';
 
-  plusSrc = 'assets/svgs/+.svg';
-  lineSrc = 'assets/svgs/Rectangle 6.svg';
-
   startSearching() {
     console.log(this.searchSection);
   }

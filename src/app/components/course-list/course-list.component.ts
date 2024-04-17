@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
+import type { CourseData } from '../../course-data';
 
 @Component({
   selector: 'app-course-list',
@@ -7,16 +8,11 @@ import { courseMock } from '../course-data/course-mock';
   styleUrl: './course-list.component.less',
 })
 export class CourseListComponent {
-  courseList = courseMock.sort(this.compare);
+  courseList = courseMock.sort((a: CourseData, b: CourseData) => {
+    return Number(new Date(b.creationDate)) - Number(new Date(a.creationDate));
+  });
 
   courseId!: string;
-
-  compare(a: any, b: any) {
-    const dateA: any = new Date(a.creationDate);
-    const dateB: any = new Date(b.creationDate);
-
-    return dateB - dateA;
-  }
 
   loadNewCourses() {
     console.log(this.courseList);
