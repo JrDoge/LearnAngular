@@ -13,7 +13,7 @@ import { CourseDataModule } from '../course-data/course-data.module';
     TuiButtonModule,
     TuiSvgModule,
     TuiBadgeModule,
-    CourseDataModule
+    CourseDataModule,
   ],
   exports: [CourseListComponent],
 })

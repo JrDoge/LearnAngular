@@ -20,7 +20,7 @@ import { CourseDataModule } from './components/course-data/course-data.module';
     TuiRootModule,
     SearchSectionModule,
     CourseListModule,
-    CourseDataModule
+    CourseDataModule,
   ],
   bootstrap: [AppComponent],
 })

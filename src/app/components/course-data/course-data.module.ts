@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CourseDataComponent } from './course-data.component';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiLineClampModule, TuiBadgeModule } from '@taiga-ui/kit';
-
-
+import { CourseDataComponent } from './course-data.component';
 
 @NgModule({
   declarations: [CourseDataComponent],
@@ -15,6 +13,6 @@ import { TuiLineClampModule, TuiBadgeModule } from '@taiga-ui/kit';
     TuiSvgModule,
     TuiBadgeModule,
   ],
-  exports: [CourseDataComponent]
+  exports: [CourseDataComponent],
 })
-export class CourseDataModule { }
+export class CourseDataModule {}

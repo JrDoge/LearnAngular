@@ -1,23 +1,13 @@
-import type { ComponentFixture } from '@angular/core/testing';
-import { TestBed } from '@angular/core/testing';
-
 import { SearchSectionComponent } from './search-section.component';
 
-describe('SearchSectionComponent', () => {
-  let component: SearchSectionComponent;
-  let fixture: ComponentFixture<SearchSectionComponent>;
+describe('Если нажать на кнопку поиска', () => {
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [SearchSectionComponent],
-    }).compileComponents();
+  const component = new SearchSectionComponent();
+  
+  const stringForTest: string = "54354353453"
 
-    fixture = TestBed.createComponent(SearchSectionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('То один раз будет вызван метод поиска курсов', () => {
+    expect(component.startSearching(stringForTest)).toHaveBeenCalledTimes(1);
   });
 });
+

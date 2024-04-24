@@ -1,6 +1,6 @@
 <div class="list-container">
-  <app-course-data *ngFor="let course of courseList"
-                [course]="course"
+  <app-course-data data-tid="courseItem" *ngFor="let course of courses"
+                [course]='course'
                 (deleteEvent)="deleteSetCourse($event)">
                 </app-course-data>
   <button id="LoadBtn" appearance="secondary" tuiButton name="LoadBtn" (click)="loadNewCourses()">Load more</button>
