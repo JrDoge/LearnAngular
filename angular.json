@@ -100,25 +100,6 @@
             "buildTarget": "myApp:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "less",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.less"
-            ],
-            "scripts": []
-          }
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -126,6 +107,14 @@
               "src/**/*.ts",
               "src/**/*.html"
             ]
+          }
+        },
+        "test":{
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "tsConfig": "./tsconfig.spec.json",
+            "configPath": "./jest.config.js",
+            "globalMocks": ["styleTransform", "matchMedia", "getComputedStyle"]
           }
         }
       }
