@@ -30,4 +30,5 @@ export class CourseListComponent {
 
     console.log(foundCourseIndex);
   }
+
 }

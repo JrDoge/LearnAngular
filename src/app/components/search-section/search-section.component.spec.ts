@@ -3,6 +3,11 @@ import { SearchSectionComponent } from './search-section.component';
 describe('Если нажать на кнопку поиска', () => {
 
   const component = new SearchSectionComponent();
+  const searchCourseMethod = 'startSearching'
+
+  beforeEach(async ()=>{
+    jest.spyOn(component, searchCourseMethod)
+  })
   
   const stringForTest: string = "54354353453"
 

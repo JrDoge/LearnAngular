@@ -1,7 +1,8 @@
 <div class="list-container">
-  <app-course-data data-tid="courseItem" *ngFor="let course of courses"
+  <app-course-data *ngFor="let course of courses"
                 [course]='course'
-                (deleteEvent)="deleteSetCourse($event)">
+                (deleteEvent)="deleteSetCourse($event)"
+                data-automation-id="course-item">
                 </app-course-data>
-  <button id="LoadBtn" appearance="secondary" tuiButton name="LoadBtn" (click)="loadNewCourses()">Load more</button>
-</div>
+  <button id="LoadBtn" appearance="secondary" tuiButton data-automation-id="load-button" (click)="loadNewCourses()">Load more</button>
+</div>ЫВ
