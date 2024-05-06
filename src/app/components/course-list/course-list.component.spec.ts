@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CourseListComponent } from './course-list.component';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import {DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { courseMock } from '../course-data/course-mock';
 
@@ -13,7 +13,7 @@ describe('Если в качестве данных о курсах переда
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CourseListComponent)
@@ -24,7 +24,7 @@ describe('Если в качестве данных о курсах переда
 
   it('То не будет выведен ни один экземпляр компонента курса', () => {
     const courseItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('app-course-data[data-automation-id]')
+      By.css('[data-automation-id = "course-item"]')
     );
     const needToShow: boolean = courseItems.length > 1 ? true : false
     expect(needToShow).toBeFalsy();
@@ -32,7 +32,7 @@ describe('Если в качестве данных о курсах переда
   
   it('То кнопка "Load more" всё равно будет выведена', () => {
     const loadBtn: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('[data-automation-id="course-list_load-button"]')
+      By.css('[data-automation-id = "load-button"]')
     );
  
     expect(loadBtn).toBeTruthy();
@@ -55,14 +55,14 @@ describe('Если в качестве данных о курсах переда
 
   it('То будет выведен как минимум один экземпляр компонента курса', () => {
     const courseItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('app-course-data[data-automation-id]'))
+      By.css('[data-automation-id = "course-item"]'))
 
     expect(courseItems.length).toBeGreaterThanOrEqual(1);
   });
   
   it('То количество экземпляров компонента курса совпадает с количеством элементов в массиве', () => {
     const courseItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('app-course-data[data-automation-id]'))
+      By.css('[data-automation-id = "course-item"]'))
     expect(courseItems).toHaveLength(courseMock.length);
   });
 });
@@ -74,17 +74,24 @@ describe('Если от компонента курса пришло событ�
     TestBed.configureTestingModule({
       declarations: [CourseListComponent]
     })
-    jest.spyOn(component, deleteCourseMethod)
-
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture = TestBed.createComponent(CourseListComponent)
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
-    // const deleteButton: DebugElement = fixture.debugElement.query(
-    //   By.css('')
-    // )
-    expect(component).toBeTruthy();
+
+    const spy = jest.spyOn(component, deleteCourseMethod)
+
+    component.deleteSetCourse('5')
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+  it('То метод удаления курса был вызван с аргументом - id курса ', () => {
+
+    const spy = jest.spyOn(component, deleteCourseMethod)
+
+    component.deleteSetCourse('5')
+
+    expect(spy).toHaveBeenLastCalledWith('5');
   });
 });
 
@@ -104,9 +111,13 @@ describe('Если нажать на кнопку "Load more"', () => {
     const spy = jest.spyOn(component, 'loadNewCourses')
 
     const loadButton: DebugElement = fixture.debugElement.query(
-      By.css('button[data-automation-id]')
+      By.css('[data-automation-id = "load-button"]')
     )
-    loadButton.triggerEventHandler('click', loadButton);
-    expect(spy).toHaveBeenCalled();
+
+    loadButton.triggerEventHandler('click');
+
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+    })
   });
 });
