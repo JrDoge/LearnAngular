@@ -9,7 +9,7 @@ import type { CourseData } from '../../course-data';
 export class CourseDataComponent {
   @Input() course!: CourseData;
 
-  @Output() deleteEvent = new EventEmitter<string>();
+  @Output() deleteEvent: EventEmitter<string> = new EventEmitter<string>();
 
   deleteCourse() {
     this.deleteEvent.emit(this.course.id);
