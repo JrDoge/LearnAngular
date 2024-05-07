@@ -8,9 +8,11 @@ import type { CourseData } from '../../course-data';
   styleUrl: './course-list.component.less',
 })
 export class CourseListComponent {
-
   courses = courseMock.sort((a: CourseData, b: CourseData) => {
-    return Number(new Date(String(b.creationDate))) - Number(new Date(String(a.creationDate)));
+    return (
+      Number(new Date(String(b.creationDate))) -
+      Number(new Date(String(a.creationDate)))
+    );
   });
 
   courseId!: string;
@@ -30,5 +32,4 @@ export class CourseListComponent {
 
     console.log(foundCourseIndex);
   }
-
 }
