@@ -74,7 +74,6 @@ describe('Если есть данные для отображения (stand-al
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `<app-course-data
     data-id="host-courses"
-    *ngFor="let course of courses"
     [course]="course"
     (deleteEvent)="deleteSetCourse($event)"
   ></app-course-data>`,
