@@ -10,7 +10,7 @@ export class SearchSectionComponent {
 
   searchHint = 'Name, fragment or date';
 
-  startSearching() {
-    console.log(this.searchSection);
+  startSearching(searchSection: string) {
+    console.log(searchSection);
   }
 }

@@ -8,22 +8,25 @@ import type { CourseData } from '../../course-data';
   styleUrl: './course-list.component.less',
 })
 export class CourseListComponent {
-  courseList = courseMock.sort((a: CourseData, b: CourseData) => {
-    return Number(new Date(b.creationDate)) - Number(new Date(a.creationDate));
+  courses = courseMock.sort((a: CourseData, b: CourseData) => {
+    return (
+      Number(new Date(String(b.creationDate))) -
+      Number(new Date(String(a.creationDate)))
+    );
   });
 
   courseId!: string;
 
   loadNewCourses() {
-    console.log(this.courseList);
+    console.log(this.courses);
   }
 
   deleteSetCourse(courseId: string) {
-    const foundCourseIndex = this.courseList.findIndex(
+    const foundCourseIndex = this.courses.findIndex(
       (course) => course.id === courseId
     );
     if (foundCourseIndex !== -1) {
-      this.courseList.splice(foundCourseIndex, 1);
+      this.courses.splice(foundCourseIndex, 1);
       // this.courseList = this.courseList.filter(obj => obj.id !== courseId) альтернативный способ удаления объекта
     }
 
