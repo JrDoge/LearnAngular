@@ -3,15 +3,10 @@ import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import type { DebugElement } from '@angular/core';
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  Component
-} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { CourseDataComponent } from './course-data.component';
 import { courseMock } from './course-mock';
 import { CourseDataModule } from './course-data.module';
-import { first } from 'rxjs';
-import { CourseData } from '../../course-data';
 
 let component: CourseDataComponent;
 let fixture: ComponentFixture<CourseDataComponent>;
@@ -34,13 +29,16 @@ describe('Если есть данные для отображения (stand-al
 
   it('То в качестве даты выводятся данные из поля creationDate', () => {
     const courseContainer = fixture.debugElement.query(
-      By.css('.course-container')
+      By.css('.course-header-container')
     ).nativeElement;
+
+    console.log(courseContainer.textContent)
+
     expect(courseContainer.textContent).toContain(mockedCourse[1].creationDate);
   });
   it('То в качестве описания выводятся данные из поля description', () => {
     const courseContainer = fixture.debugElement.query(
-      By.css('.course-container')
+      By.css('.course-description-containe')
     ).nativeElement;
     expect(courseContainer.textContent).toContain(mockedCourse[1].description);
   });
@@ -76,7 +74,6 @@ describe('Если есть данные для отображения (stand-al
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `<app-course-data
     data-id="host-courses"
-    *ngFor="let course of courses"
     [course]="course"
     (deleteEvent)="deleteSetCourse($event)"
   ></app-course-data>`,
@@ -128,7 +125,7 @@ describe('Если через @Input переданы данные для ото
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{provide: ComponentFixtureAutoDetect, useValue: true}]
+      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
     }).compileComponents();
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
@@ -157,16 +154,15 @@ describe('Если через @Input переданы данные для ото
     });
   });
   it('Если нажать на кнопку удаления курса, то через @Output будет передано событие удаления курса c переданным значением.', () => {
-
     const spy = jest.spyOn(component.deleteEvent, `emit`);
 
-    component.course = courseMock[0]
+    component.course = courseMock[0];
 
     const deleteButton = fixture.debugElement.query(
       By.css('[data-id = "delete-button"]')
-    ).nativeElement;
+    );
 
-    deleteButton.triggerEventHandler('click')
+    deleteButton.triggerEventHandler('click');
 
     hostFixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalledWith('1');

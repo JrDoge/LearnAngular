@@ -6,9 +6,9 @@
           <div #parent class="line-clamp-box">
           <tui-line-clamp class="line-clamp"
           [content]="content"></tui-line-clamp>
-            <ng-template #content><h1>{{course.title}}</h1></ng-template>
+            <ng-template #content><h1>{{course.title | titlecase}}</h1></ng-template>
           </div>
-          <tui-badge class="badge" status="neutral" size="m" [value]="course.duration"></tui-badge>
+          <tui-badge class="badge" status="neutral" size="m" [value]="course.duration | duration"></tui-badge>
         </div>
       </div>
       <p id="description">{{course.description}}</p>
