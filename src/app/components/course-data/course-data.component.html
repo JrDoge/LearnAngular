@@ -1,12 +1,19 @@
 <div class="course-container">
     <div class="course-description-container">
       <div class="course-header-container">
-        <p>{{course.creationDate}}</p>
+        <p>{{course.creationDate | date: "dd.MM.yyyy"}}</p>
         <div class="course-description-header-container">
           <div #parent class="line-clamp-box">
           <tui-line-clamp class="line-clamp"
-          [content]="content"></tui-line-clamp>
-            <ng-template #content><h1>{{course.title | titlecase}}</h1></ng-template>
+          [content]="content"
+          ></tui-line-clamp>
+            <ng-template 
+            #content
+            class = 'title'
+            >
+            <h1 data-id = "title">{{course.title | titlecase}}
+            </h1>
+          </ng-template>
           </div>
           <tui-badge class="badge" status="neutral" size="m" [value]="course.duration | duration"></tui-badge>
         </div>

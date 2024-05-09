@@ -42,6 +42,7 @@
     "@angular-eslint/template-parser": "17.3.0",
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
+    "@ng-web-apis/universal": "^3.0.7",
     "@tinkoff/eslint-config": "^2.0.3",
     "@tinkoff/eslint-config-angular": "^2.0.5",
     "@types/dompurify": "3.0.5",

@@ -7,6 +7,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { CourseDataComponent } from './course-data.component';
 import { courseMock } from './course-mock';
 import { CourseDataModule } from './course-data.module';
+import { DurationPipe } from '../../pipes/duration.pipe';
+import { CourseData } from '../../course-data';
 
 let component: CourseDataComponent;
 let fixture: ComponentFixture<CourseDataComponent>;
@@ -15,8 +17,9 @@ const mockedCourse = courseMock;
 describe('Если есть данные для отображения (stand-alone)', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [CourseDataComponent],
+      declarations: [CourseDataComponent, DurationPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CourseDataComponent);
@@ -26,22 +29,34 @@ describe('Если есть данные для отображения (stand-al
 
     fixture.detectChanges();
   });
-
-  it('То в качестве даты выводятся данные из поля creationDate', () => {
+  
+  it('То в качестве даты выводятся данные из поля creationDate в формате dd.MM.yyyy', () => {
     const courseContainer = fixture.debugElement.query(
       By.css('.course-header-container')
     ).nativeElement;
 
-    console.log(courseContainer.textContent)
-
-    expect(courseContainer.textContent).toContain(mockedCourse[1].creationDate);
+    expect(courseContainer.textContent).toMatch('01.05.2024');
   });
   it('То в качестве описания выводятся данные из поля description', () => {
     const courseContainer = fixture.debugElement.query(
-      By.css('.course-description-containe')
+      By.css('.course-description-container')
     ).nativeElement;
     expect(courseContainer.textContent).toContain(mockedCourse[1].description);
   });
+  it('Значение поля title пишется в TitleUpperCase', async () => {
+      
+      const courseTitleContainer: HTMLElement = fixture.nativeElement
+      const courseTitle = courseTitleContainer.getElementsByClassName('.title')
+
+      // await fixture.whenStable().then( () => {
+
+      //   console.log('show me something:', fixture.debugElement.query(By.css('ng-template')))
+      // })
+      
+      // expect(courseTitle).toMatch('Video Course 2');
+
+
+  })
   it('То присутствует заголовок курса', () => {
     const courseTitle = fixture.debugElement.query(
       By.css('.line-clamp-box')
@@ -66,6 +81,9 @@ describe('Если есть данные для отображения (stand-al
     ).nativeElement;
     expect(courseButtons).toBeTruthy();
   });
+  afterEach(()=>{
+    jest.clearAllMocks
+  })
 });
 
 @Component({
@@ -78,16 +96,14 @@ describe('Если есть данные для отображения (stand-al
     (deleteEvent)="deleteSetCourse($event)"
   ></app-course-data>`,
 })
-class TestHostComponent {
-  courses = mockedCourse;
+export class TestHostComponent {
 
-  deleteSetCourse(courseId: string) {
-    const foundCourseIndex = this.courses.findIndex(
-      (course) => course.id === courseId
-    );
-    if (foundCourseIndex !== -1) {
-      this.courses.splice(foundCourseIndex, 1);
-    }
+  mockCourse: CourseData[] = courseMock
+
+  course: CourseData = this.mockCourse[1];
+
+  deleteSetCourse(selectedCourse: CourseData) {
+    this.mockCourse.splice(1 ,1)
   }
 }
 
@@ -99,7 +115,7 @@ describe('Компонент-хост должен успешно создава
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    });
 
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
@@ -109,7 +125,7 @@ describe('Компонент-хост должен успешно создава
     expect(testHostComponent).toBeTruthy();
   });
   it('Через @input не были переданы данные, не выводим ничего', () => {
-    testHostComponent.courses = [];
+    testHostComponent.mockCourse = [];
     fixture.detectChanges();
 
     const coursecontainer = fixture.debugElement.query(
@@ -121,18 +137,20 @@ describe('Компонент-хост должен успешно создава
 });
 
 describe('Если через @Input переданы данные для отображения', () => {
+
   beforeEach(async () => {
     TestBed.configureTestingModule({
+      declarations: [CourseDataComponent],
       imports: [TestHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
-    }).compileComponents();
+    });
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
   });
+
   it('То содержимое компонента не пустое', () => {
-    testHostComponent.courses = mockedCourse;
-    fixture.detectChanges();
+    testHostComponent.course = mockedCourse[1];
+    fixture.detectChanges()
 
     const coursecontainer = fixture.debugElement.query(
       By.css('.course-container')
@@ -140,32 +158,39 @@ describe('Если через @Input переданы данные для ото
 
     expect(coursecontainer.textContent).not.toBeNull;
   });
-  it('Если нажать на кнопку удаления курса, то через @Output будет передано событие удаления курса', () => {
+  });
+describe('Если нажать на кнопку удаления курса', () => {
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      declarations: [CourseDataComponent],
+      imports: [TestHostComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    });
+
+    hostFixture = TestBed.createComponent(TestHostComponent);
+    testHostComponent = hostFixture.componentInstance;
+    fixture = TestBed.createComponent(CourseDataComponent);
+    component = fixture.componentInstance;
+    component.course = mockedCourse[1]
+    fixture.detectChanges()
+    hostFixture.detectChanges()
+    });
+  
+  it('То будет передано событие удаления курса через @Output', async () => {
+    
     const spy = jest.spyOn(component.deleteEvent, 'emit');
+    const hostSpy = jest.spyOn(testHostComponent, 'deleteSetCourse')
 
     const deleteButton: DebugElement = fixture.debugElement.query(
       By.css('[data-id = "delete-button"]')
     );
-
+  
     deleteButton.triggerEventHandler('click');
-
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-  });
-  it('Если нажать на кнопку удаления курса, то через @Output будет передано событие удаления курса c переданным значением.', () => {
-    const spy = jest.spyOn(component.deleteEvent, `emit`);
-
-    component.course = courseMock[0];
-
-    const deleteButton = fixture.debugElement.query(
-      By.css('[data-id = "delete-button"]')
-    );
-
-    deleteButton.triggerEventHandler('click');
-
-    hostFixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledWith('1');
+    testHostComponent.deleteSetCourse('2')
+  
+    await fixture.whenStable().then(() => {
+      expect(spy).toBe('deleteSetCourse');
+      expect(hostSpy).toHaveBeenCalled()
     });
   });
 });

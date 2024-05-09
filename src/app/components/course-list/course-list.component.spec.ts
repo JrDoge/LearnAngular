@@ -75,24 +75,32 @@ describe('Если от компонента курса пришло событ�
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [CourseListComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
     fixture = TestBed.createComponent(CourseListComponent);
+    component = fixture.componentInstance;
+    component.courses = courseMock
+
+    fixture.detectChanges(); 
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse('5');
+    component.deleteSetCourse(courseMock[0]);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
+    const selectedCourse = component.courses[0]
+    fixture.detectChanges()
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse('5');
+    component.deleteSetCourse(selectedCourse);
 
-    expect(spy).toHaveBeenLastCalledWith('5');
+    expect(spy).toHaveBeenCalledWith(component.courses[0]);
   });
+
 });
 
 describe('Если нажать на кнопку "Load more"', () => {
@@ -103,9 +111,12 @@ describe('Если нажать на кнопку "Load more"', () => {
     });
 
     fixture = TestBed.createComponent(CourseListComponent);
+    component = fixture.componentInstance;
+
+    fixture.detectChanges()
   });
 
-  it('То один раз будет вызван метод дозагрузки курсов', () => {
+  it('То один раз будет вызван метод дозагрузки курсов',async () => {
     const spy = jest.spyOn(component, 'loadNewCourses');
 
     const loadButton: DebugElement = fixture.debugElement.query(
@@ -114,7 +125,7 @@ describe('Если нажать на кнопку "Load more"', () => {
 
     loadButton.triggerEventHandler('click');
 
-    fixture.whenStable().then(() => {
+    await fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });

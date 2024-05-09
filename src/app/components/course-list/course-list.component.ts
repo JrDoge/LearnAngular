@@ -21,9 +21,9 @@ export class CourseListComponent {
     console.log(this.courses);
   }
 
-  deleteSetCourse(courseId: string) {
+  deleteSetCourse(selectedCourse: CourseData) {
     const foundCourseIndex = this.courses.findIndex(
-      (course) => course.id === courseId
+      (course) => course === selectedCourse
     );
     if (foundCourseIndex !== -1) {
       this.courses.splice(foundCourseIndex, 1);
