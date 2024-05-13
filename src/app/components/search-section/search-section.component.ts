@@ -10,9 +10,9 @@ export class SearchSectionComponent {
 
   searchHint = 'Name, fragment or date';
 
-  @Output() searchEvent = new EventEmitter<string>()
+  @Output() searchEvent = new EventEmitter<string>();
 
   startSearching() {
-      this.searchEvent.emit(this.searchResult)
+    this.searchEvent.emit(this.searchResult);
   }
 }

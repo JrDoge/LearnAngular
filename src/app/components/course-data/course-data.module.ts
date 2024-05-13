@@ -8,7 +8,12 @@ import { MarkTopDirective } from '../../directives/mark-top.directive';
 import { ChangeBorderDirective } from '../../directives/change-border.directive';
 
 @NgModule({
-  declarations: [CourseDataComponent, DurationPipe, MarkTopDirective, ChangeBorderDirective],
+  declarations: [
+    CourseDataComponent,
+    DurationPipe,
+    MarkTopDirective,
+    ChangeBorderDirective,
+  ],
   imports: [
     CommonModule,
     TuiLineClampModule,

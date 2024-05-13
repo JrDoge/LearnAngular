@@ -13,14 +13,14 @@ describe('Если нажать на кнопку поиска', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [SearchSectionComponent],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
+      schemas: [NO_ERRORS_SCHEMA],
+    });
 
     fixture = TestBed.createComponent(SearchSectionComponent);
     component = fixture.componentInstance;
 
-    component.searchResult = '54354353455345'
-    fixture.detectChanges()
+    component.searchResult = '54354353455345';
+    fixture.detectChanges();
   });
 
   it('То один раз будет вызван метод поиска курсов ', async () => {

@@ -40,8 +40,8 @@ describe('Если в качестве данных о курсах переда
   });
 
   afterEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 });
 
 describe('Если в качестве данных о курсах передан массив с данными', () => {
@@ -54,7 +54,7 @@ describe('Если в качестве данных о курсах переда
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    component.courses = courseMock
+    component.courses = courseMock;
     fixture.detectChanges();
   });
 
@@ -77,16 +77,16 @@ describe('Если в качестве данных о курсах переда
 describe('Если от компонента курса пришло событие удаления курса', () => {
   const deleteCourseMethod = 'deleteSetCourse';
 
-  beforeEach( async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    component.courses = courseMock
-    fixture.detectChanges(); 
+    component.courses = courseMock;
+    fixture.detectChanges();
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
@@ -97,7 +97,7 @@ describe('Если от компонента курса пришло событ�
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
-    const selectedCourse = component.courses[0]
+    const selectedCourse = component.courses[0];
 
     const spy = jest.spyOn(component, deleteCourseMethod);
 
@@ -105,7 +105,6 @@ describe('Если от компонента курса пришло событ�
 
     expect(spy).toHaveBeenCalledWith(selectedCourse);
   });
-
 });
 
 describe('Если нажать на кнопку "Load more"', () => {
@@ -118,10 +117,10 @@ describe('Если нажать на кнопку "Load more"', () => {
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    fixture.detectChanges()
+    fixture.detectChanges();
   });
 
-  it('То один раз будет вызван метод дозагрузки курсов',async () => {
+  it('То один раз будет вызван метод дозагрузки курсов', async () => {
     const spy = jest.spyOn(component, 'loadNewCourses');
 
     const loadButton: DebugElement = fixture.debugElement.query(

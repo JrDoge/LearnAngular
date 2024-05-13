@@ -9,12 +9,11 @@ import type { CourseData } from './course-data';
   styleUrl: './app.component.less',
 })
 export class AppComponent {
+  searchingResult!: CourseData[];
 
-  searchingResult!: CourseData[]
-  
-  searchCourse(searchResult: string): CourseData[]{
-    const pipe = new FilterPipe()
-    this.searchingResult = pipe.transform(searchResult, courseMock)
-    return this.searchingResult
+  searchCourse(searchResult: string): CourseData[] {
+    const pipe = new FilterPipe();
+    this.searchingResult = pipe.transform(searchResult, courseMock);
+    return this.searchingResult;
   }
 }

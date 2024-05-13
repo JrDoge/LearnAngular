@@ -1,4 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import type { SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
 
@@ -8,26 +9,27 @@ import type { CourseData } from '../../course-data';
   styleUrl: './course-list.component.less',
 })
 export class CourseListComponent {
-
-  informationIcon = 'assets/svgs/information.svg'
+  informationIcon = 'assets/svgs/information.svg';
 
   courses!: CourseData[];
 
   @Input() courseGetted: CourseData[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.courseGetted === undefined){
-      this.courses = courseMock.sort((a: CourseData, b: CourseData) => 
-        Number(new Date(String(b.creationDate))) -
-        Number(new Date(String(a.creationDate))))
-    }else{
+    if (this.courseGetted === undefined) {
+      this.courses = courseMock.sort(
+        (a: CourseData, b: CourseData) =>
+          Number(new Date(String(b.creationDate))) -
+          Number(new Date(String(a.creationDate)))
+      );
+    } else {
       this.courses = this.courseGetted;
     }
   }
 
   loadNewCourses() {
     console.log(this.courses);
-    console.log(this.courseGetted)
+    console.log(this.courseGetted);
   }
 
   deleteSetCourse(selectedCourse: CourseData) {
