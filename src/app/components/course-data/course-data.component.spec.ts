@@ -186,7 +186,7 @@ describe('Если нажать на кнопку удаления курса', 
     );
   
     deleteButton.triggerEventHandler('click');
-    testHostComponent.deleteSetCourse('2')
+    testHostComponent.deleteSetCourse(courseMock[1])
   
     await fixture.whenStable().then(() => {
       expect(spy).toBe('deleteSetCourse');

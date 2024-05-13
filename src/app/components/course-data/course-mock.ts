@@ -23,11 +23,11 @@ export const courseMock: CourseData[] = [
     id: '3',
     title:
       'super long title of difficult video course about programming and frontend development for taiga',
-    creationDate: '2024-05-09',
+    creationDate: '05-09-2024',
     duration: 30,
     description:
       'Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)',
-    topRated: false,
+    topRated: true,
   },
   {
     id: '4',
@@ -41,8 +41,17 @@ export const courseMock: CourseData[] = [
   {
     id: '5',
     title: 'video course 4',
-    creationDate: '2024-03-09',
+    creationDate: '2024-04-30',
     duration: 128,
+    description:
+      'Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)',
+    topRated: true,
+  },
+  {
+    id: '6',
+    title: 'custom course name for seach test',
+    creationDate: '2024-06-29',
+    duration: 60,
     description:
       'Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)',
     topRated: false,

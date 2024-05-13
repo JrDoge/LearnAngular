@@ -4,6 +4,7 @@ import { TuiBadgeModule, TuiLineClampModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { CourseListComponent } from './course-list.component';
 import { CourseDataModule } from '../course-data/course-data.module';
+import {TuiBlockStatusModule} from '@taiga-ui/layout';
 
 @NgModule({
   declarations: [CourseListComponent],
@@ -14,6 +15,7 @@ import { CourseDataModule } from '../course-data/course-data.module';
     TuiSvgModule,
     TuiBadgeModule,
     CourseDataModule,
+    TuiBlockStatusModule,
   ],
   exports: [CourseListComponent],
 })

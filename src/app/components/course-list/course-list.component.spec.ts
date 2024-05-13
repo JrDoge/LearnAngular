@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { CourseListComponent } from './course-list.component';
 import { courseMock } from '../course-data/course-mock';
 
-let component: CourseListComponent = new CourseListComponent();
+let component: CourseListComponent;
 let fixture: ComponentFixture<CourseListComponent>;
 
 describe('Если в качестве данных о курсах передан пустой массив', () => {
@@ -38,11 +38,15 @@ describe('Если в качестве данных о курсах переда
 
     expect(loadBtn).toBeTruthy();
   });
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 });
 
 describe('Если в качестве данных о курсах передан массив с данными', () => {
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -50,6 +54,7 @@ describe('Если в качестве данных о курсах переда
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
+    component.courses = courseMock
     fixture.detectChanges();
   });
 
@@ -72,33 +77,33 @@ describe('Если в качестве данных о курсах переда
 describe('Если от компонента курса пришло событие удаления курса', () => {
   const deleteCourseMethod = 'deleteSetCourse';
 
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
+  beforeEach( async () => {
+    await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA]
-    });
+    }).compileComponents();
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
-    component.courses = courseMock
 
+    component.courses = courseMock
     fixture.detectChanges(); 
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse(courseMock[0]);
+    component.deleteSetCourse(component.courses[0]);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
     const selectedCourse = component.courses[0]
-    fixture.detectChanges()
+
     const spy = jest.spyOn(component, deleteCourseMethod);
 
     component.deleteSetCourse(selectedCourse);
 
-    expect(spy).toHaveBeenCalledWith(component.courses[0]);
+    expect(spy).toHaveBeenCalledWith(selectedCourse);
   });
 
 });

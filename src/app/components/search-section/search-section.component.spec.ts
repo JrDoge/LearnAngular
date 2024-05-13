@@ -19,8 +19,7 @@ describe('Если нажать на кнопку поиска', () => {
     fixture = TestBed.createComponent(SearchSectionComponent);
     component = fixture.componentInstance;
 
-    component.searchSection = '54354353455345'
-
+    component.searchResult = '54354353455345'
     fixture.detectChanges()
   });
 
@@ -42,7 +41,7 @@ describe('Если нажать на кнопку поиска', () => {
       By.css('[data-automation-id = "search-button"]')
     );
 
-    const spy = jest.spyOn(component, searchCourseMethod);
+    const spy = jest.spyOn(component.searchEvent, 'emit');
 
     searchButton.triggerEventHandler(`click`);
 

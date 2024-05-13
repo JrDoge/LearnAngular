@@ -1,4 +1,4 @@
-<div class="course-container">
+<div class="course-container" appMarkTop [topRated]="course.topRated" appChangeBorder [creationDate]="course.creationDate">
     <div class="course-description-container">
       <div class="course-header-container">
         <p>{{course.creationDate | date: "dd.MM.yyyy"}}</p>
@@ -16,6 +16,7 @@
           </ng-template>
           </div>
           <tui-badge class="badge" status="neutral" size="m" [value]="course.duration | duration"></tui-badge>
+          <tui-svg *ngIf="course.topRated" class="icon" src="tuiIconStarLarge"></tui-svg>
         </div>
       </div>
       <p id="description">{{course.description}}</p>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search-section',
@@ -6,11 +6,13 @@ import { Component } from '@angular/core';
   styleUrl: './search-section.component.less',
 })
 export class SearchSectionComponent {
-  searchSection = '';
+  searchResult = '';
 
   searchHint = 'Name, fragment or date';
 
-  startSearching(searchSection: string) {
-      console.log(searchSection);
+  @Output() searchEvent = new EventEmitter<string>()
+
+  startSearching() {
+      this.searchEvent.emit(this.searchResult)
   }
 }

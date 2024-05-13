@@ -4,15 +4,17 @@ import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiLineClampModule, TuiBadgeModule } from '@taiga-ui/kit';
 import { CourseDataComponent } from './course-data.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
+import { MarkTopDirective } from '../../directives/mark-top.directive';
+import { ChangeBorderDirective } from '../../directives/change-border.directive';
 
 @NgModule({
-  declarations: [CourseDataComponent, DurationPipe],
+  declarations: [CourseDataComponent, DurationPipe, MarkTopDirective, ChangeBorderDirective],
   imports: [
     CommonModule,
     TuiLineClampModule,
     TuiButtonModule,
     TuiSvgModule,
-    TuiBadgeModule
+    TuiBadgeModule,
   ],
   exports: [CourseDataComponent],
 })
