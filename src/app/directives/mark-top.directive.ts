@@ -1,5 +1,4 @@
-import type { SimpleChanges } from '@angular/core';
-import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
   selector: '[appMarkTop]',
@@ -9,11 +8,11 @@ export class MarkTopDirective {
 
   @HostBinding('style.backgroundColor') color = '';
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.topRated) {
       this.color = 'hsl(46, 100%, 94%, 1)';
     } else {
-      this.color;
+      this.color = '';
     }
   }
 }

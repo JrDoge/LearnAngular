@@ -1,4 +1,3 @@
-import type { SimpleChanges } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
@@ -15,7 +14,7 @@ export class CourseListComponent {
 
   @Input() courseGetted: CourseData[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.courseGetted === undefined) {
       this.courses = courseMock.sort(
         (a: CourseData, b: CourseData) =>

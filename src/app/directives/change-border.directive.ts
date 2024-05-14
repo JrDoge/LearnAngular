@@ -1,4 +1,3 @@
-import type { SimpleChanges } from '@angular/core';
 import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
@@ -15,7 +14,7 @@ export class ChangeBorderDirective {
 
   @HostBinding('style.border') border = '';
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     const currentDate: Date = new Date(String(this.currentDate));
 
     const creationDate: Date = new Date(String(this.creationDate));
@@ -29,6 +28,6 @@ export class ChangeBorderDirective {
     } else if (Number(creationDate) > Number(currentDate)) {
       this.border = '1px lightskyblue solid';
     }
-    this.border;
+    this.border = 'none';
   }
 }

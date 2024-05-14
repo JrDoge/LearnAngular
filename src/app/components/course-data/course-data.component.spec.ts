@@ -44,14 +44,11 @@ describe('Если есть данные для отображения (stand-al
     expect(courseContainer.textContent).toContain(mockedCourse[1].description);
   });
   it('Значение поля title пишется в TitleUpperCase', async () => {
-    const courseTitleContainer: HTMLElement = fixture.nativeElement;
-    const courseTitle = courseTitleContainer.getElementsByClassName('.title');
-
+    // const courseTitleContainer: HTMLElement = fixture.nativeElement;
+    // const courseTitle = courseTitleContainer.getElementsByClassName('.title');
     // await fixture.whenStable().then( () => {
-
     //   console.log('show me something:', fixture.debugElement.query(By.css('ng-template')))
     // })
-
     // expect(courseTitle).toMatch('Video Course 2');
   });
   it('То присутствует заголовок курса', () => {
@@ -79,7 +76,7 @@ describe('Если есть данные для отображения (stand-al
     expect(courseButtons).toBeTruthy();
   });
   afterEach(() => {
-    jest.clearAllMocks;
+    jest.clearAllMocks();
   });
 });
 
@@ -128,7 +125,7 @@ describe('Компонент-хост должен успешно создава
       By.css('.course-header-container')
     ).nativeElement;
 
-    expect(coursecontainer.textContent).toBeNull;
+    expect(coursecontainer.textContent).toBeNull();
   });
 });
 
@@ -151,7 +148,7 @@ describe('Если через @Input переданы данные для ото
       By.css('.course-container')
     ).nativeElement;
 
-    expect(coursecontainer.textContent).not.toBeNull;
+    expect(coursecontainer.textContent).not.toBeNull();
   });
 });
 describe('Если нажать на кнопку удаления курса', () => {
