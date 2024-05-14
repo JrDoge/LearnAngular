@@ -9,10 +9,16 @@ import { SimpleFooterModule } from './components/simple-footer/simple-footer.mod
 import { SearchSectionModule } from './components/search-section/search-section.module';
 import { CourseListModule } from './components/course-list/course-list.module';
 import { CourseDataModule } from './components/course-data/course-data.module';
+<<<<<<< HEAD
 import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [AppComponent, FilterPipe],
+=======
+
+@NgModule({
+  declarations: [AppComponent],
+>>>>>>> f31c9d4fe05df0c7f64a721a1690ddd196b67c58
   imports: [
     SimpleFooterModule,
     BrowserModule,

@@ -1,5 +1,6 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+<<<<<<< HEAD
 import {
   Component,
   EventEmitter,
@@ -60,5 +61,24 @@ describe('AppComponent', () => {
       .subscribe((inputtedString: string) => (stringInputted = inputtedString));
 
     expect(HOST_SPY).toHaveBeenCalled();
+=======
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+>>>>>>> f31c9d4fe05df0c7f64a721a1690ddd196b67c58
   });
 });

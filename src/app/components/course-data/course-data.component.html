@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="course-container" appMarkTop [topRated]="course.topRated" appChangeBorder [creationDate]="course.creationDate">
     <div class="course-description-container">
       <div class="course-header-container">
@@ -17,6 +18,19 @@
           </div>
           <tui-badge class="badge" status="neutral" size="m" [value]="course.duration | duration"></tui-badge>
           <tui-svg *ngIf="course.topRated" class="icon" src="tuiIconStarLarge"></tui-svg>
+=======
+<div class="course-container">
+    <div class="course-description-container">
+      <div class="course-header-container">
+        <p>{{course.creationDate}}</p>
+        <div class="course-description-header-container">
+          <div #parent class="line-clamp-box">
+          <tui-line-clamp class="line-clamp"
+          [content]="content"></tui-line-clamp>
+            <ng-template #content><h1>{{course.title}}</h1></ng-template>
+          </div>
+          <tui-badge class="badge" status="neutral" size="m" [value]="course.duration"></tui-badge>
+>>>>>>> f31c9d4fe05df0c7f64a721a1690ddd196b67c58
         </div>
       </div>
       <p id="description">{{course.description}}</p>
