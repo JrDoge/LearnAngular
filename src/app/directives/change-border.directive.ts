@@ -1,4 +1,4 @@
-import { Directive, HostBinding, Input, SimpleChanges } from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
   selector: '[appChangeBorder]'
@@ -12,7 +12,7 @@ export class ChangeBorderDirective {
 
   @HostBinding('style.border') border: string = ""
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     let currentDate: Date = new Date(String(this.currentDate))
 
     const creationDate: Date = new Date(String(this.creationDate))
