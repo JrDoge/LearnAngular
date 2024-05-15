@@ -32,7 +32,6 @@ describe('Если есть данные для отображения (stand-al
     const courseContainer = fixture.debugElement.query(
       By.css('.course-header-container')
     ).nativeElement;
-
     expect(courseContainer.textContent).toMatch('01.05.2024');
   });
   it('То в качестве описания выводятся данные из поля description', () => {
@@ -109,10 +108,7 @@ describe('Компонент-хост должен успешно создава
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
     fixture = TestBed.createComponent(CourseDataComponent);
-    // component = fixture.componentInstance;
-    // component.course = testHostComponent.mockCourse[0];
     hostFixture.detectChanges();
-    // fixture.detectChanges();
   });
 
   it('Успешно создан.', () => {
