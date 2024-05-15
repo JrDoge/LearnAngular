@@ -1,9 +1,8 @@
-import type { ComponentFixture } from '@angular/core/testing';
-import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import type { DebugElement } from '@angular/core';
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CourseDataComponent } from './course-data.component';
 import { courseMock } from './course-mock';
 import { CourseDataModule } from './course-data.module';
@@ -18,8 +17,7 @@ describe('Если есть данные для отображения (stand-al
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [CourseDataComponent, DurationPipe],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CourseDataComponent);
@@ -43,13 +41,13 @@ describe('Если есть данные для отображения (stand-al
     ).nativeElement;
     expect(courseContainer.textContent).toContain(mockedCourse[1].description);
   });
-  it('Значение поля title пишется в TitleUpperCase', async () => {
-    // const courseTitleContainer: HTMLElement = fixture.nativeElement;
-    // const courseTitle = courseTitleContainer.getElementsByClassName('.title');
-    // await fixture.whenStable().then( () => {
-    //   console.log('show me something:', fixture.debugElement.query(By.css('ng-template')))
-    // })
-    // expect(courseTitle).toMatch('Video Course 2');
+  it('Контейнер будет покрашен в жёлтый', () => {
+    const courseTitleContainer: HTMLElement = fixture.debugElement.query(
+      By.css('.course-container')
+    ).nativeElement;
+    component.course.topRated = true;
+
+    expect(courseTitleContainer.classList).toContain('top-rated');
   });
   it('То присутствует заголовок курса', () => {
     const courseTitle = fixture.debugElement.query(
@@ -75,28 +73,26 @@ describe('Если есть данные для отображения (stand-al
     ).nativeElement;
     expect(courseButtons).toBeTruthy();
   });
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
 });
 
 @Component({
   standalone: true,
   imports: [CourseDataModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [NO_ERRORS_SCHEMA],
   template: `<app-course-data
+    *ngIf="mockCourse.length > 0"
     data-id="host-courses"
     [course]="course"
     (deleteEvent)="deleteSetCourse($event)"
   ></app-course-data>`,
 })
 export class TestHostComponent {
-  mockCourse: CourseData[] = courseMock;
+  mockCourse: CourseData[] = [];
 
   course: CourseData = this.mockCourse[1];
 
   deleteSetCourse(selectedCourse: CourseData) {
-    this.mockCourse.splice(1, 1);
+    console.log(selectedCourse);
   }
 }
 
@@ -104,14 +100,19 @@ let testHostComponent: TestHostComponent;
 let hostFixture: ComponentFixture<TestHostComponent>;
 
 describe('Компонент-хост должен успешно создаваться', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
+    fixture = TestBed.createComponent(CourseDataComponent);
+    // component = fixture.componentInstance;
+    // component.course = testHostComponent.mockCourse[0];
+    hostFixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('Успешно создан.', () => {
@@ -119,13 +120,12 @@ describe('Компонент-хост должен успешно создава
   });
   it('Через @input не были переданы данные, не выводим ничего', () => {
     testHostComponent.mockCourse = [];
-    fixture.detectChanges();
 
-    const coursecontainer = fixture.debugElement.query(
-      By.css('.course-header-container')
-    ).nativeElement;
+    const coursecontainer = hostFixture.debugElement.query(
+      By.css('[data-id="host-courses"]')
+    );
 
-    expect(coursecontainer.textContent).toBeNull();
+    expect(coursecontainer).toBeNull();
   });
 });
 
@@ -134,7 +134,7 @@ describe('Если через @Input переданы данные для ото
     TestBed.configureTestingModule({
       declarations: [CourseDataComponent],
       imports: [TestHostComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA],
     });
     hostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = hostFixture.componentInstance;
@@ -152,36 +152,32 @@ describe('Если через @Input переданы данные для ото
   });
 });
 describe('Если нажать на кнопку удаления курса', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CourseDataComponent],
       imports: [TestHostComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
-    hostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = hostFixture.componentInstance;
     fixture = TestBed.createComponent(CourseDataComponent);
     component = fixture.componentInstance;
-    component.course = mockedCourse[1];
-    fixture.detectChanges();
+    hostFixture = TestBed.createComponent(TestHostComponent);
+    testHostComponent = hostFixture.componentInstance;
+    component.course = mockedCourse[0];
     hostFixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('То будет передано событие удаления курса через @Output', async () => {
     const spy = jest.spyOn(component.deleteEvent, 'emit');
-    const hostSpy = jest.spyOn(testHostComponent, 'deleteSetCourse');
-
     const deleteButton: DebugElement = fixture.debugElement.query(
       By.css('[data-id = "delete-button"]')
     );
 
     deleteButton.triggerEventHandler('click');
-    testHostComponent.deleteSetCourse(courseMock[1]);
 
     await fixture.whenStable().then(() => {
-      expect(spy).toBe('deleteSetCourse');
-      expect(hostSpy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

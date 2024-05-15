@@ -117,6 +117,7 @@ describe('Если нажать на кнопку "Load more"', () => {
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
+    component.courses = courseMock;
     fixture.detectChanges();
   });
 

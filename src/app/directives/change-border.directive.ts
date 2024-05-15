@@ -6,28 +6,26 @@ import { Directive, HostBinding, Input } from '@angular/core';
 export class ChangeBorderDirective {
   @Input('creationDate') creationDate!: string;
 
-  date: Date = new Date();
+  currentDate: Date = new Date();
 
-  currentDate = `${this.date.getFullYear()}-${(this.date.getMonth() + 1)
-    .toString()
-    .padStart(2, '0')}-${this.date.getDate().toString().padStart(2, '0')}`;
-
-  @HostBinding('style.border') border = '';
+  @HostBinding('style.border') border!: string;
 
   ngOnChanges(): void {
-    const currentDate: Date = new Date(String(this.currentDate));
+    const currentDate: Date = this.currentDate;
 
-    const creationDate: Date = new Date(String(this.creationDate));
+    const creationDate: Date = new Date(this.creationDate);
 
-    if (
-      Number(creationDate) < Number(currentDate) &&
-      Number(creationDate) >=
-        Number(currentDate.setDate(currentDate.getDate() - 14))
-    ) {
-      this.border = '1px greenyellow solid';
-    } else if (Number(creationDate) > Number(currentDate)) {
-      this.border = '1px lightskyblue solid';
+    const subtractDate: Date = new Date();
+    subtractDate.setDate(subtractDate.getDate() - 14);
+
+    if (creationDate < currentDate && !(creationDate >= subtractDate)) {
+      this.border = 'none';
+      return;
     }
-    this.border = 'none';
+    if (creationDate > currentDate) {
+      this.border = '1px lightskyblue solid';
+      return;
+    }
+    this.border = '1px greenyellow solid';
   }
 }

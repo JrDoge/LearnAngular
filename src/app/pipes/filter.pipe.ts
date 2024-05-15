@@ -7,11 +7,11 @@ import type { CourseData } from '../course-data';
 })
 export class FilterPipe implements PipeTransform {
   transform(courseTitle: string, courses: CourseData[]): CourseData[] {
-    if (courseTitle !== '') {
-      return courses.filter((course) =>
-        course.title.toLocaleLowerCase().includes(courseTitle.toLowerCase())
-      );
+    if (courseTitle === '') {
+      return courses;
     }
-    return courses;
+    return courses.filter((course) =>
+      course.title.toLocaleLowerCase().includes(courseTitle.toLowerCase())
+    );
   }
 }

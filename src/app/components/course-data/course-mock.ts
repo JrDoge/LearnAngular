@@ -17,7 +17,7 @@ export const courseMock: CourseData[] = [
     duration: 95,
     description:
       'Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...) Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)',
-    topRated: false,
+    topRated: true,
   },
   {
     id: '3',
