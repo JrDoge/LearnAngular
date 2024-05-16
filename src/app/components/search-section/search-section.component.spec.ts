@@ -19,7 +19,7 @@ describe('Если нажать на кнопку поиска', () => {
     fixture = TestBed.createComponent(SearchSectionComponent);
     component = fixture.componentInstance;
 
-    component.searchResult = '54354353455345';
+    component.searchRequest = '54354353455345';
     fixture.detectChanges();
   });
 

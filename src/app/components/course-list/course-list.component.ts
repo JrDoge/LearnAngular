@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 @Component({
   selector: 'app-course-list',
@@ -10,25 +11,21 @@ import type { CourseData } from '../../course-data';
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courses!: CourseData[];
+  courses: CourseData[] = courseMock.sort(
+    (a: CourseData, b: CourseData) =>
+      Number(new Date(String(b.creationDate))) -
+      Number(new Date(String(a.creationDate)))
+  );
 
-  @Input() courseGetted: CourseData[] = [];
+  @Input() courseGetted!: string;
 
   ngOnChanges(): void {
-    if (this.courseGetted === undefined) {
-      this.courses = courseMock.sort(
-        (a: CourseData, b: CourseData) =>
-          Number(new Date(String(b.creationDate))) -
-          Number(new Date(String(a.creationDate)))
-      );
-    } else {
-      this.courses = this.courseGetted;
-    }
+    const pipe = new FilterPipe();
+    this.courses = pipe.transform(this.courseGetted, courseMock);
   }
 
   loadNewCourses() {
     console.log(this.courses);
-    console.log(this.courseGetted);
   }
 
   deleteSetCourse(selectedCourse: CourseData) {

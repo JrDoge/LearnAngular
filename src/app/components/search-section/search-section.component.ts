@@ -6,13 +6,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './search-section.component.less',
 })
 export class SearchSectionComponent {
-  searchResult = '';
+  searchRequest = '';
 
   searchHint = 'Name, fragment or date';
 
   @Output() searchEvent = new EventEmitter<string>();
 
   startSearching() {
-    this.searchEvent.emit(this.searchResult);
+    this.searchEvent.emit(this.searchRequest);
   }
 }

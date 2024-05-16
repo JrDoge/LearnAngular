@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { FilterPipe } from './pipes/filter.pipe';
-import { courseMock } from './components/course-data/course-mock';
-import type { CourseData } from './course-data';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +6,9 @@ import type { CourseData } from './course-data';
   styleUrl: './app.component.less',
 })
 export class AppComponent {
-  searchingResult!: CourseData[];
+  searchRequest!: string;
 
-  searchCourse(searchResult: string): CourseData[] {
-    const pipe = new FilterPipe();
-    this.searchingResult = pipe.transform(searchResult, courseMock);
-    return this.searchingResult;
+  searchCourse(searchRequest: string) {
+    this.searchRequest = searchRequest;
   }
 }
