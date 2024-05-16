@@ -73,6 +73,26 @@ describe('Если в качестве данных о курсах переда
     expect(courseItems).toHaveLength(courseMock.length);
   });
 });
+describe('Если поступила строка с курсом ', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [CourseListComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
+    fixture.detectChanges();
+  });
+  it('Тогда должен отработать функция', async () => {
+    component.courseGetted = 'test';
+    jest.spyOn(component, 'ngOnChanges');
+    component.ngOnChanges();
+    fixture.detectChanges();
+
+    await fixture.whenStable().then(() => {
+      expect(component.courses.length).toBeGreaterThanOrEqual(1);
+    });
+  });
+});
 
 describe('Если от компонента курса пришло событие удаления курса', () => {
   const deleteCourseMethod = 'deleteSetCourse';

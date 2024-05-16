@@ -126,7 +126,7 @@ describe('Компонент-хост должен успешно создава
 });
 
 describe('Если через @Input переданы данные для отображения', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CourseDataComponent],
       imports: [TestHostComponent],
