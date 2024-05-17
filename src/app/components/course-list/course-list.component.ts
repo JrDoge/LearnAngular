@@ -21,13 +21,11 @@ export class CourseListComponent {
   @Input() courseGetted!: string;
 
   ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      const chng = changes[propName];
-      if (chng.currentValue !== undefined) {
-        const pipe = new FilterPipe();
-        this.courses = pipe.transform(this.courseGetted, courseMock);
-      }
+    // eslint-disable-next-line dot-notation
+    if (!changes['courseGetted']) {
+      return;
     }
+    this.courses = new FilterPipe().transform(this.courseGetted, courseMock);
   }
 
   loadNewCourses() {
