@@ -1,3 +1,4 @@
+import type { SimpleChanges } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
@@ -19,9 +20,14 @@ export class CourseListComponent {
 
   @Input() courseGetted!: string;
 
-  ngOnChanges(): void {
-    const pipe = new FilterPipe();
-    this.courses = pipe.transform(this.courseGetted, courseMock);
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      if (chng.currentValue !== undefined) {
+        const pipe = new FilterPipe();
+        this.courses = pipe.transform(this.courseGetted, courseMock);
+      }
+    }
   }
 
   loadNewCourses() {

@@ -1,7 +1,7 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import type { DebugElement } from '@angular/core';
+import type { DebugElement, SimpleChange } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CourseListComponent } from './course-list.component';
@@ -84,8 +84,9 @@ describe('Если поступила строка с курсом ', () => {
   });
   it('Тогда должен отработать функция', async () => {
     component.courseGetted = 'test';
+    let changes!: SimpleChange;
     jest.spyOn(component, 'ngOnChanges');
-    component.ngOnChanges();
+    component.ngOnChanges(changes);
     fixture.detectChanges();
 
     await fixture.whenStable().then(() => {
