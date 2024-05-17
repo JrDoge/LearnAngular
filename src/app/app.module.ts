@@ -9,6 +9,7 @@ import { SimpleFooterModule } from './components/simple-footer/simple-footer.mod
 import { SearchSectionModule } from './components/search-section/search-section.module';
 import { CourseListModule } from './components/course-list/course-list.module';
 import { CourseDataModule } from './components/course-data/course-data.module';
+import { FilterModule } from './pipes/filter.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { CourseDataModule } from './components/course-data/course-data.module';
     SearchSectionModule,
     CourseListModule,
     CourseDataModule,
+    FilterModule,
   ],
   bootstrap: [AppComponent],
 })

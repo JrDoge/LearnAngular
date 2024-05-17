@@ -5,4 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
 })
-export class AppComponent {}
+export class AppComponent {
+  searchRequest!: string;
+
+  searchCourse(searchRequest: string) {
+    this.searchRequest = searchRequest;
+  }
+}
