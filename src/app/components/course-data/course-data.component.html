@@ -1,0 +1,20 @@
+<div class="course-container">
+    <div class="course-description-container">
+      <div class="course-header-container">
+        <p>{{course.creationDate}}</p>
+        <div class="course-description-header-container">
+          <div #parent class="line-clamp-box">
+          <tui-line-clamp class="line-clamp"
+          [content]="content"></tui-line-clamp>
+            <ng-template #content><h1>{{course.title}}</h1></ng-template>
+          </div>
+          <tui-badge class="badge" status="neutral" size="m" [value]="course.duration"></tui-badge>
+        </div>
+      </div>
+      <p id="description">{{course.description}}</p>
+    </div>
+    <div class="button-container">
+      <button class="course-buttons" tuiButton icon="tuiIconEdit3Large" size="m" appearance="secondary">Edit</button>
+      <button class="course-buttons" data-id = "delete-button" tuiButton icon="tuiIconTrash2Large" size="m" appearance="secondary-destructive" (click)="deleteCourse()">Delete</button>
+    </div>
+  </div>
