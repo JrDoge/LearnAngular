@@ -1,8 +1,21 @@
-<div class="list-container">
+<div class="list-container" *ngIf="courses.length> 0">
   <app-course-data *ngFor="let course of courses"
                 [course]='course'
                 (deleteEvent)="deleteSetCourse($event)"
-                data-automation-id="course-item">
+                data-automation-id="course-item"
+                >
                 </app-course-data>
   <button id="LoadBtn" appearance="secondary" tuiButton data-automation-id="load-button" (click)="loadNewCourses()">Load more</button>
 </div>
+  <ng-container *ngIf="courses.length == 0" >
+    <tui-block-status class="list-without-data">
+        <img 
+        [src]="informationIcon" 
+        tuiSlot="top" 
+        class="image"
+        alt="no data"
+        >
+        <h4 class="header-no-data">No data</h4>
+        Feel free to add new course
+    </tui-block-status>
+</ng-container>

@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import type { SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 @Component({
   selector: 'app-course-list',
@@ -8,26 +10,34 @@ import type { CourseData } from '../../course-data';
   styleUrl: './course-list.component.less',
 })
 export class CourseListComponent {
-  courses = courseMock.sort((a: CourseData, b: CourseData) => {
-    return (
+  informationIcon = 'assets/svgs/information.svg';
+
+  courses: CourseData[] = courseMock.sort(
+    (a: CourseData, b: CourseData) =>
       Number(new Date(String(b.creationDate))) -
       Number(new Date(String(a.creationDate)))
-    );
-  });
+  );
 
-  courseId!: string;
+  @Input() courseGetted!: string;
+
+  ngOnChanges(changes: SimpleChanges) {
+    // eslint-disable-next-line dot-notation
+    if (!changes['courseGetted']) {
+      return;
+    }
+    this.courses = new FilterPipe().transform(this.courseGetted, courseMock);
+  }
 
   loadNewCourses() {
     console.log(this.courses);
   }
 
-  deleteSetCourse(courseId: string) {
+  deleteSetCourse(selectedCourse: CourseData) {
     const foundCourseIndex = this.courses.findIndex(
-      (course) => course.id === courseId
+      (course) => course === selectedCourse
     );
     if (foundCourseIndex !== -1) {
       this.courses.splice(foundCourseIndex, 1);
-      // this.courseList = this.courseList.filter(obj => obj.id !== courseId) альтернативный способ удаления объекта
     }
 
     console.log(foundCourseIndex);
