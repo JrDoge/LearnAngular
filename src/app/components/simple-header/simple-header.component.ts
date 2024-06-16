@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-simple-header',
@@ -7,7 +9,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimpleHeaderComponent {
-  userName = 'Konstantin';
+  service = inject(AuthService);
+  userName = this.service.getUserInfo();
   logoSrc = 'assets/svgs/Logo.svg';
   iconsSrc = ['assets/svgs/icon-16.svg', 'assets/svgs/Icon.svg'];
+
+  router: Router = inject(Router);
+
+  logout() {
+    this.service.logout();
+    this.router.navigate(['login']);
+  }
 }

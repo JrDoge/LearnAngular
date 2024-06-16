@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { LoginSectionComponent } from './components/login-section/login-section.component';
+import { CoursesPageComponent } from './components/courses-page/courses-page.component';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.less',
 })
 export class AppComponent {
-  searchRequest!: string;
+  authService = inject(AuthService);
 
-  searchCourse(searchRequest: string) {
-    this.searchRequest = searchRequest;
-  }
+  component: any = this.authService.isAuthorized()
+    ? CoursesPageComponent
+    : LoginSectionComponent;
 }

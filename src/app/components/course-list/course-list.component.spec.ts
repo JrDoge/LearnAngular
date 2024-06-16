@@ -113,12 +113,12 @@ describe('Если от компонента курса пришло событ�
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse(component.courses[0]);
+    component.deleteSetCourse(component.courses[0].id);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
-    const selectedCourse = component.courses[0];
+    const selectedCourse = component.courses[0].id;
 
     const spy = jest.spyOn(component, deleteCourseMethod);
 
