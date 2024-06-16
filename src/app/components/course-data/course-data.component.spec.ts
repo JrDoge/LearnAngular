@@ -90,8 +90,8 @@ export class TestHostComponent {
 
   course: CourseData = this.mockCourse[1];
 
-  deleteSetCourse(selectedCourse: CourseData) {
-    console.log(selectedCourse);
+  deleteSetCourse(id: string) {
+    console.log(id);
   }
 }
 

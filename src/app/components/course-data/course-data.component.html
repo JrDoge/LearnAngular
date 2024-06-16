@@ -23,6 +23,36 @@
     </div>
     <div class="button-container">
       <button class="course-buttons" tuiButton icon="tuiIconEdit3Large" size="m" appearance="secondary">Edit</button>
-      <button class="course-buttons" data-id = "delete-button" tuiButton icon="tuiIconTrash2Large" size="m" appearance="secondary-destructive" (click)="deleteCourse()">Delete</button>
+
+      <button class="course-buttons" type="button" data-id = "delete-button" tuiButton icon="tuiIconTrash2Large" size="m" appearance="secondary-destructive" (click)="showDialog(template)">Delete</button>
     </div>
   </div>
+<ng-template
+  #template
+  let-observer
+  >
+  <p>Do you really want to delete this course?</p>
+  <div class="tui-dialog">
+    <button
+    size="m"
+    tuiButton
+    type="button"
+    class="tui-dialog"
+    (click)="deleteCourse()"
+    (click)="observer.complete()"
+  >
+    Yes
+  </button>
+
+  <button
+    size="m"
+    tuiButton
+    class="tui-dialog"
+    appearance="secondary-destructive"
+    type="button"
+    (click)="observer.complete()"
+  >
+    No
+  </button>
+  </div>
+</ng-template>
