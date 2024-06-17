@@ -7,8 +7,8 @@
        <a id="userName" tuiLink>{{userName}}</a>
      </div>
      <div class="logout">
-       <img [src]="iconsSrc[0]" alt="icon" id="logoutIcon">
-       <a tuiLink id="logOutBtn">Log out</a>
+       <img [src]="iconsSrc[0]" alt="icon" id="logoutIcon" >
+       <a tuiLink id="logOutBtn" (click)="logout()" routerLink="/**">Log out</a>
      </div>
     </div>
   </div>
