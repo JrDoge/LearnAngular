@@ -1,6 +1,7 @@
 <div class="list-container" *ngIf="courses.length> 0">
-  <app-course-data *ngFor="let course of courses"
+   <app-course-data *ngFor="let course of courses"
                 [course]='course'
+                
                 (deleteEvent)="deleteSetCourse($event)"
                 data-automation-id="course-item"
                 >

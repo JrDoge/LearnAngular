@@ -28,10 +28,7 @@ export class CoursesService {
   }
 
   getCourseById(id: string): CourseData | undefined {
-    const index = this.courses.findIndex((element) => id === element.id);
-    console.log(this.courses);
-    console.log(index);
-    return this.courses.at(index);
+    return this.courses.find((element) => element.id === id);
   }
 
   addCourse(newCourse: CourseData) {
@@ -43,7 +40,7 @@ export class CoursesService {
     const gettedCourse = this.getCourseById(id);
     const index = this.courses.findIndex((element) => id === element.id);
     if (gettedCourse === undefined) {
-      throw new Error('Course is not exist');
+      throw new Error('Course does not exist');
     }
     Object.assign(gettedCourse, info);
     this.courses[index] = gettedCourse;

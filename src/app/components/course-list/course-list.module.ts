@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiBadgeModule, TuiLineClampModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { CourseListComponent } from './course-list.component';
 import { CourseDataModule } from '../course-data/course-data.module';
@@ -19,6 +19,7 @@ import { CoursesService } from '../../services/courses.service';
     CourseDataModule,
     TuiBlockStatusModule,
     FilterModule,
+    TuiLoaderModule,
   ],
   exports: [CourseListComponent],
   providers: [CoursesService],

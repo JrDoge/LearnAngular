@@ -17,12 +17,25 @@ export class LoginSectionComponent {
 
   router: Router = inject(Router);
 
+  showLoader!: boolean;
+
+  disabled!: boolean;
+
   logining() {
-    this.authService.login(this.enteredLogin, this.enteredPass);
-    const isAuthorised = this.authService.isAuthorized();
-    if (isAuthorised) {
-      this.router.navigate(['/courses']);
-      console.log('Logged in successfully');
-    }
+    this.showLoader = true;
+    this.disabled = true;
+    setTimeout(() => {
+      this.authService.login(this.enteredLogin, this.enteredPass);
+      const isAuthorised = this.authService.isAuthorized();
+      console.log(isAuthorised);
+      if (isAuthorised) {
+        this.router.navigate(['/courses']);
+        console.log('Logged in successfully');
+      } else {
+        console.log('tick');
+        this.showLoader = false;
+        this.disabled = false;
+      }
+    }, 5000);
   }
 }

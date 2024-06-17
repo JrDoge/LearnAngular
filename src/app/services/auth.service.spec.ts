@@ -16,6 +16,20 @@ describe('AuthService', () => {
     const password = '240399Saw';
     service.login(login, password);
     expect(spy).toHaveBeenCalled();
-    expect(service.login).toBeTruthy();
+  });
+  it('should return is user authorized', () => {
+    const spy = jest.spyOn(service, 'isAuthorized');
+    service.isAuthorized();
+    expect(spy).toHaveBeenCalled();
+  });
+  it('should log out curent user', () => {
+    const spy = jest.spyOn(service, 'logout');
+    service.logout();
+    expect(spy).toHaveBeenCalled();
+  });
+  it('should load user info', () => {
+    const spy = jest.spyOn(service, 'getUserInfo');
+    service.getUserInfo();
+    expect(spy).toHaveBeenCalled();
   });
 });

@@ -12,7 +12,6 @@ describe('CoursesService', () => {
   });
 
   it('should add new course', () => {
-    const spy = jest.spyOn(service, 'addCourse');
     const newCourse: CourseData = {
       id: '7',
       title: 'Bla bla',
@@ -22,10 +21,9 @@ describe('CoursesService', () => {
       topRated: false,
     };
     service.addCourse(newCourse);
-    expect(spy).toHaveBeenCalled();
+    expect(service.courses).toHaveLength(7);
   });
   it('should edit set course', () => {
-    const spy = jest.spyOn(service, 'editCourse');
     const info: Partial<CourseData> = {
       title: 'bla',
       creationDate: 'bla bla',
@@ -33,7 +31,18 @@ describe('CoursesService', () => {
       topRated: true,
     };
     service.editCourse('4', info);
-    console.log(service.course);
-    expect(spy).toHaveBeenCalled();
+    expect(service.courses[3].title).toBe(info.title);
+  });
+  it('should return course with chosen id', () => {
+    const gettedCourse = service.getCourseById('3');
+    expect(gettedCourse).toEqual(service.courses[2]);
+  });
+  it("shouldn't return course with chosen id", () => {
+    const gettedCourse = service.getCourseById('8');
+    expect(gettedCourse).toBeUndefined();
+  });
+  it('should delete course with chosen id', () => {
+    service.deleteCourse('1');
+    expect(service.courses).toHaveLength(5);
   });
 });

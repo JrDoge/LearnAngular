@@ -13,7 +13,8 @@ export class AuthService {
       login !== me.login ||
       password !== me.password
     ) {
-      throw new Error('Wrong login or password try again');
+      console.error(new Error('Wrong login or password try again'));
+      return;
     }
     localStorage.setItem('name', me.name);
     localStorage.setItem('token', me.token);

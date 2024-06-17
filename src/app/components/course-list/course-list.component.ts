@@ -1,6 +1,5 @@
 import type { SimpleChanges } from '@angular/core';
 import { Component, Input, inject } from '@angular/core';
-import { courseMock } from '../course-data/course-mock';
 import type { CourseData } from '../../course-data';
 import { FilterPipe } from '../../pipes/filter.pipe';
 import { CoursesService } from '../../services/courses.service';
@@ -30,11 +29,16 @@ export class CourseListComponent {
         this.courseGetted
       ) as CourseData;
       console.log(courseById);
-      this.courses = this.courses.filter((course) => course === courseById);
+      this.courses = this.courseService
+        .getCourses()
+        .filter((course) => course === courseById);
       console.log(this.courses);
       return;
     }
-    this.courses = new FilterPipe().transform(this.courseGetted, courseMock);
+    this.courses = new FilterPipe().transform(
+      this.courseGetted,
+      this.courseService.getCourses()
+    );
   }
 
   loadNewCourses() {
