@@ -24,18 +24,28 @@ export class LoginSectionComponent {
   logining() {
     this.showLoader = true;
     this.disabled = true;
-    setTimeout(() => {
-      this.authService.login(this.enteredLogin, this.enteredPass);
-      const isAuthorised = this.authService.isAuthorized();
-      console.log(isAuthorised);
-      if (isAuthorised) {
-        this.router.navigate(['/courses']);
-        console.log('Logged in successfully');
-      } else {
-        console.log('tick');
+    const loginProcess = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const message = this.authService.login(
+          this.enteredLogin,
+          this.enteredPass
+        );
+        const isAuthorised = this.authService.isAuthorized();
+        if (!isAuthorised) {
+          reject(message);
+        }
+        resolve(message);
+      }, 3000);
+    });
+    loginProcess
+      .then((message) => {
+        console.log(message);
+        return this.router.navigate(['/courses']);
+      })
+      .catch((err) => {
         this.showLoader = false;
         this.disabled = false;
-      }
-    }, 5000);
+        console.error('Error:', err);
+      });
   }
 }

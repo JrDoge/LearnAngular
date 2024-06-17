@@ -13,11 +13,13 @@ export class AuthService {
       login !== me.login ||
       password !== me.password
     ) {
-      console.error(new Error('Wrong login or password try again'));
-      return;
+      const message = new Error('Wrong login or password try again');
+      return message;
     }
     localStorage.setItem('name', me.name);
     localStorage.setItem('token', me.token);
+    const message = 'Logged in successfully';
+    return message;
   }
 
   logout() {
