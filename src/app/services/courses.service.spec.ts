@@ -13,7 +13,6 @@ describe('CoursesService', () => {
 
   it('should add new course', () => {
     const spy = jest.spyOn(service, 'addCourse');
-    console.log(service.course)
     const newCourse: CourseData = {
       id: '7',
       title: 'Bla bla',
@@ -23,7 +22,6 @@ describe('CoursesService', () => {
       topRated: false,
     };
     service.addCourse(newCourse);
-    console.log(service.course);
     expect(spy).toHaveBeenCalled();
   });
   it('should edit set course', () => {
