@@ -9,58 +9,51 @@ import type { CourseData } from '../course-data';
   providedIn: 'root',
 })
 export class CoursesService {
-  course: Record<string, CourseData[]> = { courseMock };
+  course: Record<string, CourseData> = {
+    1: courseMock[0],
+    2: courseMock[1],
+    3: courseMock[2],
+    4: courseMock[3],
+    5: courseMock[4],
+    6: courseMock[5],
+  };
 
-  getCourses(): CourseData[] {
-    return this.course['courseMock'].sort(
+  courses = Object.values(this.course);
+
+  getCourses() {
+    return this.courses.sort(
       (a: CourseData, b: CourseData) =>
         Number(new Date(b.creationDate)) - Number(new Date(a.creationDate))
     );
   }
 
   getCourseById(id: string): CourseData | undefined {
-    const index = this.course['courseMock'].findIndex(
-      (element) => id === element.id
-    );
-    console.log(this.course['courseMock']);
+    const index = this.courses.findIndex((element) => id === element.id);
+    console.log(this.courses);
     console.log(index);
-    return this.course['courseMock'].at(index);
+    return this.courses.at(index);
   }
 
-  addCourse(newCourse: CourseData): CourseData[] {
-    this.course['courseMock'].push(newCourse);
-
-    return this.course['courseMock'];
+  addCourse(newCourse: CourseData) {
+    this.courses.push(newCourse);
+    return this.course;
   }
 
   editCourse(id: string, info: Partial<CourseData>): void {
     const gettedCourse = this.getCourseById(id);
-    const index = this.course['courseMock'].findIndex(
-      (element) => id === element.id
-    );
+    const index = this.courses.findIndex((element) => id === element.id);
     if (gettedCourse === undefined) {
-      throw new Error('Choose correct course');
+      throw new Error('Course is not exist');
     }
-    if (info.description !== undefined) {
-      gettedCourse.description = info.description;
-    }
-    if (info.title !== undefined) {
-      gettedCourse.title = info.title;
-    }
-    if (info.topRated !== undefined) {
-      gettedCourse.topRated = info.topRated;
-    }
-    if (info.duration !== undefined) {
-      gettedCourse.duration = info.duration;
-    }
-    this.course['courseMock'][index] = gettedCourse;
+    Object.assign(gettedCourse, info);
+    this.courses[index] = gettedCourse;
   }
 
   deleteCourse(id: string) {
-    const foundCourseIndex = this.course['courseMock'].findIndex(
+    const foundCourseIndex = this.courses.findIndex(
       (course: CourseData) => id === course.id
     );
 
-    this.course['courseMock'].splice(foundCourseIndex, 1);
+    this.courses.splice(foundCourseIndex, 1);
   }
 }

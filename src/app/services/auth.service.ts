@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { User } from '../user-info';
+import type { User } from '../user-info';
+import { Users } from './user-mock';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   login(login: string, password: string) {
-    const me = new User('Konstantin Rogov', 'JrDoge', '240399Saw');
+    const me: User = Users[0];
     if (
       (login !== me.login && password !== me.password) ||
       login !== me.login ||

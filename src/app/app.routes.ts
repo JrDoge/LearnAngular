@@ -4,7 +4,7 @@ import { CoursesPageComponent } from './components/courses-page/courses-page.com
 
 export const routes: Routes = [
   {
-    path: 'login',
+    path: '',
     title: 'Login page',
     component: LoginSectionComponent,
   },

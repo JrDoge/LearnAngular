@@ -18,6 +18,6 @@ export class SimpleHeaderComponent {
 
   logout() {
     this.service.logout();
-    this.router.navigate(['login']);
+    this.router.navigate(['']);
   }
 }
