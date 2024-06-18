@@ -1,6 +1,5 @@
 import type { SimpleChanges } from '@angular/core';
-import { Component, Input, inject } from '@angular/core';
-import type { CourseData } from '../../course-data';
+import { Component, Inject, Input } from '@angular/core';
 import { FilterPipe } from '../../pipes/filter.pipe';
 import { CoursesService } from '../../services/courses.service';
 
@@ -12,11 +11,11 @@ import { CoursesService } from '../../services/courses.service';
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courseService = inject(CoursesService);
-
   courses = this.courseService.getCourses();
-
   @Input() courseGetted!: string;
+  constructor(
+    @Inject(CoursesService) private readonly courseService: CoursesService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // eslint-disable-next-line dot-notation

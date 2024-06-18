@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,13 +13,10 @@ export class LoginSectionComponent {
   enteredLogin = '';
   enteredPass = '';
 
-  authService = inject(AuthService);
-
   router: Router = inject(Router);
-
   showLoader!: boolean;
-
   disabled!: boolean;
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   logining() {
     this.showLoader = true;

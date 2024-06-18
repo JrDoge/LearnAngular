@@ -7,7 +7,6 @@ import type { CourseData } from '../course-data';
 })
 export class FilterPipe implements PipeTransform {
   transform(courseTitle: string, courses: CourseData[]): CourseData[] {
-    console.log(courses);
     if (courseTitle === '') {
       return courses;
     }
