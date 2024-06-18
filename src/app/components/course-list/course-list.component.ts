@@ -23,18 +23,6 @@ export class CourseListComponent {
     if (!changes['courseGetted']) {
       return;
     }
-    const regex = /[1-9]+/g;
-    if (this.courseGetted.match(regex)) {
-      const courseById = this.courseService.getCourseById(
-        this.courseGetted
-      ) as CourseData;
-      console.log(courseById);
-      this.courses = this.courseService
-        .getCourses()
-        .filter((course) => course === courseById);
-      console.log(this.courses);
-      return;
-    }
     this.courses = new FilterPipe().transform(
       this.courseGetted,
       this.courseService.getCourses()

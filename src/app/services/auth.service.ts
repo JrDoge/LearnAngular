@@ -11,7 +11,6 @@ export class AuthService {
     const getUser = users.find(
       (user) => user.login === login && user.password === password
     );
-
     if (getUser === undefined) {
       const message = new Error('Wrong login or password try again');
       return message;
