@@ -7,17 +7,17 @@ import { Users } from './user-mock';
 })
 export class AuthService {
   login(login: string, password: string) {
-    const me: User = Users[0];
-    if (
-      (login !== me.login && password !== me.password) ||
-      login !== me.login ||
-      password !== me.password
-    ) {
+    const users: User[] = Users;
+    const getUser = users.find(
+      (user) => user.login === login && user.password === password
+    );
+
+    if (getUser === undefined) {
       const message = new Error('Wrong login or password try again');
       return message;
     }
-    localStorage.setItem('name', me.name);
-    localStorage.setItem('token', me.token);
+    localStorage.setItem('name', getUser.name);
+    localStorage.setItem('token', getUser.token);
     const message = 'Logged in successfully';
     return message;
   }
