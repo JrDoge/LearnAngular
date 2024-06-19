@@ -21,28 +21,14 @@ export class LoginSectionComponent {
   logining() {
     this.showLoader = true;
     this.disabled = true;
-    const loginProcess = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const message = this.authService.login(
-          this.enteredLogin,
-          this.enteredPass
-        );
-        const isAuthorised = this.authService.isAuthorized();
-        if (!isAuthorised) {
-          reject(message);
-        }
-        resolve(message);
-      }, 3000);
-    });
-    loginProcess
-      .then((message) => {
-        console.log(message);
-        return this.router.navigate(['/courses']);
-      })
-      .catch((err) => {
-        this.showLoader = false;
-        this.disabled = false;
-        console.error('Error:', err);
-      });
+    const message = this.authService.login(this.enteredLogin, this.enteredPass);
+    const isAuthorised = this.authService.isAuthorized();
+    if (!isAuthorised) {
+      this.showLoader = false;
+      this.disabled = false;
+      return console.error('Error:', message);
+    }
+    console.log(message);
+    return this.router.navigate(['/courses']);
   }
 }

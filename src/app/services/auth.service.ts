@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, timer } from 'rxjs';
 import type { User } from '../user-info';
 import { Users } from './user-mock';
 
@@ -7,18 +8,39 @@ import { Users } from './user-mock';
 })
 export class AuthService {
   login(login: string, password: string) {
-    const users: User[] = Users;
-    const getUser = users.find(
-      (user) => user.login === login && user.password === password
-    );
-    if (getUser === undefined) {
-      const message = new Error('Wrong login or password try again');
-      return message;
-    }
-    localStorage.setItem('name', getUser.name);
-    localStorage.setItem('token', getUser.token);
-    const message = 'Logged in successfully';
-    return message;
+    const result = this.logining(login, password);
+    console.log(result);
+    return result.message;
+  }
+
+  logining(login: string, password: string, users: User[] = Users) {
+    let getUser!: User;
+    let message!: string;
+    const users$: Observable<User> = new Observable((observer) => {
+      observer.error(
+        users.find((user) => user.login !== login && user.password !== password)
+      );
+      observer.next(
+        users.find((user) => user.login === login && user.password === password)
+      );
+    });
+    users$.subscribe({
+      next: (user) => {
+        message = 'Logged in succesfully';
+        getUser = user;
+      },
+      error: (user) => {
+        message = 'Wrong login or password try again!';
+        getUser = user;
+      },
+    });
+    timer(5000).subscribe(users$);
+    return { message, getUser };
+  }
+
+  setUserInStorage(name: string, token: string) {
+    localStorage.setItem('name', name);
+    localStorage.setItem('token', token);
   }
 
   logout() {

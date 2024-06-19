@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -8,10 +8,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CoursesPageComponent {
   searchRequest!: string;
-  service = inject(AuthService);
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   isAuthorized(): boolean {
-    return this.service.isAuthorized();
+    return this.authService.isAuthorized();
   }
 
   searchCourse(searchRequest: string) {

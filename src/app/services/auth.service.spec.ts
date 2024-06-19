@@ -33,3 +33,19 @@ describe('AuthService', () => {
     expect(spy).toHaveBeenCalled();
   });
 });
+
+describe('AuthService test rxjs', () => {
+  let service: AuthService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(AuthService);
+  });
+  it('test stream', () => {
+    const test = {
+      login: 'JrDoge',
+      password: '240399Sa',
+    };
+    service.logining(test.login, test.password);
+  });
+});
