@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, timer } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { find, interval, map, take } from 'rxjs';
 import type { User } from '../user-info';
 import { Users } from './user-mock';
 
@@ -7,35 +8,22 @@ import { Users } from './user-mock';
   providedIn: 'root',
 })
 export class AuthService {
-  login(login: string, password: string) {
-    const result = this.logining(login, password);
-    console.log(result);
-    return result.message;
-  }
-
-  logining(login: string, password: string, users: User[] = Users) {
-    let getUser!: User;
-    let message!: string;
-    const users$: Observable<User> = new Observable((observer) => {
-      observer.error(
-        users.find((user) => user.login !== login && user.password !== password)
-      );
-      observer.next(
-        users.find((user) => user.login === login && user.password === password)
-      );
-    });
-    users$.subscribe({
-      next: (user) => {
-        message = 'Logged in succesfully';
-        getUser = user;
-      },
-      error: (user) => {
-        message = 'Wrong login or password try again!';
-        getUser = user;
-      },
-    });
-    timer(5000).subscribe(users$);
-    return { message, getUser };
+  login(
+    login: string,
+    password: string,
+    users: User[] = Users
+  ): Observable<User> {
+    const user$ = interval(1000).pipe(
+      take(users.length),
+      find((v) => users[v].login === login && users[v].password === password),
+      map((val) => {
+        if (val === undefined) {
+          throw new Error('Wrong login or password try again!');
+        }
+        return users[val];
+      })
+    );
+    return user$;
   }
 
   setUserInStorage(name: string, token: string) {
