@@ -21,14 +21,20 @@ export class LoginSectionComponent {
   logining() {
     this.showLoader = true;
     this.disabled = true;
-    const message = this.authService.login(this.enteredLogin, this.enteredPass);
-    const isAuthorised = this.authService.isAuthorized();
-    if (!isAuthorised) {
-      this.showLoader = false;
-      this.disabled = false;
-      return console.error('Error:', message);
-    }
-    console.log(message);
-    return this.router.navigate(['/courses']);
+    const message$ = this.authService.login(
+      this.enteredLogin,
+      this.enteredPass
+    );
+    message$.subscribe({
+      next: () => {
+        this.showLoader = false;
+        this.disabled = false;
+        this.router.navigate(['/courses']);
+      },
+      error: () => {
+        this.showLoader = false;
+        this.disabled = false;
+      },
+    });
   }
 }

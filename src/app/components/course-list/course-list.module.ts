@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiBadgeModule, TuiLineClampModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CourseListComponent } from './course-list.component';
 import { CourseDataModule } from '../course-data/course-data.module';
 import { FilterModule } from '../../pipes/filter.module';
 import { CoursesService } from '../../services/courses.service';
+import { SearchSectionModule } from '../search-section/search-section.module';
 
 @NgModule({
   declarations: [CourseListComponent],
@@ -19,9 +21,9 @@ import { CoursesService } from '../../services/courses.service';
     CourseDataModule,
     TuiBlockStatusModule,
     FilterModule,
-    TuiLoaderModule,
+    SearchSectionModule,
   ],
   exports: [CourseListComponent],
-  providers: [CoursesService],
+  providers: [CoursesService, TuiDestroyService],
 })
 export class CourseListModule {}

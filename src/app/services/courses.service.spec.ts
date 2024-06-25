@@ -9,9 +9,11 @@ describe('CoursesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(CoursesService);
+    service.loadCourses$('');
   });
 
   it('should add new course', () => {
+    let newCourseLength;
     const newCourse: CourseData = {
       id: '7',
       title: 'Bla bla',
@@ -21,9 +23,14 @@ describe('CoursesService', () => {
       topRated: false,
     };
     service.addCourse(newCourse);
-    expect(service.courses).toHaveLength(7);
+
+    service.coursesCollection$.subscribe((val) => {
+      newCourseLength = val.length;
+    });
+    expect(newCourseLength).toEqual(7);
   });
   it('should edit set course', () => {
+    let gettedCourse;
     const info: Partial<CourseData> = {
       title: 'bla',
       creationDate: 'bla bla',
@@ -31,18 +38,29 @@ describe('CoursesService', () => {
       topRated: true,
     };
     service.editCourse('4', info);
-    expect(service.courses[3].title).toBe(info.title);
+    service.coursesCollection$.subscribe((val) => {
+      gettedCourse = val.find((el) => el.id === '4');
+    });
+    expect(gettedCourse!.title).toBe(info.title);
   });
   it('should return course with chosen id', () => {
-    const gettedCourse = service.getCourseById('3');
-    expect(gettedCourse).toEqual(service.courses[2]);
+    let targetCourse;
+    service.coursesCollection$.subscribe((val) => {
+      targetCourse = val.find((el) => el.id === '3');
+    });
+    const gettedCourse = service.getCoursesById('3');
+    expect(gettedCourse).toEqual(targetCourse);
   });
   it("shouldn't return course with chosen id", () => {
-    const gettedCourse = service.getCourseById('8');
+    const gettedCourse = service.getCoursesById('8');
     expect(gettedCourse).toBeUndefined();
   });
   it('should delete course with chosen id', () => {
+    let newCourseLength;
     service.deleteCourse('1');
-    expect(service.courses).toHaveLength(5);
+    service.coursesCollection$.subscribe((val) => {
+      newCourseLength = val.length;
+    });
+    expect(newCourseLength).toEqual(5);
   });
 });

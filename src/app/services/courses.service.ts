@@ -2,6 +2,8 @@
 /* eslint-disable dot-notation */
 
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { courseMock } from '../components/course-data/course-mock';
 import type { CourseData } from '../course-data';
 
@@ -9,48 +11,70 @@ import type { CourseData } from '../course-data';
   providedIn: 'root',
 })
 export class CoursesService {
-  course: Record<string, CourseData> = {
-    1: courseMock[0],
-    2: courseMock[1],
-    3: courseMock[2],
-    4: courseMock[3],
-    5: courseMock[4],
-    6: courseMock[5],
-  };
+  coursesCollection$ = new BehaviorSubject<CourseData[]>([]);
 
-  courses = Object.values(this.course);
+  loadCourses$(courseName: string): Observable<void> {
+    const courses: CourseData[] = courseMock
+      .sort((a, b) => this.sortCourses(a, b))
+      .filter((val) =>
+        val.title.toLowerCase().includes(courseName.toLowerCase())
+      );
 
-  getCourses() {
-    return this.courses.sort(
-      (a: CourseData, b: CourseData) =>
-        Number(new Date(b.creationDate)) - Number(new Date(a.creationDate))
-    );
+    this.coursesCollection$.next(courses);
+
+    const ob$: Observable<void> = new Observable((observer) => {
+      observer.next();
+      observer.complete();
+    });
+    return ob$;
   }
 
-  getCourseById(id: string): CourseData | undefined {
-    return this.courses.find((element) => element.id === id);
+  getCoursesById(id: string): CourseData | undefined {
+    let course: CourseData | undefined;
+    this.coursesCollection$
+      .asObservable()
+      .pipe(map((val) => val.find((el) => el.id === id)))
+      .subscribe((res) => {
+        course = res;
+      });
+    return course;
   }
 
   addCourse(newCourse: CourseData) {
-    this.courses.push(newCourse);
-    return this.course;
+    this.coursesCollection$.pipe(map((val) => val.push(newCourse))).subscribe();
   }
 
   editCourse(id: string, info: Partial<CourseData>): void {
-    const gettedCourse = this.getCourseById(id);
-    const index = this.courses.findIndex((element) => id === element.id);
-    if (gettedCourse === undefined) {
-      throw new Error('Course does not exist');
-    }
-    Object.assign(gettedCourse, info);
-    this.courses[index] = gettedCourse;
+    let index;
+    this.coursesCollection$
+      .asObservable()
+      .pipe(
+        map((val) => {
+          index = val.findIndex((el) => el.id === id);
+          const gettedCourse = this.getCoursesById(id) as CourseData;
+          const editCourse = Object.assign(gettedCourse, info);
+          val[index] = editCourse;
+        })
+      )
+      .subscribe();
   }
 
   deleteCourse(id: string) {
-    const foundCourseIndex = this.courses.findIndex(
-      (course: CourseData) => id === course.id
-    );
+    let foundCourseIndex;
+    this.coursesCollection$
+      .asObservable()
+      .pipe(
+        map((val) => {
+          foundCourseIndex = val.findIndex((el) => el.id === id);
+          val.splice(foundCourseIndex, 1);
+        })
+      )
+      .subscribe();
+  }
 
-    this.courses.splice(foundCourseIndex, 1);
+  sortCourses(a: CourseData, b: CourseData) {
+    const dateA = new Date(a.creationDate);
+    const dateB = new Date(b.creationDate);
+    return Number(dateB) - Number(dateA);
   }
 }

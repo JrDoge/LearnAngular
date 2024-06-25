@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import type { TuiInputComponent } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-search-section',
@@ -7,12 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SearchSectionComponent {
   searchRequest = '';
-
   searchHint = 'Name, fragment or date';
 
-  @Output() searchEvent = new EventEmitter<string>();
-
-  startSearching() {
-    this.searchEvent.emit(this.searchRequest);
-  }
+  @ViewChild('input') input!: TuiInputComponent;
 }
