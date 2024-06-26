@@ -8,6 +8,7 @@ import { LoginSectionComponent } from './login-section.component';
 import { AuthService } from '../../services/auth.service';
 import { SimpleFooterModule } from '../simple-footer/simple-footer.module';
 import { routes } from '../../app.routes';
+import { LoaderModule } from '../loader/loader.module';
 
 @NgModule({
   declarations: [LoginSectionComponent],
@@ -20,6 +21,7 @@ import { routes } from '../../app.routes';
     ReactiveFormsModule,
     SimpleFooterModule,
     RouterLink,
+    LoaderModule,
   ],
   exports: [LoginSectionComponent],
   providers: [AuthService, provideRouter(routes)],

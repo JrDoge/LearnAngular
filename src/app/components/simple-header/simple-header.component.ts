@@ -11,11 +11,17 @@ export class SimpleHeaderComponent {
   logoSrc = 'assets/svgs/Logo.svg';
   iconsSrc = ['assets/svgs/icon-16.svg', 'assets/svgs/Icon.svg'];
   router: Router = inject(Router);
-  userName = this.authService.getUserInfo();
-  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
+  userName!: string | null;
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {
+    authService.getUserInfo().subscribe({
+      next: (val) => {
+        this.userName = val;
+      },
+    });
+  }
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
   }
 }

@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { AppComponent } from './app.component';
 import { CoursesPageModule } from './components/courses-page/courses-page.module';
+import { LoaderModule } from './components/loader/loader.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { CoursesPageModule } from './components/courses-page/courses-page.module
     BrowserAnimationsModule,
     TuiRootModule,
     RouterOutlet,
+    LoaderModule,
   ],
   bootstrap: [AppComponent],
 })

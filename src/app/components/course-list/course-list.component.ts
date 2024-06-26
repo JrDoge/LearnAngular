@@ -1,7 +1,17 @@
-import type { SimpleChanges } from '@angular/core';
-import { Component, Inject, Input } from '@angular/core';
-import { FilterPipe } from '../../pipes/filter.pipe';
+import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  map,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoursesService } from '../../services/courses.service';
+import type { CourseData } from '../../course-data';
+import { SearchSectionComponent } from '../search-section/search-section.component';
 
 @Component({
   selector: 'app-course-list',
@@ -11,21 +21,21 @@ import { CoursesService } from '../../services/courses.service';
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courses = this.courseService.getCourses();
-  @Input() courseGetted!: string;
-  constructor(
-    @Inject(CoursesService) private readonly courseService: CoursesService
-  ) {}
+  courses: CourseData[] = [];
 
-  ngOnChanges(changes: SimpleChanges) {
-    // eslint-disable-next-line dot-notation
-    if (!changes['courseGetted']) {
-      return;
-    }
-    this.courses = new FilterPipe().transform(
-      this.courseGetted,
-      this.courseService.getCourses()
-    );
+  @ViewChild(SearchSectionComponent) component!: SearchSectionComponent;
+  constructor(
+    @Inject(CoursesService) private readonly courseService: CoursesService,
+    @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService
+  ) {
+    courseService.coursesCollection$.subscribe((course) => {
+      this.courses = course;
+      console.log(course);
+    });
+
+    courseService
+      .loadCourses$('')
+      .subscribe((course) => console.log('end', course));
   }
 
   loadNewCourses() {
@@ -34,5 +44,20 @@ export class CourseListComponent {
 
   deleteSetCourse(id: string) {
     this.courseService.deleteCourse(id);
+  }
+
+  ngAfterViewInit(): void {
+    const input = this.component.input
+      .nativeFocusableElement as HTMLInputElement;
+    fromEvent(input, 'keyup')
+      .pipe(
+        takeUntil(this.destroy$),
+        map(() => input.value),
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter((v) => v.length >= 3),
+        switchMap((v) => this.courseService.loadCourses$(v))
+      )
+      .subscribe();
   }
 }

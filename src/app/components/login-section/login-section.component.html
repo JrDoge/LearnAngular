@@ -5,7 +5,7 @@
     </div>
     <div class="input-user-container">
         <tui-input class="input" id="emailInput" [(ngModel)]="enteredLogin">Email / Login<input type="text" tuiTextfield size="m"></tui-input>
-        <tui-input-password class="input" id="passInput" tuiTextfieldIconLeft="tuiIconEyeOffLarge" size="m" [(ngModel)]="enteredPass">Password<input type="password" tuiTextfield></tui-input-password>
+        <tui-input-password class="input" id="passInput" tuiTextfieldIconLeft="tuiIconEyeOffLarge" size="m" [(ngModel)]="enteredPass" (keydown.enter)="logining()">Password<input type="password" tuiTextfield></tui-input-password>
         <button id="loginBtn" tuiButton [showLoader]="showLoader" [disabled]="disabled" (click)="logining()">Login</button>
     </div>
 </div>

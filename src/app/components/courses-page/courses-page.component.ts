@@ -1,5 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-courses-page',
@@ -8,12 +7,6 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CoursesPageComponent {
   searchRequest!: string;
-  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
-
-  isAuthorized(): boolean {
-    return this.authService.isAuthorized();
-  }
-
   searchCourse(searchRequest: string) {
     this.searchRequest = searchRequest;
   }

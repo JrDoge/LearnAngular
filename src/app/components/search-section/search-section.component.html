@@ -2,14 +2,13 @@
     <div class="main-section">
         <div class="search-container" >
             <form>
-                <tui-input
+                <tui-input 
                 tuiTextfieldIconLeft = "tuiIconSearchLarge"
-                class="input" name="searchSection" [(ngModel)]="searchRequest">{{searchHint}}
+                class="input" #input name="searchSection" [(ngModel)]="searchRequest" >{{searchHint}}
                     <input id="searchSection"  placeholder="Placeholder"
                         tuiTextfield>
                 </tui-input>
             </form>
-            <button id="searchBtn" data-automation-id = "search-button" appearance="secondary" (click)="startSearching()" tuiButton>Search</button>
         </div>
         <button id="addCourseBtn" appearance="primary" tuiButton icon="tuiIconPlusLarge">Add Course</button>
     </div>

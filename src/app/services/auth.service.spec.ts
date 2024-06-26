@@ -11,10 +11,12 @@ describe('AuthService', () => {
   });
 
   it('should log in new user', () => {
+    jest.useFakeTimers();
     const spy = jest.spyOn(service, 'login');
     const login = 'JrDoge';
     const password = '240399Saw';
     service.login(login, password);
+    jest.runAllTimers();
     expect(spy).toHaveBeenCalled();
   });
   it('should return is user authorized', () => {
@@ -31,21 +33,5 @@ describe('AuthService', () => {
     const spy = jest.spyOn(service, 'getUserInfo');
     service.getUserInfo();
     expect(spy).toHaveBeenCalled();
-  });
-});
-
-describe('AuthService test rxjs', () => {
-  let service: AuthService;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AuthService);
-  });
-  it('test stream', () => {
-    const test = {
-      login: 'JrDoge',
-      password: '240399Sa',
-    };
-    service.logining(test.login, test.password);
   });
 });
