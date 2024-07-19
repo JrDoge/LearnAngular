@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './courses-page.component.less',
 })
 export class CoursesPageComponent {
-  searchRequest!: string;
+  searchRequest = '';
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   isAuthorized(): boolean {

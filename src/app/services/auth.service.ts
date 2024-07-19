@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import { find, interval, map, take } from 'rxjs';
+import { delay, find, from, map, take } from 'rxjs';
 import type { User } from '../user-info';
 import { Users } from './user-mock';
 
@@ -13,16 +13,26 @@ export class AuthService {
     password: string,
     users: User[] = Users
   ): Observable<User> {
-    const user$ = interval(1000).pipe(
+    const user$ = from(users).pipe(
       take(users.length),
-      find((v) => users[v].login === login && users[v].password === password),
+      delay(1000),
+      find(
+        (v) =>
+          v.login.toLowerCase() === login.toLowerCase() &&
+          v.password === password
+      ),
       map((val) => {
         if (val === undefined) {
           throw new Error('Wrong login or password try again!');
         }
-        return users[val];
+        return val;
       })
     );
+    user$.subscribe({
+      next: (val) => {
+        this.setUserInStorage(val.name, val.token);
+      },
+    });
     return user$;
   }
 
