@@ -8,10 +8,9 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.less',
 })
 export class AppComponent {
-  isVisible = false
   router: Router = inject(Router);
   constructor(@Inject(AuthService) authService: AuthService) {
-    authService.isAuthorized().subscribe((val) => {
+    authService.isAuthorized$().subscribe((val) => {
       if (!val) {
         this.router.navigate(['login']);
       } else {

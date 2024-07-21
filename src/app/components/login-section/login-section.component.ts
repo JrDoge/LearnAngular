@@ -1,6 +1,7 @@
 import { Component, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-login-section',
@@ -16,7 +17,10 @@ export class LoginSectionComponent {
   router: Router = inject(Router);
   showLoader!: boolean;
   disabled!: boolean;
-  constructor(@Inject(AuthService) private readonly authService: AuthService) {}
+  constructor(
+    @Inject(AuthService) private readonly authService: AuthService,
+    @Inject(LoaderService) private readonly loaderService: LoaderService
+  ) {}
 
   logining() {
     this.showLoader = true;
@@ -25,9 +29,11 @@ export class LoginSectionComponent {
       this.enteredLogin,
       this.enteredPass
     );
+    this.loaderService.changeState(true);
     message$.subscribe({
       next: () => {
         this.showLoader = false;
+
         this.disabled = false;
         this.router.navigate(['/courses']);
       },

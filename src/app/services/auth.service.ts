@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import { of } from 'rxjs';
-import { find, interval, map, take } from 'rxjs';
+import { delay, from, of } from 'rxjs';
+import { find, map, take } from 'rxjs';
 import type { User } from '../user-info';
 import { Users } from './user-mock';
 
@@ -14,14 +14,19 @@ export class AuthService {
     password: string,
     users: User[] = Users
   ): Observable<User> {
-    const user$ = interval(1000).pipe(
+    const user$ = from(Users).pipe(
+      delay(1000),
       take(users.length),
-      find((v) => users[v].login === login && users[v].password === password),
+      find(
+        (v) =>
+          v.login.toLowerCase() === login.toLowerCase() &&
+          v.password === password
+      ),
       map((val) => {
         if (val === undefined) {
           throw new Error('Wrong login or password try again');
         }
-        return users[val];
+        return val;
       })
     );
     user$.subscribe({
@@ -36,27 +41,18 @@ export class AuthService {
     localStorage.clear();
   }
 
-  isAuthorized() {
+  isAuthorized$() {
     const userStorage = {
       name: localStorage.getItem('name'),
       token: localStorage.getItem('token'),
     };
-    const user$ = of(userStorage).pipe(
-      find((user) => user.name !== null && user.token !== null),
-      map((val) => {
-        if (!val) {
-          return false;
-        }
-        return true;
-      })
+    return of(userStorage).pipe(
+      find((user) => user.name !== null && user.token !== null)
     );
-    return user$;
   }
 
   getUserInfo(): Observable<string | null> {
-    const name$ = of(localStorage.getItem('name'));
-    name$.pipe(map((val) => val));
-    return name$;
+    return of(localStorage.getItem('name')).pipe(map((val) => val));
   }
 
   setUserInStorage(name: string, token: string) {

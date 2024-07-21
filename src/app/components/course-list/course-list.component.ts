@@ -1,4 +1,5 @@
 import { Component, Inject, ViewChild } from '@angular/core';
+import type { Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -7,6 +8,7 @@ import {
   map,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoursesService } from '../../services/courses.service';
@@ -21,25 +23,20 @@ import { SearchSectionComponent } from '../search-section/search-section.compone
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courses: CourseData[] = [];
+  notFound = false;
+
+  courses$!: Observable<CourseData[]>;
 
   @ViewChild(SearchSectionComponent) component!: SearchSectionComponent;
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService,
     @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService
   ) {
-    courseService.coursesCollection$.subscribe((course) => {
-      this.courses = course;
-      console.log(course);
-    });
-
-    courseService
-      .loadCourses$('')
-      .subscribe((course) => console.log('end', course));
+    this.courses$ = courseService.coursesCollection$;
   }
 
   loadNewCourses() {
-    console.log(this.courses);
+    console.log(this.courses$);
   }
 
   deleteSetCourse(id: string) {
@@ -56,7 +53,12 @@ export class CourseListComponent {
         debounceTime(1000),
         distinctUntilChanged(),
         filter((v) => v.length >= 3),
-        switchMap((v) => this.courseService.loadCourses$(v))
+        switchMap((v) => this.courseService.loadCourses$(v)),
+        tap(() => {
+          if (this.courseService.coursesCollection$.value.length === 0) {
+            this.notFound = true;
+          }
+        })
       )
       .subscribe();
   }

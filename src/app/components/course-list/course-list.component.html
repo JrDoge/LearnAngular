@@ -1,6 +1,6 @@
 <app-search-section></app-search-section>
-<div class="list-container" *ngIf="courses.length > 0">
-   <app-course-data *ngFor="let course of courses"
+<div class="list-container" *ngIf="!notFound">
+   <app-course-data *ngFor="let course of courses$ | async"
                 [course]='course'
                 (deleteEvent)="deleteSetCourse($event)"
                 data-automation-id="course-item"
@@ -8,7 +8,7 @@
                 </app-course-data>
   <button id="LoadBtn" appearance="secondary" tuiButton data-automation-id="load-button" (click)="loadNewCourses()">Load more</button>
 </div>
-  <ng-container *ngIf="courses.length === 0" >
+  <ng-container *ngIf="notFound">
     <tui-block-status class="list-without-data">
         <img 
         [src]="informationIcon" 
