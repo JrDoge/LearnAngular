@@ -10,8 +10,9 @@ export class FilterPipe implements PipeTransform {
     if (courseTitle === '') {
       return courses;
     }
+
     return courses.filter((course) =>
-      course.title.toLocaleLowerCase().includes(courseTitle.toLowerCase())
+      course.title.toLowerCase().includes(courseTitle.toLowerCase())
     );
   }
 }

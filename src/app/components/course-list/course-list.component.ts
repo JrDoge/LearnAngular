@@ -1,8 +1,7 @@
 import type { SimpleChanges } from '@angular/core';
-import { Component, Input } from '@angular/core';
-import { courseMock } from '../course-data/course-mock';
-import type { CourseData } from '../../course-data';
+import { Component, Inject, Input } from '@angular/core';
 import { FilterPipe } from '../../pipes/filter.pipe';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-course-list',
@@ -12,34 +11,28 @@ import { FilterPipe } from '../../pipes/filter.pipe';
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courses: CourseData[] = courseMock.sort(
-    (a: CourseData, b: CourseData) =>
-      Number(new Date(String(b.creationDate))) -
-      Number(new Date(String(a.creationDate)))
-  );
-
+  courses = this.courseService.getCourses();
   @Input() courseGetted!: string;
+  constructor(
+    @Inject(CoursesService) private readonly courseService: CoursesService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // eslint-disable-next-line dot-notation
     if (!changes['courseGetted']) {
       return;
     }
-    this.courses = new FilterPipe().transform(this.courseGetted, courseMock);
+    this.courses = new FilterPipe().transform(
+      this.courseGetted,
+      this.courseService.getCourses()
+    );
   }
 
   loadNewCourses() {
     console.log(this.courses);
   }
 
-  deleteSetCourse(selectedCourse: CourseData) {
-    const foundCourseIndex = this.courses.findIndex(
-      (course) => course === selectedCourse
-    );
-    if (foundCourseIndex !== -1) {
-      this.courses.splice(foundCourseIndex, 1);
-    }
-
-    console.log(foundCourseIndex);
+  deleteSetCourse(id: string) {
+    this.courseService.deleteCourse(id);
   }
 }

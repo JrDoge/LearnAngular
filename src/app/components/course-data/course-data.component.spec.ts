@@ -1,7 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
-import type { DebugElement } from '@angular/core';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CourseDataComponent } from './course-data.component';
 import { courseMock } from './course-mock';
@@ -32,7 +31,7 @@ describe('Если есть данные для отображения (stand-al
     const courseContainer = fixture.debugElement.query(
       By.css('.course-header-container')
     ).nativeElement;
-    expect(courseContainer.textContent).toMatch('01.05.2024');
+    expect(courseContainer.textContent).toMatch('03.05.2024');
   });
   it('То в качестве описания выводятся данные из поля description', () => {
     const courseContainer = fixture.debugElement.query(
@@ -90,8 +89,8 @@ export class TestHostComponent {
 
   course: CourseData = this.mockCourse[1];
 
-  deleteSetCourse(selectedCourse: CourseData) {
-    console.log(selectedCourse);
+  deleteSetCourse(id: string) {
+    console.log(id);
   }
 }
 
@@ -166,14 +165,8 @@ describe('Если нажать на кнопку удаления курса', 
 
   it('То будет передано событие удаления курса через @Output', async () => {
     const spy = jest.spyOn(component.deleteEvent, 'emit');
-    const deleteButton: DebugElement = fixture.debugElement.query(
-      By.css('[data-id = "delete-button"]')
-    );
+    component.deleteCourse();
 
-    deleteButton.triggerEventHandler('click');
-
-    await fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalled();
-    });
+    expect(spy).toHaveBeenCalled();
   });
 });

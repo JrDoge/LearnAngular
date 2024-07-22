@@ -2,7 +2,7 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import type { DebugElement, SimpleChanges } from '@angular/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CourseListComponent } from './course-list.component';
 import { courseMock } from '../course-data/course-mock';
@@ -84,11 +84,13 @@ describe('Если поступила строка с курсом ', () => {
   });
   it('Тогда должен отработать функция', async () => {
     component.courseGetted = 'test';
-    let changes!: SimpleChanges;
+    const changes: SimpleChanges = {
+      courseGetted: new SimpleChange('', 'test', true),
+    };
     jest.spyOn(component, 'ngOnChanges');
-    component.ngOnChanges(changes);
     fixture.detectChanges();
-
+    console.log(changes);
+    component.ngOnChanges(changes);
     await fixture.whenStable().then(() => {
       expect(component.courses.length).toBeGreaterThanOrEqual(1);
     });
@@ -113,12 +115,12 @@ describe('Если от компонента курса пришло событ�
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse(component.courses[0]);
+    component.deleteSetCourse(component.courses[0].id);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
-    const selectedCourse = component.courses[0];
+    const selectedCourse = component.courses[0].id;
 
     const spy = jest.spyOn(component, deleteCourseMethod);
 
