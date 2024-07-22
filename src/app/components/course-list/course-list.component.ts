@@ -1,22 +1,8 @@
-import { Component, Inject, ViewChild } from '@angular/core';
-import type { Observable } from 'rxjs';
-import {
-  debounceTime,
-  delay,
-  distinctUntilChanged,
-  filter,
-  fromEvent,
-  map,
-  switchMap,
-  takeUntil,
-  tap,
-  timer,
-} from 'rxjs';
-import { TuiDestroyService } from '@taiga-ui/cdk';
+import { Component, Inject, Input } from '@angular/core';
+import { tap, type Observable } from 'rxjs';
+
 import { CoursesService } from '../../services/courses.service';
 import type { CourseData } from '../../course-data';
-import { SearchSectionComponent } from '../search-section/search-section.component';
-import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-course-list',
@@ -30,16 +16,13 @@ export class CourseListComponent {
 
   courses$!: Observable<CourseData[]>;
 
-  @ViewChild(SearchSectionComponent) component!: SearchSectionComponent;
   constructor(
-    @Inject(CoursesService) private readonly courseService: CoursesService,
-    @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
-    @Inject(LoaderService) private readonly loader: LoaderService
+    @Inject(CoursesService) private readonly courseService: CoursesService
   ) {
-    loader.showLoader();
-    timer(1000).subscribe();
     this.courses$ = courseService.coursesCollection$;
-    loader.hideLoader();
+    courseService.coursesCollection$.asObservable().subscribe(() => {
+      this.notFound = courseService.notFound;}
+    );
   }
 
   loadNewCourses() {
@@ -48,26 +31,5 @@ export class CourseListComponent {
 
   deleteSetCourse(id: string) {
     this.courseService.deleteCourse(id);
-  }
-
-  ngAfterViewInit(): void {
-    const input = this.component.input
-      .nativeFocusableElement as HTMLInputElement;
-    fromEvent(input, 'keyup')
-      .pipe(
-        takeUntil(this.destroy$),
-        map(() => input.value),
-        debounceTime(1000),
-        distinctUntilChanged(),
-        filter((v) => v.length >= 3),
-        switchMap((v) => this.courseService.loadCourses$(v)),
-        tap(() => {
-          if (this.courseService.coursesCollection$.value.length === 0) {
-            this.notFound = true;
-          }
-        }),
-        delay(1000)
-      )
-      .subscribe(() => this.loader.hideLoader());
   }
 }

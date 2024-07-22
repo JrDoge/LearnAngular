@@ -13,6 +13,7 @@ import type { CourseData } from '../course-data';
 })
 export class CoursesService {
   coursesCollection$ = new BehaviorSubject<CourseData[]>([]);
+  notFound!: boolean;
 
   loadCourses$(courseName: string): Observable<void> {
     const courses: CourseData[] = courseMock.sort((a, b) =>
@@ -24,7 +25,13 @@ export class CoursesService {
           val.title.toLowerCase().includes(courseName.toLowerCase())
         )
       ),
-      tap((val) => this.coursesCollection$.next(val)),
+      tap((val) => {
+        if (val.length === 0) {
+          this.notFound = true;
+        }
+        this.coursesCollection$.next(val);
+        this.notFound = false;
+      }),
       map(() => undefined)
     );
   }

@@ -6,8 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './courses-page.component.less',
 })
 export class CoursesPageComponent {
-  searchRequest!: string;
-  searchCourse(searchRequest: string) {
-    this.searchRequest = searchRequest;
-  }
+
 }
