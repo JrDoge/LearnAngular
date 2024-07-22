@@ -2,7 +2,8 @@
 /* eslint-disable dot-notation */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { BehaviorSubject, map } from 'rxjs';
 import { courseMock } from '../components/course-data/course-mock';
 import type { CourseData } from '../course-data';
@@ -14,19 +15,18 @@ export class CoursesService {
   coursesCollection$ = new BehaviorSubject<CourseData[]>([]);
 
   loadCourses$(courseName: string): Observable<void> {
-    const courses: CourseData[] = courseMock
-      .sort((a, b) => this.sortCourses(a, b))
-      .filter((val) =>
-        val.title.toLowerCase().includes(courseName.toLowerCase())
-      );
-
-    this.coursesCollection$.next(courses);
-
-    const ob$: Observable<void> = new Observable((observer) => {
-      observer.next();
-      observer.complete();
-    });
-    return ob$;
+    const courses: CourseData[] = courseMock.sort((a, b) =>
+      this.sortCourses(a, b)
+    );
+    return of(courses).pipe(
+      map((value) =>
+        value.filter((val) =>
+          val.title.toLowerCase().includes(courseName.toLowerCase())
+        )
+      ),
+      tap((val) => this.coursesCollection$.next(val)),
+      map(() => undefined)
+    );
   }
 
   getCoursesById(id: string): CourseData | undefined {
@@ -41,7 +41,7 @@ export class CoursesService {
   }
 
   addCourse(newCourse: CourseData) {
-    this.coursesCollection$.pipe(map((val) => val.push(newCourse))).subscribe();
+    return this.coursesCollection$.pipe(map((val) => val.push(newCourse)));
   }
 
   editCourse(id: string, info: Partial<CourseData>): void {
@@ -60,13 +60,13 @@ export class CoursesService {
   }
 
   deleteCourse(id: string) {
-    let foundCourseIndex;
+    let index;
     this.coursesCollection$
       .asObservable()
       .pipe(
         map((val) => {
-          foundCourseIndex = val.findIndex((el) => el.id === id);
-          val.splice(foundCourseIndex, 1);
+          index = val.findIndex((el) => el.id === id);
+          val.splice(index, 1);
         })
       )
       .subscribe();

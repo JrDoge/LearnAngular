@@ -1,17 +1,22 @@
 import { Component, Inject, ViewChild } from '@angular/core';
+import type { Observable } from 'rxjs';
 import {
   debounceTime,
+  delay,
   distinctUntilChanged,
   filter,
   fromEvent,
   map,
   switchMap,
   takeUntil,
+  tap,
+  timer,
 } from 'rxjs';
 import { TuiDestroyService } from '@taiga-ui/cdk';
 import { CoursesService } from '../../services/courses.service';
 import type { CourseData } from '../../course-data';
 import { SearchSectionComponent } from '../search-section/search-section.component';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-course-list',
@@ -21,25 +26,24 @@ import { SearchSectionComponent } from '../search-section/search-section.compone
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  courses: CourseData[] = [];
+  notFound = false;
+
+  courses$!: Observable<CourseData[]>;
 
   @ViewChild(SearchSectionComponent) component!: SearchSectionComponent;
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService,
-    @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService
+    @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
+    @Inject(LoaderService) private readonly loader: LoaderService
   ) {
-    courseService.coursesCollection$.subscribe((course) => {
-      this.courses = course;
-      console.log(course);
-    });
-
-    courseService
-      .loadCourses$('')
-      .subscribe((course) => console.log('end', course));
+    loader.showLoader();
+    timer(1000).subscribe();
+    this.courses$ = courseService.coursesCollection$;
+    loader.hideLoader();
   }
 
   loadNewCourses() {
-    console.log(this.courses);
+    console.log(this.courses$);
   }
 
   deleteSetCourse(id: string) {
@@ -56,8 +60,14 @@ export class CourseListComponent {
         debounceTime(1000),
         distinctUntilChanged(),
         filter((v) => v.length >= 3),
-        switchMap((v) => this.courseService.loadCourses$(v))
+        switchMap((v) => this.courseService.loadCourses$(v)),
+        tap(() => {
+          if (this.courseService.coursesCollection$.value.length === 0) {
+            this.notFound = true;
+          }
+        }),
+        delay(1000)
       )
-      .subscribe();
+      .subscribe(() => this.loader.hideLoader());
   }
 }

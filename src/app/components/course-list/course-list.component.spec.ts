@@ -19,7 +19,7 @@ describe('Если в качестве данных о курсах переда
 
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
-    component.courses = [];
+    component.courses$ = [];
     fixture.detectChanges();
   });
 
@@ -54,7 +54,7 @@ describe('Если в качестве данных о курсах переда
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    component.courses = courseMock;
+    component.courses$ = courseMock;
     fixture.detectChanges();
   });
 
@@ -92,7 +92,7 @@ describe('Если поступила строка с курсом ', () => {
     console.log(changes);
     component.ngOnChanges(changes);
     await fixture.whenStable().then(() => {
-      expect(component.courses.length).toBeGreaterThanOrEqual(1);
+      expect(component.courses$.length).toBeGreaterThanOrEqual(1);
     });
   });
 });
@@ -108,19 +108,19 @@ describe('Если от компонента курса пришло событ�
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    component.courses = courseMock;
+    component.courses$ = courseMock;
     fixture.detectChanges();
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse(component.courses[0].id);
+    component.deleteSetCourse(component.courses$[0].id);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
   it('То метод удаления курса был вызван с аргументом - id курса ', () => {
-    const selectedCourse = component.courses[0].id;
+    const selectedCourse = component.courses$[0].id;
 
     const spy = jest.spyOn(component, deleteCourseMethod);
 
@@ -140,7 +140,7 @@ describe('Если нажать на кнопку "Load more"', () => {
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
 
-    component.courses = courseMock;
+    component.courses$ = courseMock;
     fixture.detectChanges();
   });
 
