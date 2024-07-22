@@ -14,8 +14,8 @@ export class LoginSectionComponent {
   enteredPass = '';
 
   router: Router = inject(Router);
-  showLoader!: boolean;
-  disabled!: boolean;
+  showLoader = false;
+  disabled = false;
   constructor(@Inject(AuthService) private readonly authService: AuthService) {}
 
   logining() {
