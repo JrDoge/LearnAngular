@@ -27,8 +27,14 @@ export class AuthService {
           throw new Error('Wrong login or password try again');
         }
         return val;
+        return val;
       })
     );
+    user$.subscribe({
+      next: (val) => {
+        this.setUserInStorage(val.name, val.token);
+      },
+    });
     user$.subscribe({
       next: (val) => {
         this.setUserInStorage(val.name, val.token);
