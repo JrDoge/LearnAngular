@@ -29,7 +29,7 @@ export class SearchSectionComponent {
   ) {}
 
   ngOnInit(): void {
-    const input = document.getElementById('searchSection') as HTMLInputElement
+    const input = document.getElementById('searchSection') as HTMLInputElement;
 
     fromEvent(input, 'keyup')
       .pipe(
@@ -39,13 +39,7 @@ export class SearchSectionComponent {
         distinctUntilChanged(),
         filter((v) => v.length >= 3),
         switchMap((v) => this.courseService.loadCourses$(v)),
-        tap(() => {
-          if (this.courseService.coursesCollection$.value.length === 0) {
-            this.loader.showLoader();
-          } else {
-            this.loader.showLoader();
-          }
-        }),
+        tap(() => this.loader.showLoader()),
         delay(1000)
       )
       .subscribe(() => this.loader.hideLoader());
