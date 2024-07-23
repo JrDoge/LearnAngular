@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './courses-page.component.html',
   styleUrl: './courses-page.component.less',
 })
-export class CoursesPageComponent {
-
-}
+export class CoursesPageComponent {}

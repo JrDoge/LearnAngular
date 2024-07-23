@@ -1,5 +1,5 @@
-import { Component, Inject, Input } from '@angular/core';
-import { tap, type Observable } from 'rxjs';
+import { Component, Inject } from '@angular/core';
+import { type Observable } from 'rxjs';
 
 import { CoursesService } from '../../services/courses.service';
 import type { CourseData } from '../../course-data';
@@ -21,8 +21,8 @@ export class CourseListComponent {
   ) {
     this.courses$ = courseService.coursesCollection$;
     courseService.coursesCollection$.asObservable().subscribe(() => {
-      this.notFound = courseService.notFound;}
-    );
+      this.notFound = courseService.notFound;
+    });
   }
 
   loadNewCourses() {
