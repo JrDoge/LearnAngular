@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -10,9 +10,11 @@ import { AuthService } from '../../services/auth.service';
 export class SimpleHeaderComponent {
   logoSrc = 'assets/svgs/Logo.svg';
   iconsSrc = ['assets/svgs/icon-16.svg', 'assets/svgs/Icon.svg'];
-  router: Router = inject(Router);
   userName!: string | null;
-  constructor(@Inject(AuthService) private readonly authService: AuthService) {
+  constructor(
+    @Inject(AuthService) private readonly authService: AuthService,
+    @Inject(Router) private readonly router: Router
+  ) {
     authService.getUserInfo().subscribe({
       next: (val) => {
         this.userName = val;

@@ -4,7 +4,7 @@
             <form>
                 <tui-input 
                 tuiTextfieldIconLeft = "tuiIconSearchLarge"
-                class="input"  name="searchSection" [(ngModel)]="searchRequest">{{searchHint}}
+                class="input"  name="searchSection" (input)="onKey()" [(ngModel)]="searchRequest">{{searchHint}}
                     <input id="searchSection" placeholder="Placeholder"
                         tuiTextfield>
                 </tui-input>

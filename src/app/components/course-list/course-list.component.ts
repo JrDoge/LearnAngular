@@ -14,12 +14,19 @@ export class CourseListComponent {
 
   notFound = false;
 
-  courses$!: Observable<CourseData[]>;
+  courses$: Observable<CourseData[]> =
+    this.courseService.coursesCollection$.asObservable();
 
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService
   ) {
-    this.courses$ = courseService.coursesCollection$.asObservable();
+    courseService.coursesCollection$.subscribe((v) => {
+      if (v.length === 0) {
+        this.notFound = true;
+      } else {
+        this.notFound = false;
+      }
+    });
   }
 
   loadNewCourses() {

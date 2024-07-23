@@ -1,11 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import {
   debounceTime,
   delay,
   distinctUntilChanged,
   filter,
-  fromEvent,
-  map,
   switchMap,
   takeUntil,
   tap,
@@ -23,19 +21,22 @@ export class SearchSectionComponent {
   searchRequest = '';
   searchHint = 'Name, fragment or date';
 
+  @Output() inputEvent = new EventEmitter<string>();
+
   constructor(
     @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
     @Inject(LoaderService) private readonly loader: LoaderService,
     @Inject(CoursesService) private readonly courseService: CoursesService
   ) {}
 
-  ngOnInit(): void {
-    const input = document.getElementById('searchSection') as HTMLInputElement;
+  onKey(): void {
+    this.inputEvent.emit(this.searchRequest);
+  }
 
-    fromEvent(input, 'keyup')
+  ngOnInit(): void {
+    this.inputEvent
       .pipe(
         takeUntil(this.destroy$),
-        map(() => input.value),
         debounceTime(1000),
         distinctUntilChanged(),
         filter((v) => v.length >= 3),
