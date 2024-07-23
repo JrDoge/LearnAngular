@@ -19,10 +19,7 @@ export class CourseListComponent {
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService
   ) {
-    this.courses$ = courseService.coursesCollection$;
-    courseService.coursesCollection$.asObservable().subscribe(() => {
-      this.notFound = courseService.notFound;
-    });
+    this.courses$ = courseService.coursesCollection$.asObservable();
   }
 
   loadNewCourses() {

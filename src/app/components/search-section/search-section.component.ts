@@ -22,6 +22,7 @@ import { CoursesService } from '../../services/courses.service';
 export class SearchSectionComponent {
   searchRequest = '';
   searchHint = 'Name, fragment or date';
+
   constructor(
     @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
     @Inject(LoaderService) private readonly loader: LoaderService,

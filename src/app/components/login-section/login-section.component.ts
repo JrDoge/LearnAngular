@@ -14,17 +14,13 @@ export class LoginSectionComponent {
   enteredLogin = '';
   enteredPass = '';
 
-  router: Router = inject(Router);
-  showLoader!: boolean;
-  disabled!: boolean;
   constructor(
     @Inject(AuthService) private readonly authService: AuthService,
-    @Inject(LoaderService) private readonly loaderService: LoaderService
+    @Inject(LoaderService) private readonly loaderService: LoaderService,
+    @Inject(Router) private readonly router: Router
   ) {}
 
   logining() {
-    this.showLoader = true;
-    this.disabled = true;
     const message$ = this.authService.login(
       this.enteredLogin,
       this.enteredPass
@@ -32,15 +28,11 @@ export class LoginSectionComponent {
     this.loaderService.showLoader();
     message$.subscribe({
       next: () => {
-        this.showLoader = false;
-        this.disabled = false;
         this.loaderService.hideLoader();
         this.router.navigate(['/courses']);
       },
       error: () => {
         this.loaderService.hideLoader();
-        this.showLoader = false;
-        this.disabled = false;
       },
     });
   }

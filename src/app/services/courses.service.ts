@@ -13,7 +13,6 @@ import type { CourseData } from '../course-data';
 })
 export class CoursesService {
   coursesCollection$ = new BehaviorSubject<CourseData[]>([]);
-  notFound!: boolean;
 
   loadCourses$(courseName: string): Observable<void> {
     const courses: CourseData[] = courseMock.sort((a, b) =>
@@ -26,25 +25,16 @@ export class CoursesService {
         )
       ),
       tap((val) => {
-        if (val.length === 0) {
-          this.notFound = true;
-        }
         this.coursesCollection$.next(val);
-        this.notFound = false;
       }),
       map(() => undefined)
     );
   }
 
-  getCoursesById(id: string): CourseData | undefined {
-    let course: CourseData | undefined;
-    this.coursesCollection$
+  getCoursesById(id: string): Observable<CourseData | undefined> {
+    return this.coursesCollection$
       .asObservable()
-      .pipe(map((val) => val.find((el) => el.id === id)))
-      .subscribe((res) => {
-        course = res;
-      });
-    return course;
+      .pipe(map((val) => val.find((el) => el.id === id)));
   }
 
   addCourse(newCourse: CourseData) {
@@ -58,7 +48,12 @@ export class CoursesService {
       .pipe(
         map((val) => {
           index = val.findIndex((el) => el.id === id);
-          const gettedCourse = this.getCoursesById(id) as CourseData;
+          let gettedCourse!: CourseData;
+          this.getCoursesById(id).subscribe((course) => {
+            if (course !== undefined) {
+              gettedCourse = course;
+            }
+          });
           const editCourse = Object.assign(gettedCourse, info);
           val[index] = editCourse;
         })

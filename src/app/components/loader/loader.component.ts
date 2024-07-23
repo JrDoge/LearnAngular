@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import type { Observable } from 'rxjs';
 import { LoaderService } from '../../services/loader.service';
 
 @Component({
@@ -7,11 +8,11 @@ import { LoaderService } from '../../services/loader.service';
   styleUrl: './loader.component.less',
 })
 export class LoaderComponent {
-  isVisible = false;
+  isVisible: Observable<boolean> = this.loader.isVisible$;
 
   constructor(@Inject(LoaderService) readonly loader: LoaderService) {
-    this.loader.isVisible$.subscribe((isVisible) => {
-      this.isVisible = isVisible;
-    });
+    // this.loader.isVisible$.subscribe((isVisible) => {
+    //   this.isVisible = isVisible;
+    // });
   }
 }
