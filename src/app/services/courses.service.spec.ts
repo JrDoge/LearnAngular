@@ -9,7 +9,7 @@ describe('CoursesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(CoursesService);
-    service.loadCourses$('').subscribe();
+    service.loadCourses$('');
   });
 
   it('should add new course', () => {
@@ -22,7 +22,7 @@ describe('CoursesService', () => {
       description: 'Bla bla bla bla',
       topRated: false,
     };
-    service.addCourse(newCourse).subscribe();
+    service.addCourse(newCourse);
 
     service.coursesCollection$.subscribe((val) => {
       newCourseLength = val.length;
@@ -45,14 +45,15 @@ describe('CoursesService', () => {
   });
   it('should return course with chosen id', () => {
     let targetCourse;
-    let gettedCourse;
     service.coursesCollection$.subscribe((val) => {
       targetCourse = val.find((el) => el.id === '3');
     });
-    service.getCoursesById('3').subscribe((val) => {
-      gettedCourse = val;
-    });
+    const gettedCourse = service.getCoursesById('3');
     expect(gettedCourse).toEqual(targetCourse);
+  });
+  it("shouldn't return course with chosen id", () => {
+    const gettedCourse = service.getCoursesById('8');
+    expect(gettedCourse).toBeUndefined();
   });
   it('should delete course with chosen id', () => {
     let newCourseLength;

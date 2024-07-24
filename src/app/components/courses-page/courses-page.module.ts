@@ -11,6 +11,7 @@ import { FilterModule } from '../../pipes/filter.module';
 import { CoursesPageComponent } from './courses-page.component';
 import { LoginSectionModule } from '../login-section/login-section.module';
 import { AuthService } from '../../services/auth.service';
+import { AddCourseModule } from '../add-course/add-course.module';
 
 @NgModule({
   declarations: [CoursesPageComponent],
@@ -25,6 +26,7 @@ import { AuthService } from '../../services/auth.service';
     RouterOutlet,
     RouterLink,
     CommonModule,
+    AddCourseModule,
   ],
   exports: [CoursesPageComponent],
   providers: [AuthService],

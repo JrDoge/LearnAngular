@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+} from '@angular/core';
 import {
   debounceTime,
   delay,
@@ -16,6 +21,7 @@ import { CoursesService } from '../../services/courses.service';
   selector: 'app-search-section',
   templateUrl: './search-section.component.html',
   styleUrl: './search-section.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSectionComponent {
   searchRequest = '';
