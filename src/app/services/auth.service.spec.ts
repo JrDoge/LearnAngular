@@ -20,8 +20,8 @@ describe('AuthService', () => {
     expect(spy).toHaveBeenCalled();
   });
   it('should return is user authorized', () => {
-    const spy = jest.spyOn(service, 'isAuthorized');
-    service.isAuthorized();
+    const spy = jest.spyOn(service, 'isAuthorized$');
+    service.isAuthorized$();
     expect(spy).toHaveBeenCalled();
   });
   it('should log out curent user', () => {

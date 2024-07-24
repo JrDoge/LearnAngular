@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, Inject } from '@angular/core';
 import {
   debounceTime,
   delay,
@@ -21,7 +21,7 @@ export class SearchSectionComponent {
   searchRequest = '';
   searchHint = 'Name, fragment or date';
 
-  @Output() inputEvent = new EventEmitter<string>();
+  inputEvent = new EventEmitter<string>();
 
   constructor(
     @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,

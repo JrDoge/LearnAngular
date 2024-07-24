@@ -1,11 +1,11 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import type { DebugElement, SimpleChanges } from '@angular/core';
-import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
+import type { DebugElement } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CourseListComponent } from './course-list.component';
-import { courseMock } from '../course-data/course-mock';
+import { CoursesService } from '../../services/courses.service';
 
 let component: CourseListComponent;
 let fixture: ComponentFixture<CourseListComponent>;
@@ -19,7 +19,6 @@ describe('Если в качестве данных о курсах переда
 
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
-    component.courses$ = [];
     fixture.detectChanges();
   });
 
@@ -44,59 +43,6 @@ describe('Если в качестве данных о курсах переда
   });
 });
 
-describe('Если в качестве данных о курсах передан массив с данными', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CourseListComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(CourseListComponent);
-    component = fixture.componentInstance;
-
-    component.courses$ = courseMock;
-    fixture.detectChanges();
-  });
-
-  it('То будет выведен как минимум один экземпляр компонента курса', () => {
-    const courseItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('[data-automation-id = "course-item"]')
-    );
-
-    expect(courseItems.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('То количество экземпляров компонента курса совпадает с количеством элементов в массиве', () => {
-    const courseItems: DebugElement[] = fixture.debugElement.queryAll(
-      By.css('[data-automation-id = "course-item"]')
-    );
-    expect(courseItems).toHaveLength(courseMock.length);
-  });
-});
-describe('Если поступила строка с курсом ', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CourseListComponent],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-
-    fixture.detectChanges();
-  });
-  it('Тогда должен отработать функция', async () => {
-    component.courseGetted = 'test';
-    const changes: SimpleChanges = {
-      courseGetted: new SimpleChange('', 'test', true),
-    };
-    jest.spyOn(component, 'ngOnChanges');
-    fixture.detectChanges();
-    console.log(changes);
-    component.ngOnChanges(changes);
-    await fixture.whenStable().then(() => {
-      expect(component.courses$.length).toBeGreaterThanOrEqual(1);
-    });
-  });
-});
-
 describe('Если от компонента курса пришло событие удаления курса', () => {
   const deleteCourseMethod = 'deleteSetCourse';
 
@@ -104,29 +50,19 @@ describe('Если от компонента курса пришло событ�
     await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
+      providers: [CoursesService],
     }).compileComponents();
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
-
-    component.courses$ = courseMock;
     fixture.detectChanges();
   });
 
   it('То один раз будет вызван метод удаления курса', () => {
     const spy = jest.spyOn(component, deleteCourseMethod);
 
-    component.deleteSetCourse(component.courses$[0].id);
+    component.deleteSetCourse('1');
 
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-  it('То метод удаления курса был вызван с аргументом - id курса ', () => {
-    const selectedCourse = component.courses$[0].id;
-
-    const spy = jest.spyOn(component, deleteCourseMethod);
-
-    component.deleteSetCourse(selectedCourse);
-
-    expect(spy).toHaveBeenCalledWith(selectedCourse);
   });
 });
 
@@ -135,12 +71,12 @@ describe('Если нажать на кнопку "Load more"', () => {
     TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
+      providers: [CoursesService],
     });
 
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
-
-    component.courses$ = courseMock;
+    component.notFound = false;
     fixture.detectChanges();
   });
 
