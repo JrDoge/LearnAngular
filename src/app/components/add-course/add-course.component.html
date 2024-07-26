@@ -1,28 +1,48 @@
-<form action="">
-   <div class="add-course-ui">
-      <H1>New course</H1>
-   <div class="add-window">
-      Title
-      <tui-input></tui-input>
-      Description
-      <tui-textarea></tui-textarea>
-      <div class="date-duration">
-         Date
-         <tui-input-date></tui-input-date>
-         Duration
-         <tui-input-number></tui-input-number>
-         <p>1h28</p>
+<main>
+   <app-simple-header></app-simple-header>
+<body>
+   <form>
+      <div class="add-course-ui">
+         <h1>New course</h1>
+   
+      <div class="add-window">
+         <label [tuiLabel]="'Title'">
+            <tui-input [tuiTextfieldCleaner]="true" name="title" [(ngModel)]="title" [tuiTextfieldLabelOutside]="true">
+            <input tuiTextfield>
+         </tui-input></label>
+         <br>
+         <label [tuiLabel]="'Description'">
+            <tui-textarea [tuiTextfieldCleaner]="true" name="description" [(ngModel)]="description" [tuiTextfieldLabelOutside]="true"></tui-textarea>
+         </label>
+         <br>
+         <div class="date-duration">
+            <label [tuiLabel]="'Date'">
+               <tui-input-date [tuiTextfieldLabelOutside]="true" name="date" [(ngModel)]="date" >dd.mm.yyyy<input tuiTextfield placeholder="dd.mm.yyyy"></tui-input-date>
+            </label>
+            <div class="duration-window">
+               <label [tuiLabel]="'Duration'">
+                  <tui-input-number [tuiTextfieldCleaner]="true" name="duration" [(ngModel)]="duration" [tuiTextfieldLabelOutside]="true">In minutes<input tuiTextfield placeholder="In minutes"></tui-input-number>
+               </label>
+               <p>{{duration | duration}}</p>
+            </div>
+         </div>
+         <br>
+         <label [tuiLabel]="'Authors'">
+            <tui-multi-select [tuiTextfieldLabelOutside]="true" name="authors" [(ngModel)]="authors"></tui-multi-select>
+         </label>     
+         </div>
+         <div class="buttons">
+            <button tuiButton>
+               Save
+            </button>
+            <button  tuiButton appearance="secondary">
+               Cancel
+            </button>
+         </div>
       </div>
-      Authors
-      <tui-multi-select></tui-multi-select>
-      </div>
-   </div>
-</form>
-<div class="buttons">
-   <button tuiButton>
-      Save
-   </button>
-   <button  tuiButton appearance="secondary">
-      Cancel
-   </button>
-</div>
+   </form>
+</body>
+<app-simple-footer></app-simple-footer>
+</main>
+
+

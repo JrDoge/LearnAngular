@@ -7,6 +7,7 @@ import {
 } from '@taiga-ui/core';
 import { TuiInputModule } from '@taiga-ui/kit';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { SearchSectionComponent } from './search-section.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SearchSectionComponent } from './search-section.component';
     FormsModule,
     ReactiveFormsModule,
     TuiTextfieldControllerModule,
+    RouterLink,
   ],
   exports: [SearchSectionComponent],
 })

@@ -12,22 +12,14 @@ import type { CourseData } from '../../course-data';
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
 
-  notFound = false;
+  notFound = this.courseService.notFound;
 
   courses$: Observable<CourseData[]> =
     this.courseService.coursesCollection$.asObservable();
 
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService
-  ) {
-    courseService.coursesCollection$.subscribe((v) => {
-      if (v.length === 0) {
-        this.notFound = true;
-      } else {
-        this.notFound = false;
-      }
-    });
-  }
+  ) {}
 
   loadNewCourses() {
     console.log(this.courses$);
