@@ -1,19 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   debounceTime,
-  delay,
   distinctUntilChanged,
   filter,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { TuiDestroyService } from '@taiga-ui/cdk';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoaderService } from '../../services/loader.service';
 import { CoursesService } from '../../services/courses.service';
 
@@ -24,32 +19,35 @@ import { CoursesService } from '../../services/courses.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSectionComponent {
-  searchRequest = '';
   searchHint = 'Name, fragment or date';
-
-  inputEvent = new EventEmitter<string>();
+  search = new FormControl('', { nonNullable: true });
 
   constructor(
     @Inject(TuiDestroyService) private readonly destroy$: TuiDestroyService,
     @Inject(LoaderService) private readonly loader: LoaderService,
-    @Inject(CoursesService) private readonly courseService: CoursesService
+    @Inject(CoursesService) private readonly courseService: CoursesService,
+    @Inject(Router) private readonly router: Router
   ) {}
 
-  onKey(): void {
-    this.inputEvent.emit(this.searchRequest);
-  }
-
   ngOnInit(): void {
-    this.inputEvent
+    this.search.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(1000),
         distinctUntilChanged(),
         filter((v) => v.length >= 3),
-        switchMap((v) => this.courseService.loadCourses$(v)),
-        tap(() => this.loader.showLoader()),
-        delay(1000)
+        switchMap((v) => this.courseService.searchCourses(v))
       )
-      .subscribe(() => this.loader.hideLoader());
+      .subscribe((val) => {
+        if (val.length === 0) {
+          this.courseService.notFound.next(true);
+          return;
+        }
+        this.courseService.notFound.next(false);
+      });
+  }
+
+  addCourse() {
+    this.router.navigate(['/courses/new']);
   }
 }

@@ -1,43 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  TuiDataListWrapperModule,
-  TuiFieldErrorPipeModule,
-  TuiInputDateModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiMultiSelectModule,
-  TuiTextareaModule,
-} from '@taiga-ui/kit';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterLink, provideRouter } from '@angular/router';
 import {
   TuiButtonModule,
-  TuiDataListModule,
-  TuiErrorModule,
-  TuiLabelModule,
   TuiTextfieldControllerModule,
+  TuiLabelModule,
+  TuiDataListModule,
+  TuiDropdownModule,
 } from '@taiga-ui/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { provideRouter, RouterLink } from '@angular/router';
-import { AddCourseComponent } from './add-course.component';
-import { SimpleFooterModule } from '../simple-footer/simple-footer.module';
+import {
+  TuiInputModule,
+  TuiTextareaModule,
+  TuiMultiSelectModule,
+  TuiDataListWrapperModule,
+} from '@taiga-ui/kit';
+import { TuiLetModule } from '@taiga-ui/cdk';
 import { SimpleHeaderModule } from '../simple-header/simple-header.module';
+import { routes } from '../../app.routes';
 import { DurationModule } from '../../pipes/duration.module';
 import { CoursesService } from '../../services/courses.service';
-import { routes } from '../../app.routes';
+import { SimpleFooterModule } from '../simple-footer/simple-footer.module';
+import { EditCourseComponent } from './edit-course.component';
 
 @NgModule({
-  declarations: [AddCourseComponent],
+  declarations: [EditCourseComponent],
   imports: [
     CommonModule,
+    TuiDropdownModule,
     ReactiveFormsModule,
     FormsModule,
     TuiInputModule,
     TuiTextareaModule,
     TuiMultiSelectModule,
     TuiButtonModule,
-    TuiInputDateModule,
-    TuiInputNumberModule,
     TuiTextfieldControllerModule,
     TuiLabelModule,
     TuiDataListModule,
@@ -46,10 +42,9 @@ import { routes } from '../../app.routes';
     DurationModule,
     SimpleHeaderModule,
     RouterLink,
-    TuiErrorModule,
-    TuiFieldErrorPipeModule,
+    TuiLetModule,
   ],
-  exports: [AddCourseComponent],
+  exports: [EditCourseComponent],
   providers: [CoursesService, provideRouter(routes)],
 })
-export class AddCourseModule {}
+export class EditCourseModule {}

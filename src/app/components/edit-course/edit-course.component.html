@@ -1,0 +1,51 @@
+<main>
+    <app-simple-header></app-simple-header>
+ <body>
+   <div class="main">
+      <h4 class="tui-text_h4">Edit course</h4>
+      <div>
+         <div class="info">
+            <p id="title" class="tui-text_body-m-2">Title</p>
+            <p id="titleName" data-automation-id="title" class="tui-text_body-m-2">{{title | titlecase}}</p>
+         </div>
+         <div class="info">
+            <p id="title" class="tui-text_body-m-2">Date</p>
+            <p id="titleName" class="tui-text_body-m-2">{{date | date: 'dd.MM.yyyy'}}</p>
+         </div>
+         <div class="info">
+            <p id="title" class="tui-text_body-m-2">Duration</p>
+            <p id="titleName" class="tui-text_body-m-2">{{duration | duration}}</p>
+         </div>
+      </div>
+      <div class="description">
+         <label tuiLabel="Description">
+            <tui-textarea [tuiTextfieldLabelOutside]="true" [maxLength]="500" [formControl]="description"></tui-textarea>
+         </label>
+      </div>
+      <div class="authors">
+         <tui-multi-select
+            *tuiLet="items$ | async as items"
+            class="b-form"
+            [tuiTextfieldLabelOutside]="true"
+            name="authors" 
+            tuiDropdownDirection="bottom"
+            [formControl]="chosenAuthors"
+            (searchChange)="onSearchChange($event)">
+            <tui-data-list-wrapper
+            *tuiDataList
+            tuiMultiSelectGroup
+            [items]="items">
+         </tui-data-list-wrapper></tui-multi-select>
+      </div>
+      <div class="buttons">
+         <button data-id="save" tuiButton (click)="saveCourse()">
+            Save
+         </button>
+         <button  tuiButton appearance="secondary" (click)="cancel()">
+            Cancel
+         </button>
+      </div>
+   </div>
+ </body>
+ <app-simple-footer></app-simple-footer>
+ </main>

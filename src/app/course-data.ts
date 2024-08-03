@@ -5,4 +5,5 @@ export interface CourseData {
   duration: number;
   description: string;
   topRated: boolean;
+  authors: string[];
 }

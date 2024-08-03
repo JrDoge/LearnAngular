@@ -1,0 +1,179 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "login": "fghfghfg",
+      "password": "hgfhfghfg",
+      "token": "JrDfsdfse254353$543654",
+      "name": "Evan"
+    },
+    {
+      "id": "2",
+      "login": "JrDoge",
+      "password": "240399Saw",
+      "token": "JrDfsdfse254353$240399Saw",
+      "name": "Konstantin Rogov"
+    },
+    {
+      "id": "3",
+      "login": "nbgfhfg",
+      "password": "hfg43534v",
+      "token": "JrDfsdfse254353$5464555",
+      "name": "Michael"
+    },
+    {
+      "id": "4",
+      "login": "hjfg654",
+      "password": "tgsd53",
+      "token": "JrDfsdfse254353$24077657399Saw",
+      "name": "Eugene"
+    },
+    {
+      "id": "5",
+      "login": "bgdfghdrfh",
+      "password": "hfgdhjff534234",
+      "token": "JrDfsdfse2543768768$240399Saw",
+      "name": "Max"
+    },
+    {
+      "id": "6",
+      "login": "hgfdghdsfgd",
+      "password": "543534gfds",
+      "token": "JrDfsdfse2987978353$240399Saw",
+      "name": "Ivan"
+    },
+    {
+      "id": "7",
+      "login": "hbgfbsdfgsd",
+      "password": "hfgsdfsfs",
+      "token": "JrDfsdfse2900093$240399Saw",
+      "name": "Ann"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "video course 1",
+      "creationDate": "2024-04-09",
+      "duration": 55,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": false,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "video course 2",
+      "creationDate": "2024-05-03",
+      "duration": 95,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...) Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": true,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "super long title of difficult video course about programming and frontend development for taiga",
+      "creationDate": "2024-05-09",
+      "duration": 30,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": true,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "video course 3",
+      "creationDate": "2024-05-10",
+      "duration": 120,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": false,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "video course 4",
+      "creationDate": "2024-04-30",
+      "duration": 128,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": true,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "6",
+      "title": "custom course name for seach test",
+      "creationDate": "2024-06-29",
+      "duration": 60,
+      "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
+      "topRated": false,
+      "authors": [
+        "Konstantin Decker",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "1722294975415",
+      "title": "gdfgfdgfdgfdvbfdgshtb",
+      "creationDate": "2024-07-30",
+      "duration": 5435343,
+      "description": "рпаааааааааааааааааааааааааааааааааааааааhpiuertgolhjnkdfnhjvnidfjpkjngiophnjdfkhjngpojndgpjnodgnjdgnpokjdfnokjpgfdjpnokdnfgoinjpokdfgniopgniopfdfnpiojgokjnpdfjnopkgnodpfnopgnfdiojpgonpndifopgnodfniogdfnogd\nfdhjiogdfojigjiodfgjiodfjiogjiodfgjiodf",
+      "topRated": false,
+      "authors": [
+        "Konstantin Decker",
+        "Maxim Skukov",
+        "Ivan Idonov",
+        "Petr Ivanov"
+      ]
+    },
+    {
+      "id": "1722696072440",
+      "title": "jhgjhgjghjgh",
+      "creationDate": "2024-07-27",
+      "duration": 60,
+      "description": "jghjghjghjghjghjghjghjghnghnfgshniok[jpbnfgonmk;bgmpoklpfgbonmkhjtfgmopomkponmkongfdmop",
+      "topRated": false,
+      "authors": [
+        "Konstantin Decker",
+        "Maxim Skukov"
+      ]
+    }
+  ],
+  "authors": [
+    {
+      "id": "1",
+      "value": "Konstantin Decker"
+    },
+    {
+      "id": "2",
+      "value": "Petr Ivanov"
+    },
+    {
+      "id": "3",
+      "value": "Maxim Skukov"
+    },
+    {
+      "id": "4",
+      "value": "Ann Kanieva"
+    },
+    {
+      "id": "5",
+      "value": "Ivan Idonov"
+    },
+    {
+      "id": "6",
+      "value": "Mikhail Ivanov"
+    }
+  ]
+}

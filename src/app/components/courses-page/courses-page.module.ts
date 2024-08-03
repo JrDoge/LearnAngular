@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SimpleHeaderModule } from '../simple-header/simple-header.module';
 import { SimpleFooterModule } from '../simple-footer/simple-footer.module';
@@ -12,6 +12,7 @@ import { CoursesPageComponent } from './courses-page.component';
 import { LoginSectionModule } from '../login-section/login-section.module';
 import { AuthService } from '../../services/auth.service';
 import { AddCourseModule } from '../add-course/add-course.module';
+import { EditCourseModule } from '../edit-course/edit-course.module';
 
 @NgModule({
   declarations: [CoursesPageComponent],
@@ -23,10 +24,10 @@ import { AddCourseModule } from '../add-course/add-course.module';
     CourseDataModule,
     FilterModule,
     LoginSectionModule,
-    RouterOutlet,
     RouterLink,
     CommonModule,
     AddCourseModule,
+    EditCourseModule,
   ],
   exports: [CoursesPageComponent],
   providers: [AuthService],

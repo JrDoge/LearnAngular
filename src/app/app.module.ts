@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CoursesPageModule } from './components/courses-page/courses-page.module';
 import { LoaderModule } from './components/loader/loader.module';
@@ -17,6 +18,7 @@ import { LoaderModule } from './components/loader/loader.module';
     TuiRootModule,
     RouterOutlet,
     LoaderModule,
+    HttpClientModule,
   ],
   bootstrap: [AppComponent],
 })

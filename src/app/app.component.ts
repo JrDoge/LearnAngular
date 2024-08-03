@@ -1,6 +1,5 @@
-import { Component, Inject, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { Component } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
@@ -8,14 +7,4 @@ import { AuthService } from './services/auth.service';
   styleUrl: './app.component.less',
 })
 export class AppComponent {
-  router: Router = inject(Router);
-  constructor(@Inject(AuthService) authService: AuthService) {
-    authService.isAuthorized$().subscribe((val) => {
-      if (!val) {
-        this.router.navigate(['login']);
-      } else {
-        this.router.navigate(['/courses']);
-      }
-    });
-  }
 }

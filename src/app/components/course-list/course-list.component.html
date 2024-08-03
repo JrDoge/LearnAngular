@@ -2,13 +2,14 @@
 <div class="list-container" *ngIf="!(notFound | async) || false">
    <app-course-data *ngFor="let course of courses$ | async"
                 [course]='course'
-                (deleteEvent)="deleteSetCourse($event)"
+                (deleteEvent)="showDialog(template); id = $event"
+                (editEvent)="editCourse($event)"
                 data-automation-id="course-item"
                 >
                 </app-course-data>
   <button id="LoadBtn" appearance="secondary" tuiButton data-automation-id="load-button" (click)="loadNewCourses()">Load more</button>
 </div>
-  <ng-container *ngIf="(notFound | async) || false">
+<ng-container *ngIf="(notFound | async) || false">
     <tui-block-status class="list-without-data">
         <img 
         [src]="informationIcon" 
@@ -20,3 +21,32 @@
         Feel free to add new course
     </tui-block-status>
 </ng-container>
+<ng-template
+  #template
+  let-observer
+  >
+  <p>Do you really want to delete this course?</p>
+  <div class="tui-dialog">
+    <button
+    size="m"
+    tuiButton
+    type="button"
+    class="tui-dialog"
+    (click)="deleteCourse(id)"
+    (click)="observer.complete()"
+  >
+    Yes
+  </button>
+
+  <button
+    size="m"
+    tuiButton
+    class="tui-dialog"
+    appearance="secondary-destructive"
+    type="button"
+    (click)="observer.complete()"
+  >
+    No
+  </button>
+  </div>
+</ng-template>

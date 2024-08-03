@@ -1,47 +1,113 @@
 <main>
    <app-simple-header></app-simple-header>
-<body>
-   <form>
-      <div class="add-course-ui">
-         <h1>New course</h1>
-   
-      <div class="add-window">
-         <label [tuiLabel]="'Title'">
-            <tui-input [tuiTextfieldCleaner]="true" name="title" [(ngModel)]="title" [tuiTextfieldLabelOutside]="true">
-            <input tuiTextfield>
-         </tui-input></label>
-         <br>
-         <label [tuiLabel]="'Description'">
-            <tui-textarea [tuiTextfieldCleaner]="true" name="description" [(ngModel)]="description" [tuiTextfieldLabelOutside]="true"></tui-textarea>
-         </label>
-         <br>
-         <div class="date-duration">
-            <label [tuiLabel]="'Date'">
-               <tui-input-date [tuiTextfieldLabelOutside]="true" name="date" [(ngModel)]="date" >dd.mm.yyyy<input tuiTextfield placeholder="dd.mm.yyyy"></tui-input-date>
-            </label>
-            <div class="duration-window">
-               <label [tuiLabel]="'Duration'">
-                  <tui-input-number [tuiTextfieldCleaner]="true" name="duration" [(ngModel)]="duration" [tuiTextfieldLabelOutside]="true">In minutes<input tuiTextfield placeholder="In minutes"></tui-input-number>
-               </label>
-               <p>{{duration | duration}}</p>
-            </div>
+<div class="tui-container">
+   <div>
+      <form [formGroup]="course">
+         <div class="tui-col_6">
+            <h1 class="tui-form__header tui-form__header_margin-top_none">New course</h1>
+            <div class="tui-form__row">
+               <label [tuiLabel]="'Title'">
+                  <tui-input 
+                  required="true"
+                  formControlName="title"
+                  [tuiTextfieldCleaner]="true"
+                  name="title" 
+                  [tuiTextfieldLabelOutside]="true">
+               </tui-input></label>
+               <tui-error
+               formControlName="title"
+               [error]="[] | tuiFieldError | async">
+               </tui-error>
+               </div>
+               <div class="tui-form__row">
+                  <label [tuiLabel]="'Description'">
+                     <tui-textarea
+                     required="true"
+                     formControlName="description" 
+                     [tuiTextfieldCleaner]="true" 
+                     name="description"
+                     [tuiTextfieldLabelOutside]="true"
+                     ></tui-textarea>
+                  </label>
+                  <tui-error
+                  formControlName="description"
+                  [error]="[] | tuiFieldError | async"
+                  ></tui-error>
+               </div>
+               <div class="tui-form__row tui-form__row_multi-fields">
+                  <div class="tui-form__multi-field">
+                     <label [tuiLabel]="'Date'">
+                        <tui-input-date 
+                        required="true"
+                        formControlName="date"
+                        [tuiTextfieldLabelOutside]="true" 
+                        name="date"
+                        >dd.mm.yyyy<input tuiTextfield placeholder="dd.mm.yyyy"></tui-input-date>
+                     </label><tui-error
+                     formControlName="date"
+                     [error]="[] | tuiFieldError | async"
+                     ></tui-error>
+                  </div>
+                  <div class="tui-form__multi-field">
+                     <label [tuiLabel]="'Duration'">
+                        <tui-input-number
+                        formControlName="duration" 
+                        required="true"
+                        [tuiTextfieldCleaner]="true" 
+                        name="duration" 
+                        [tuiTextfieldLabelOutside]="true"
+                        >In minutes<input tuiTextfield placeholder="In minutes"></tui-input-number>
+                     </label><tui-error
+                     formControlName="duration"
+                     [error]="[] | tuiFieldError | async"
+                     ></tui-error>
+                  </div>
+                  <div class="duration">
+                     <p>{{(course.value.duration == (null || undefined)? 
+                        0: course.value.duration) | duration}}</p>
+                  </div>
+               </div>
+               <div class="tui-form__row">
+                  <label [tuiLabel]="'Authors'">
+                     <tui-multi-select
+                        formControlName="chosenAuthors"
+                        [tuiTextfieldLabelOutside]="true"
+                        minlength="1"
+                        name="authors" 
+                        required="true"
+                        >
+                        <tui-data-list-wrapper 
+                        *tuiDataList
+                        tuiMultiSelectGroup
+                        [items]="authors">
+                        </tui-data-list-wrapper>
+                     </tui-multi-select>
+                  </label><tui-error
+                  formControlName="chosenAuthors"
+                  [error]="[] | tuiFieldError | async"
+                  ></tui-error>   
+               </div>
+               <div class="tui-form__buttons">
+                  <button tuiButton 
+                  data-id="save"
+                  type="submit" 
+                  class="tui-form__button" 
+                  (click)="saveCourse()"
+                  >
+                     Save
+                  </button>
+                  <button  
+                  tuiButton class="tui-form__button" 
+                  appearance="secondary" 
+                  (click)="cancel()"
+                  >
+                     Cancel
+                  </button>
+               </div>
          </div>
-         <br>
-         <label [tuiLabel]="'Authors'">
-            <tui-multi-select [tuiTextfieldLabelOutside]="true" name="authors" [(ngModel)]="authors"></tui-multi-select>
-         </label>     
-         </div>
-         <div class="buttons">
-            <button tuiButton>
-               Save
-            </button>
-            <button  tuiButton appearance="secondary">
-               Cancel
-            </button>
-         </div>
-      </div>
-   </form>
-</body>
+      </form>
+   </div>
+</div>
 <app-simple-footer></app-simple-footer>
 </main>
 

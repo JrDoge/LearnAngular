@@ -1,40 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
-import { delay, from, of } from 'rxjs';
-import { find, map, take } from 'rxjs';
+import { finalize, from, of, switchMap } from 'rxjs';
+import { find, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import type { User } from '../user-info';
-import { Users } from './user-mock';
+
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  login(
-    login: string,
-    password: string,
-    users: User[] = Users
-  ): Observable<User> {
-    const user$ = from(Users).pipe(
-      delay(1000),
-      take(users.length),
-      find(
-        (v) =>
-          v.login.toLowerCase() === login.toLowerCase() &&
-          v.password === password
-      ),
-      map((val) => {
-        if (val === undefined) {
+  constructor(
+    @Inject(HttpClient) private readonly http: HttpClient,
+    @Inject(LoaderService) private readonly loader: LoaderService,
+    @Inject(Router) private readonly router: Router
+  ) {}
+
+  login(login: string, password: string) {
+    this.loader.showLoader();
+    this.http
+      .get<User[]>(
+        `http://localhost:3001/user?login=${login}&password=${password}`
+      )
+      .pipe(finalize(() => this.loader.hideLoader()))
+      .subscribe((response) => {
+        const result = response[0].token;
+        if (!result) {
           throw new Error('Wrong login or password try again');
+        } else {
+          this.setUserInStorage(result);
+          this.router.navigate(['/courses']);
         }
-        return val;
-      })
-    );
-    user$.subscribe({
-      next: (val) => {
-        this.setUserInStorage(val.name, val.token);
-      },
-    });
-    return user$;
+      });
   }
 
   logout() {
@@ -42,21 +41,21 @@ export class AuthService {
   }
 
   isAuthorized$() {
-    const userStorage = {
-      name: localStorage.getItem('name'),
-      token: localStorage.getItem('token'),
-    };
-    return of(userStorage).pipe(
-      find((user) => user.name !== null && user.token !== null)
-    );
+    return of(localStorage.getItem('token'));
   }
 
-  getUserInfo(): Observable<string | null> {
-    return of(localStorage.getItem('name')).pipe(map((val) => val));
+  getUserInfo(): Observable<User | undefined> {
+    const currentToken = localStorage.getItem('token');
+    return this.http
+      .get<User[]>(`http://localhost:3001/user?token${currentToken}`)
+      .pipe(
+        switchMap((data) => from(data)),
+        find((val) => val.token === currentToken),
+        map((user) => user)
+      );
   }
 
-  setUserInStorage(name: string, token: string) {
-    localStorage.setItem('name', name);
+  setUserInStorage(token: string) {
     localStorage.setItem('token', token);
   }
 }

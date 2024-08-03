@@ -6,7 +6,7 @@ describe('ChangeBorderDirective', () => {
     directive.border = '';
   });
   it('Должен быть зелёный border', () => {
-    directive.creationDate = '06-18-2024';
+    directive.creationDate = '2024-07-29';
     directive.ngOnChanges();
     expect(directive.border).toBe('1px greenyellow solid');
   });
@@ -17,7 +17,7 @@ describe('ChangeBorderDirective', () => {
     expect(directive.border).toBe('none');
   });
   it('Должен быть голубой border', () => {
-    directive.creationDate = '2024-06-29';
+    directive.creationDate = '2024-08-29';
     directive.ngOnChanges();
     expect(directive.border).toBe('1px lightskyblue solid');
   });

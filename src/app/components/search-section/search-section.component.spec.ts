@@ -20,8 +20,6 @@ describe('Если нажать на кнопку поиска', () => {
 
     fixture = TestBed.createComponent(SearchSectionComponent);
     component = fixture.componentInstance;
-
-    component.searchRequest = '54354353455345';
     fixture.detectChanges();
   });
 
@@ -30,7 +28,7 @@ describe('Если нажать на кнопку поиска', () => {
       By.css('.input')
     );
 
-    const spy = jest.spyOn(component.inputEvent, 'emit');
+    component.search.setValue('54354353455345')
 
     inputEvent.triggerEventHandler(`input`);
 

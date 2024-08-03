@@ -17,7 +17,11 @@ export class SimpleHeaderComponent {
   ) {
     authService.getUserInfo().subscribe({
       next: (val) => {
-        this.userName = val;
+        if (!val) {
+          this.userName = '';
+        } else {
+          this.userName = val.name;
+        }
       },
     });
   }

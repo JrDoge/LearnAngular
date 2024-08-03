@@ -4,9 +4,14 @@
         <p>Please enter your login information below</p>
     </div>
     <div class="input-user-container">
-        <tui-input class="input" id="emailInput" [(ngModel)]="enteredLogin">Email / Login<input type="text" tuiTextfield size="m"></tui-input>
-        <tui-input-password class="input" id="passInput" tuiTextfieldIconLeft="tuiIconEyeOffLarge" size="m" [(ngModel)]="enteredPass">Password<input type="password" tuiTextfield></tui-input-password>
-        <button id="loginBtn" tuiButton (click)="logining()">Login</button>
+        <tui-input class="input" id="emailInput" [formControl]="enteredLogin">
+            Email / Login<input type="text" tuiTextfield size="m"></tui-input>
+        <tui-input-password class="input" 
+        id="passInput" 
+        tuiTextfieldIconLeft="tuiIconEyeOffLarge" 
+        size="m" [formControl]="enteredPass">
+            Password<input type="password" tuiTextfield></tui-input-password>
+        <button data-id="login" id="loginBtn" tuiButton (click)="logining()">Login</button>
     </div>
 </div>
 <app-simple-footer></app-simple-footer>

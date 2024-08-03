@@ -1,12 +1,13 @@
 @import '@taiga-ui/core/styles/taiga-ui-local.less';
 
 .list-container{
+    box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
     margin-top: 8px;
     width: 1200px;
-    height: 1328px;
+    min-height: 1328px;
     background-color: hsl(0, 0%, 100%, 1);
     padding: 32px 0;
     z-index: 1;
@@ -28,4 +29,8 @@
 }
 .header-no-data{
     margin-bottom: 10px;
+}
+.tui-dialog{
+    display: flex;
+    gap: 20px;
 }

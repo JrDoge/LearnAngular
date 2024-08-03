@@ -4,12 +4,12 @@
             <form>
                 <tui-input 
                 tuiTextfieldIconLeft = "tuiIconSearchLarge"
-                class="input"  name="searchSection" (input)="onKey()" [(ngModel)]="searchRequest">{{searchHint}}
+                class="input"  name="searchSection" [formControl]="search">{{searchHint}}
                     <input id="searchSection" placeholder="Placeholder"
                         tuiTextfield>
                 </tui-input>
             </form>
         </div>
-        <button id="addCourseBtn" appearance="primary" tuiButton icon="tuiIconPlusLarge" routerLink="/courses/new">Add Course</button>
+        <button id="addCourseBtn" appearance="primary" tuiButton icon="tuiIconPlusLarge" (click)="addCourse()">Add Course</button>
     </div>
 </body>
