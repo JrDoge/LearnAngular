@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import type { CourseData } from '../../course-data';
+import type { CourseData } from '../../interfaces/course-data';
 
 @Component({
   selector: 'app-course-data',

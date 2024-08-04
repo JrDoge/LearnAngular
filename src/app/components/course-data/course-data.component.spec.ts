@@ -3,10 +3,10 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CourseDataComponent } from './course-data.component';
-import { courseMock } from './course-mock';
+import { courseMock } from '../../mocks/course-mock';
 import { CourseDataModule } from './course-data.module';
 import { DurationPipe } from '../../pipes/duration.pipe';
-import type { CourseData } from '../../course-data';
+import type { CourseData } from '../../interfaces/course-data';
 
 let component: CourseDataComponent;
 let fixture: ComponentFixture<CourseDataComponent>;

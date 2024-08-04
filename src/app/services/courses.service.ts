@@ -1,14 +1,10 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable dot-notation */
-
 import { Inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs';
 import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import type { CourseData } from '../course-data';
+import type { CourseData } from '../interfaces/course-data';
 import { LoaderService } from './loader.service';
 
 @Injectable({
@@ -23,8 +19,7 @@ export class CoursesService {
     @Inject(HttpClient) private readonly http: HttpClient,
     @Inject(LoaderService) private readonly loader: LoaderService,
     @Inject(Router) private readonly router: Router
-  ) {
-  }
+  ) {}
 
   loadCourses$(): Observable<void> {
     this.loader.showLoader();

@@ -1,4 +1,4 @@
-import { courseMock } from '../components/course-data/course-mock';
+import { courseMock } from '../mocks/course-mock';
 import { FilterPipe } from './filter.pipe';
 
 describe('FilterPipe', () => {

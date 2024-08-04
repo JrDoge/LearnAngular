@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { AuthService } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
 
@@ -9,12 +10,22 @@ import { LoaderService } from '../../services/loader.service';
   templateUrl: './login-section.component.html',
   styleUrl: './login-section.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: 'This field must be filled!',
+      },
+    },
+  ],
 })
 export class LoginSectionComponent {
   logoSrc = './assets/svgs/Logo.svg';
 
-  enteredLogin = new FormControl('JrDoge', { nonNullable: true });
-  enteredPass = new FormControl('240399Saw', { nonNullable: true });
+  authForm = new FormGroup({
+    enteredLogin: new FormControl('JrDoge', { nonNullable: true }),
+    enteredPass: new FormControl('240399Saw', { nonNullable: true }),
+  });
 
   constructor(
     @Inject(AuthService) private readonly authService: AuthService,
@@ -23,6 +34,7 @@ export class LoginSectionComponent {
   ) {}
 
   logining() {
-    this.authService.login(this.enteredLogin.value, this.enteredPass.value);
+    const authInfo = this.authForm.getRawValue();
+    this.authService.login(authInfo.enteredLogin, authInfo.enteredPass);
   }
 }

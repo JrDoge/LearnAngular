@@ -1,6 +1,7 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
+import { TuiLoaderModule } from '@taiga-ui/core';
 import { LoaderComponent } from './loader.component';
 
 describe('LoaderComponent', () => {
@@ -10,6 +11,7 @@ describe('LoaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LoaderComponent],
+      imports: [TuiLoaderModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoaderComponent);

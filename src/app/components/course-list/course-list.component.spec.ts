@@ -4,7 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import type { DebugElement } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { CourseListComponent } from './course-list.component';
 import { CoursesService } from '../../services/courses.service';
 
@@ -16,7 +19,8 @@ describe('Если в качестве данных о курсах переда
     await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [provideHttpClient()],
+      imports: [HttpClientTestingModule],
+      providers: [provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CourseListComponent);
@@ -52,7 +56,8 @@ describe('Если от компонента курса пришло событ�
     await TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [CoursesService, provideHttpClient()],
+      imports: [HttpClientTestingModule],
+      providers: [CoursesService, provideHttpClientTesting()],
     }).compileComponents();
     fixture = TestBed.createComponent(CourseListComponent);
     component = fixture.componentInstance;
@@ -73,7 +78,8 @@ describe('Если нажать на кнопку "Load more"', () => {
     TestBed.configureTestingModule({
       declarations: [CourseListComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [CoursesService, provideHttpClient()],
+      imports: [HttpClientTestingModule],
+      providers: [CoursesService, provideHttpClientTesting()],
     });
 
     fixture = TestBed.createComponent(CourseListComponent);

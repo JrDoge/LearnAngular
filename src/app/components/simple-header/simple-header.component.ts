@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import type { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,21 +11,12 @@ import { AuthService } from '../../services/auth.service';
 export class SimpleHeaderComponent {
   logoSrc = 'assets/svgs/Logo.svg';
   iconsSrc = ['assets/svgs/icon-16.svg', 'assets/svgs/Icon.svg'];
-  userName!: string | null;
+  userName: Observable<string | undefined> = this.authService.getUserInfo();
+
   constructor(
     @Inject(AuthService) private readonly authService: AuthService,
     @Inject(Router) private readonly router: Router
-  ) {
-    authService.getUserInfo().subscribe({
-      next: (val) => {
-        if (!val) {
-          this.userName = '';
-        } else {
-          this.userName = val.name;
-        }
-      },
-    });
-  }
+  ) {}
 
   logout() {
     this.authService.logout();

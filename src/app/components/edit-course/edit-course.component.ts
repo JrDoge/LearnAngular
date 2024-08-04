@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  delay,
   filter,
+  map,
   of,
   startWith,
   Subject,
@@ -12,9 +12,8 @@ import {
   type Observable,
 } from 'rxjs';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import type { CourseData } from '../../course-data';
+import type { CourseData } from '../../interfaces/course-data';
 import { CoursesService } from '../../services/courses.service';
-import { authorsMock } from '../../authors-mock';
 import { AuthorsService } from '../../services/authors.service';
 
 @Component({
@@ -38,21 +37,27 @@ import { AuthorsService } from '../../services/authors.service';
 export class EditCourseComponent {
   id!: string;
   title!: string;
-  description = new FormControl('', { nonNullable: true });
+
   date!: string;
   duration!: number;
-  chosenAuthors = new FormControl([''], { nonNullable: true });
-  // course = this.courses.getCoursesById(this.id);
-  authors: string[] = authorsMock;
+
+  courseInfo = new FormGroup({
+    chosenAuthors: new FormControl(
+      [''],
+      [Validators.required, Validators.minLength(1)]
+    ),
+    description: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(500),
+    ]),
+  });
+
+  authors: string[] = [];
 
   readonly search$ = new Subject<string | null>();
-
   readonly items$: Observable<readonly string[] | null> = this.search$.pipe(
     filter((val) => val !== null),
-    switchMap((search) =>
-      this.matchAuthors(search).pipe(startWith<readonly string[] | null>(null))
-    ),
-    startWith(authorsMock)
+    switchMap((search) => this.requestAuthors(search).pipe(startWith(null)))
   );
 
   constructor(
@@ -69,36 +74,48 @@ export class EditCourseComponent {
       next: (course) => {
         if (course) {
           this.title = course.title;
-          this.description.setValue(course.description);
           this.date = course.creationDate;
           this.duration = course.duration;
-          this.chosenAuthors.setValue(course.authors);
+          this.courseInfo.patchValue({
+            chosenAuthors: course.authors,
+            description: course.description,
+          });
         }
       },
       error() {
         router.navigate(['404']);
       },
     });
-    
+    authorsService.getAuthors$().subscribe();
+  }
+
+  onClickChange() {
+    this.search$.next('');
   }
 
   onSearchChange(searchQuery: string | null): void {
     this.search$.next(searchQuery);
   }
 
-  private matchAuthors(
+  private requestAuthors(
     searchQuery: string | null
   ): Observable<readonly string[]> {
-    const result = authorsMock.filter((author) =>
-      TUI_DEFAULT_MATCHER(author, searchQuery || '')
+    return this.authorsService.authors.pipe(
+      switchMap((val) => of(val)),
+      map((authors) =>
+        authors.filter((author) =>
+          TUI_DEFAULT_MATCHER(author, searchQuery || '')
+        )
+      )
     );
-    return of(result).pipe(delay(1000));
   }
 
   saveCourse() {
+    const getCourse = this.courseInfo.getRawValue();
     const newCourse: Partial<CourseData> = {
-      description: this.description.value,
-      authors: this.chosenAuthors.value,
+      description: getCourse.description !== null ? getCourse.description : '',
+      authors:
+        getCourse.chosenAuthors !== null ? getCourse.chosenAuthors : [''],
     };
     this.courses.editCourse(this.id, newCourse);
     this.router.navigate(['/courses']);

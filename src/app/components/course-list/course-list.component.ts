@@ -6,7 +6,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import type { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import { Router } from '@angular/router';
 import { CoursesService } from '../../services/courses.service';
-import type { CourseData } from '../../course-data';
+import type { CourseData } from '../../interfaces/course-data';
 
 @Component({
   selector: 'app-course-list',
@@ -20,8 +20,7 @@ export class CourseListComponent {
 
   id!: string;
 
-  courses$: Observable<CourseData[]> =
-    this.courseService.coursesCollection$.asObservable();
+  courses$: Observable<CourseData[]> = this.courseService.coursesCollection$;
 
   constructor(
     @Inject(CoursesService) private readonly courseService: CoursesService,

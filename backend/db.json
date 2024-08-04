@@ -1,5 +1,5 @@
 {
-  "user": [
+  "users": [
     {
       "id": "1",
       "login": "fghfghfg",
@@ -90,10 +90,10 @@
     {
       "id": "4",
       "title": "video course 3",
-      "creationDate": "2024-05-10",
-      "duration": 120,
+      "creationDate": "2024-04-30",
+      "duration": 100,
       "description": "Create a repository at github/bitbucket Install ng-cli: npm install -g @angular/cli Use ng-cli to create initial a project Run the project by executing “ng serve” Explore a project structure Setup TS lint according to your preferences (indentation, spacing...)",
-      "topRated": false,
+      "topRated": true,
       "authors": [
         "Konstantin Decker",
         "Petr Ivanov"
@@ -148,6 +148,15 @@
         "Konstantin Decker",
         "Maxim Skukov"
       ]
+    },
+    {
+      "id": "1722791134172",
+      "title": "",
+      "creationDate": "2024-08-04",
+      "duration": 0,
+      "description": "",
+      "topRated": false,
+      "authors": []
     }
   ],
   "authors": [

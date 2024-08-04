@@ -1,4 +1,4 @@
-import type { CourseData } from '../../course-data';
+import type { CourseData } from '../interfaces/course-data';
 
 export const courseMock: CourseData[] = [
   {

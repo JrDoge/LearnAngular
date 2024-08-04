@@ -1,15 +1,15 @@
-/* eslint-disable eqeqeq */
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TuiDay } from '@taiga-ui/cdk';
+import { TUI_DEFAULT_MATCHER, TuiDay } from '@taiga-ui/cdk';
 import { FormBuilder } from '@angular/forms';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { of } from 'rxjs';
-import type { CourseData } from '../../course-data';
+import type { Observable } from 'rxjs';
+import { filter, map, of, startWith, Subject, switchMap } from 'rxjs';
+import type { CourseData } from '../../interfaces/course-data';
 import { CoursesService } from '../../services/courses.service';
-import { authorsMock } from '../../authors-mock';
-import { LoaderService } from '../../services/loader.service';
+import { authorsMock } from '../../mocks/authors-mock';
+import { AuthorsService } from '../../services/authors.service';
 
 @Component({
   selector: 'app-add-course',
@@ -25,77 +25,86 @@ import { LoaderService } from '../../services/loader.service';
           `Maximum length — ${requiredLength}`,
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Minimum length — ${requiredLength}`),
-        min: 'Min number 1',
+        min: 'Min 1 minute',
       },
     },
   ],
 })
 export class AddCourseComponent {
+  currentDate = new Date();
   authors: string[] = authorsMock;
-
   course = this.fb.group({
-    title: new FormControl<string>('', [
-      Validators.required,
-      Validators.maxLength(50),
-    ]),
-    description: new FormControl<string>('', [
-      Validators.required,
-      Validators.maxLength(500),
-    ]),
-    date: new FormControl<TuiDay>(
+    title: ['', [Validators.required, Validators.maxLength(50)]],
+    description: ['', [Validators.required, Validators.maxLength(500)]],
+    date: [
       new TuiDay(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate()
+        this.currentDate.getFullYear(),
+        this.currentDate.getMonth(),
+        this.currentDate.getDate()
       ),
-      Validators.required
-    ),
-    duration: new FormControl<number>(0, [
       Validators.required,
-      Validators.min(1),
-    ]),
-    chosenAuthors: new FormControl<string[]>(
-      [],
-      [Validators.required, Validators.minLength(1)]
-    ),
+    ],
+    duration: [0, [Validators.required, Validators.min(1)]],
+    chosenAuthors: [[], [Validators.required, Validators.minLength(1)]],
   });
+
+  readonly search$ = new Subject<string | null>();
+  readonly items$: Observable<readonly string[] | null> = this.search$.pipe(
+    filter((val) => val !== null),
+    switchMap((search) => this.requestAuthors(search).pipe(startWith(null)))
+  );
 
   constructor(
     @Inject(FormBuilder) private readonly fb: FormBuilder,
     @Inject(CoursesService) private readonly courses: CoursesService,
     @Inject(Router) private readonly router: Router,
-    @Inject(LoaderService) private readonly loader: LoaderService
-  ) {}
+    @Inject(AuthorsService) private readonly authorsService: AuthorsService
+  ) {
+    authorsService.getAuthors$().subscribe();
+  }
+
+  onClickChange() {
+    this.search$.next('');
+  }
+
+  onSearchChange(searchQuery: string | null): void {
+    this.search$.next(searchQuery);
+  }
+
+  private requestAuthors(
+    searchQuery: string | null
+  ): Observable<readonly string[]> {
+    return this.authorsService.authors.pipe(
+      switchMap((val) => of(val)),
+      map((authors) =>
+        authors.filter((author) =>
+          TUI_DEFAULT_MATCHER(author, searchQuery || '')
+        )
+      )
+    );
+  }
 
   saveCourse() {
+    const getCourse = this.course.getRawValue();
+
     const newCourse: CourseData = {
       id: `${Date.now()}`,
-      title:
-        this.course.value.title == (null || undefined)
-          ? ''
-          : this.course.value.title,
+      title: getCourse.title !== null ? getCourse.title : '',
       creationDate:
-        this.course.value.date == (undefined || null)
+        getCourse.date === null
           ? ''
-          : `${this.course.value.date.year}-${(this.course.value.date.month + 1)
+          : `${getCourse.date.year}-${(getCourse.date.month + 1)
               .toString()
-              .padStart(2, '0')}-${this.course.value.date?.day
+              .padStart(2, '0')}-${getCourse.date.day
               .toString()
               .padStart(2, '0')}`,
-      duration:
-        this.course.value.duration == null || undefined
-          ? 0
-          : this.course.value.duration,
-      description:
-        this.course.value.description == null || undefined
-          ? ''
-          : this.course.value.description,
+      duration: getCourse.duration !== null ? getCourse.duration : 0,
+      description: getCourse.description === null ? '' : getCourse.description,
       topRated: false,
       authors:
-        this.course.value.chosenAuthors == null || undefined
-          ? ['']
-          : this.course.value.chosenAuthors,
+        getCourse.chosenAuthors === null ? [''] : getCourse.chosenAuthors,
     };
+    this.course.get('title');
     this.courses.addCourse(newCourse);
     this.router.navigate(['/courses']);
   }

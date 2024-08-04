@@ -1,15 +1,18 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { provideHttpClient } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { find, from } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-import { provideRouter, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  HttpClientTestingModule,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
+import { TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { EditCourseComponent } from './edit-course.component';
 import { CoursesService } from '../../services/courses.service';
-import { courseMock } from '../course-data/course-mock';
+import { courseMock } from '../../mocks/course-mock';
 
 import { DurationModule } from '../../pipes/duration.module';
 import { routes } from '../../app.routes';
@@ -22,15 +25,14 @@ describe('EditCourseComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [EditCourseComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      imports: [DurationModule],
-      providers: [
-        CoursesService,
-        provideHttpClient(),
-        provideRouter(routes),
-        Router,
+      imports: [
+        DurationModule,
+        HttpClientTestingModule,
+        TuiFieldErrorPipeModule,
+        RouterTestingModule.withRoutes(routes),
       ],
+      providers: [CoursesService, provideHttpClientTesting()],
     }).compileComponents();
-
     fixture = TestBed.createComponent(EditCourseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

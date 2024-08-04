@@ -8,15 +8,12 @@ import {
 } from '@taiga-ui/core';
 import { TuiBlockStatusModule } from '@taiga-ui/layout';
 import { TuiDestroyService } from '@taiga-ui/cdk';
-import { provideRouter, RouterLink } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import { CourseListComponent } from './course-list.component';
 import { CourseDataModule } from '../course-data/course-data.module';
 import { FilterModule } from '../../pipes/filter.module';
 import { CoursesService } from '../../services/courses.service';
 import { SearchSectionModule } from '../search-section/search-section.module';
-import { routes } from '../../app.routes';
-import { authInterceptor } from '../../services/auth-interceptor';
 
 @NgModule({
   declarations: [CourseListComponent],
@@ -33,12 +30,6 @@ import { authInterceptor } from '../../services/auth-interceptor';
     RouterLink,
   ],
   exports: [CourseListComponent],
-  providers: [
-    CoursesService,
-    TuiDestroyService,
-    provideHttpClient(withInterceptors([authInterceptor])),
-    TuiDialogService,
-    provideRouter(routes),
-  ],
+  providers: [CoursesService, TuiDestroyService, TuiDialogService],
 })
 export class CourseListModule {}

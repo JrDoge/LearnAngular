@@ -17,28 +17,42 @@
             <p id="titleName" class="tui-text_body-m-2">{{duration | duration}}</p>
          </div>
       </div>
-      <div class="description">
-         <label tuiLabel="Description">
-            <tui-textarea [tuiTextfieldLabelOutside]="true" [maxLength]="500" [formControl]="description"></tui-textarea>
-         </label>
-      </div>
-      <div class="authors">
-         <tui-multi-select
-            *tuiLet="items$ | async as items"
-            class="b-form"
-            [tuiTextfieldLabelOutside]="true"
-            name="authors" 
-            tuiDropdownDirection="bottom"
-            [formControl]="chosenAuthors"
-            (searchChange)="onSearchChange($event)">
-            <tui-data-list-wrapper
-            *tuiDataList
-            tuiMultiSelectGroup
-            [items]="items">
-         </tui-data-list-wrapper></tui-multi-select>
-      </div>
+      <form [formGroup]="courseInfo">
+         <div class="description">
+            <label tuiLabel="Description">
+               <tui-textarea 
+               [tuiTextfieldLabelOutside]="true" 
+               [maxLength]="500" 
+               formControlName="description">
+            </tui-textarea>
+               <tui-error
+            formControlName="description"
+            [error]="[] | tuiFieldError | async">
+            </tui-error>
+            </label>
+         </div>
+         <div class="authors">
+            <tui-multi-select
+               *tuiLet="items$ | async as items"
+               class="b-form"
+               [tuiTextfieldLabelOutside]="true"
+               name="authors" 
+               (click)="onClickChange()"
+               formControlName="chosenAuthors"
+               (searchChange)="onSearchChange($event)">
+               <tui-data-list-wrapper
+               *tuiDataList
+               tuiMultiSelectGroup
+               [items]="items">
+            </tui-data-list-wrapper></tui-multi-select>
+            <tui-error
+            formControlName="chosenAuthors"
+            [error]="[] | tuiFieldError | async">
+            </tui-error>
+         </div>
+      </form>
       <div class="buttons">
-         <button data-id="save" tuiButton (click)="saveCourse()">
+         <button data-id="save" tuiButton (click)="saveCourse()" [disabled]="courseInfo.invalid">
             Save
          </button>
          <button  tuiButton appearance="secondary" (click)="cancel()">

@@ -8,7 +8,6 @@
             <div class="tui-form__row">
                <label [tuiLabel]="'Title'">
                   <tui-input 
-                  required="true"
                   formControlName="title"
                   [tuiTextfieldCleaner]="true"
                   name="title" 
@@ -22,7 +21,7 @@
                <div class="tui-form__row">
                   <label [tuiLabel]="'Description'">
                      <tui-textarea
-                     required="true"
+                     [maxLength]="500"
                      formControlName="description" 
                      [tuiTextfieldCleaner]="true" 
                      name="description"
@@ -38,7 +37,6 @@
                   <div class="tui-form__multi-field">
                      <label [tuiLabel]="'Date'">
                         <tui-input-date 
-                        required="true"
                         formControlName="date"
                         [tuiTextfieldLabelOutside]="true" 
                         name="date"
@@ -52,7 +50,6 @@
                      <label [tuiLabel]="'Duration'">
                         <tui-input-number
                         formControlName="duration" 
-                        required="true"
                         [tuiTextfieldCleaner]="true" 
                         name="duration" 
                         [tuiTextfieldLabelOutside]="true"
@@ -70,16 +67,18 @@
                <div class="tui-form__row">
                   <label [tuiLabel]="'Authors'">
                      <tui-multi-select
+                        *tuiLet="items$ | async as items"
+                        class="b-form"
                         formControlName="chosenAuthors"
                         [tuiTextfieldLabelOutside]="true"
-                        minlength="1"
+                        (click)="onClickChange()"
+                        (searchChange)="onSearchChange($event)"
                         name="authors" 
-                        required="true"
                         >
                         <tui-data-list-wrapper 
                         *tuiDataList
                         tuiMultiSelectGroup
-                        [items]="authors">
+                        [items]="items">
                         </tui-data-list-wrapper>
                      </tui-multi-select>
                   </label><tui-error
@@ -90,6 +89,7 @@
                <div class="tui-form__buttons">
                   <button tuiButton 
                   data-id="save"
+                  [disabled]="course.invalid && course.touched"
                   type="submit" 
                   class="tui-form__button" 
                   (click)="saveCourse()"
@@ -97,6 +97,7 @@
                      Save
                   </button>
                   <button  
+                  
                   tuiButton class="tui-form__button" 
                   appearance="secondary" 
                   (click)="cancel()"

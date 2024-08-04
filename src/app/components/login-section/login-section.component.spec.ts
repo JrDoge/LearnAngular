@@ -1,9 +1,13 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { provideHttpClient } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { TuiFieldErrorPipeModule } from '@taiga-ui/kit';
+import {
+  HttpClientTestingModule,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { LoginSectionComponent } from './login-section.component';
 
 describe('LoginSectionComponent', () => {
@@ -13,7 +17,8 @@ describe('LoginSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LoginSectionComponent],
-      providers: [provideHttpClient()],
+      imports: [TuiFieldErrorPipeModule, HttpClientTestingModule],
+      providers: [provideHttpClientTesting()],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
@@ -30,6 +35,7 @@ describe('LoginSectionComponent', () => {
     loginButton.triggerEventHandler('click');
 
     fixture.detectChanges();
+
     await fixture.whenStable().then(() => {
       expect(spy).toHaveBeenCalled();
     });

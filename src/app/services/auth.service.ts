@@ -4,7 +4,7 @@ import { finalize, from, of, switchMap } from 'rxjs';
 import { find, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import type { User } from '../user-info';
+import type { User } from '../interfaces/user-info';
 
 import { LoaderService } from './loader.service';
 
@@ -21,18 +21,20 @@ export class AuthService {
   login(login: string, password: string) {
     this.loader.showLoader();
     this.http
-      .get<User[]>(
-        `http://localhost:3001/user?login=${login}&password=${password}`
-      )
+      .post<User>(`http://localhost:3001/token`, {
+        login,
+        password,
+      })
       .pipe(finalize(() => this.loader.hideLoader()))
-      .subscribe((response) => {
-        const result = response[0].token;
-        if (!result) {
-          throw new Error('Wrong login or password try again');
-        } else {
+      .subscribe({
+        next: (response) => {
+          const result = response.token;
           this.setUserInStorage(result);
           this.router.navigate(['/courses']);
-        }
+        },
+        error: () => {
+          throw new Error('Wrong login or password try again');
+        },
       });
   }
 
@@ -44,14 +46,17 @@ export class AuthService {
     return of(localStorage.getItem('token'));
   }
 
-  getUserInfo(): Observable<User | undefined> {
+  getUserInfo(): Observable<string | undefined> {
     const currentToken = localStorage.getItem('token');
     return this.http
-      .get<User[]>(`http://localhost:3001/user?token${currentToken}`)
+      .get<User[]>(`http://localhost:3001/token?token${currentToken}`)
       .pipe(
         switchMap((data) => from(data)),
         find((val) => val.token === currentToken),
-        map((user) => user)
+        map((user) => {
+          const name = user?.name;
+          return name;
+        })
       );
   }
 

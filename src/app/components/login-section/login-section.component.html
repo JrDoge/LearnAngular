@@ -1,17 +1,36 @@
-<div class="container">
-    <div class="log-in-info">
-        <img [src]="logoSrc" alt="logo">
-        <p>Please enter your login information below</p>
+<main>
+    <div class="container">
+        <div class="log-in-info">
+            <img [src]="logoSrc" alt="logo">
+            <p>Please enter your login information below</p>
+        </div>
+        <div class="input-user-container">
+            <form [formGroup]="authForm">
+                    <tui-input 
+                    class="input tui-form__row" 
+                    required="true" 
+                    id="emailInput" 
+                    formControlName="enteredLogin">
+                    
+                        Email / Login
+                    <input type="text" tuiTextfield size="m">
+                    </tui-input>
+                    <tui-error
+                        formControlName="enteredLogin"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                <tui-input-password class="input tui-form__row" 
+                id="passInput" 
+                required="true"
+                tuiTextfieldIconLeft="tuiIconEyeOffLarge" 
+                size="m" formControlName="enteredPass">
+                    Password<input type="password" tuiTextfield></tui-input-password><tui-error
+                    formControlName="enteredPass"
+                    [error]="[] | tuiFieldError | async"
+                    ></tui-error>
+            </form>
+            <button data-id="login" id="loginBtn" [disabled]="authForm.invalid && authForm.touched" tuiButton (click)="logining()">Login</button>
+        </div>
     </div>
-    <div class="input-user-container">
-        <tui-input class="input" id="emailInput" [formControl]="enteredLogin">
-            Email / Login<input type="text" tuiTextfield size="m"></tui-input>
-        <tui-input-password class="input" 
-        id="passInput" 
-        tuiTextfieldIconLeft="tuiIconEyeOffLarge" 
-        size="m" [formControl]="enteredPass">
-            Password<input type="password" tuiTextfield></tui-input-password>
-        <button data-id="login" id="loginBtn" tuiButton (click)="logining()">Login</button>
-    </div>
-</div>
-<app-simple-footer></app-simple-footer>
+    <app-simple-footer></app-simple-footer>
+</main>

@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { AuthGuardService } from './auth-guard.service';
 
 describe('AuthGuardService', () => {
   let service: AuthGuardService;
   TestBed.configureTestingModule({
-    providers: [provideHttpClient()]
+    imports: [HttpClientTestingModule],
+    providers: [provideHttpClientTesting()],
   }).compileComponents();
 
   beforeEach(() => {
@@ -14,7 +18,7 @@ describe('AuthGuardService', () => {
     service = TestBed.inject(AuthGuardService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('Если авторизован выводит true', () => {
+    service.canActivate().subscribe((val) => expect(val).toBeTruthy());
   });
 });

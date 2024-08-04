@@ -10,7 +10,6 @@ import { CourseDataModule } from '../course-data/course-data.module';
 import { FilterModule } from '../../pipes/filter.module';
 import { CoursesPageComponent } from './courses-page.component';
 import { LoginSectionModule } from '../login-section/login-section.module';
-import { AuthService } from '../../services/auth.service';
 import { AddCourseModule } from '../add-course/add-course.module';
 import { EditCourseModule } from '../edit-course/edit-course.module';
 
@@ -30,6 +29,5 @@ import { EditCourseModule } from '../edit-course/edit-course.module';
     EditCourseModule,
   ],
   exports: [CoursesPageComponent],
-  providers: [AuthService],
 })
 export class CoursesPageModule {}

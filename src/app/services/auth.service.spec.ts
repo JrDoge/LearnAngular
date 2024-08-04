@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -8,7 +11,8 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient()]
+      imports: [HttpClientTestingModule],
+      providers: [provideHttpClientTesting()],
     }).compileComponents();
     TestBed.configureTestingModule({});
     service = TestBed.inject(AuthService);
@@ -21,8 +25,6 @@ describe('AuthService', () => {
     const password = '240399Saw';
     service.login(login, password);
     jest.runAllTimers();
-    const token = localStorage.getItem('token');
-    console.log(localStorage)
     expect(spy).toHaveBeenCalled();
   });
   it('should return is user authorized', () => {

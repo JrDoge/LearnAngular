@@ -4,7 +4,7 @@
     <div class="user-navigation">
      <div class="user-container">
        <img [src]="iconsSrc[1]" alt="iconStar" id="userIcon">
-       <a id="userName" tuiLink>{{userName}}</a>
+       <a id="userName" data-id="name" tuiLink>{{userName | async}}</a>
      </div>
      <div class="logout">
        <img [src]="iconsSrc[0]" alt="icon" id="logoutIcon" >
