@@ -22,7 +22,7 @@ import { AuthorsService } from '../../services/authors.service';
       useValue: {
         required: 'This field must be filled!',
         maxlength: ({ requiredLength }: { requiredLength: string }) =>
-          `Maximum length — ${requiredLength}`,
+          of(`Maximum length — ${requiredLength}`),
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Minimum length — ${requiredLength}`),
         min: 'Min 1 minute',
@@ -93,11 +93,11 @@ export class AddCourseComponent {
       creationDate:
         getCourse.date === null
           ? ''
-          : `${getCourse.date.year}-${(getCourse.date.month + 1)
-              .toString()
-              .padStart(2, '0')}-${getCourse.date.day
-              .toString()
-              .padStart(2, '0')}`,
+          : new Date(
+              getCourse.date.year,
+              getCourse.date.month,
+              getCourse.date.day
+            ).toISOString(),
       duration: getCourse.duration !== null ? getCourse.duration : 0,
       description: getCourse.description === null ? '' : getCourse.description,
       topRated: false,

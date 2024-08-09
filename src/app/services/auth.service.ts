@@ -12,6 +12,7 @@ import { LoaderService } from './loader.service';
   providedIn: 'root',
 })
 export class AuthService {
+  url = 'http://localhost:3001/token';
   constructor(
     @Inject(HttpClient) private readonly http: HttpClient,
     @Inject(LoaderService) private readonly loader: LoaderService,
@@ -21,7 +22,7 @@ export class AuthService {
   login(login: string, password: string) {
     this.loader.showLoader();
     this.http
-      .post<User>(`http://localhost:3001/token`, {
+      .post<User>(this.url, {
         login,
         password,
       })
@@ -49,7 +50,11 @@ export class AuthService {
   getUserInfo(): Observable<string | undefined> {
     const currentToken = localStorage.getItem('token');
     return this.http
-      .get<User[]>(`http://localhost:3001/token?token${currentToken}`)
+      .get<User[]>(this.url, {
+        params: {
+          token: currentToken !== null ? currentToken : '',
+        },
+      })
       .pipe(
         switchMap((data) => from(data)),
         find((val) => val.token === currentToken),

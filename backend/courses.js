@@ -1,5 +1,5 @@
 function coursesMiddleware(req, res, next){
-    const { _sort, _order, _page, _limit, q }  = req.query
+    const { _sort, _order}  = req.query
     const page = parseInt(req.query._page, 10) ;
     const limit = parseInt(req.query._limit, 10) ;
     const searchQuery = req.query.q;
@@ -24,7 +24,7 @@ function coursesMiddleware(req, res, next){
     if(req.path == '/courses'){
         if(searchQuery){
             const searchData = 
-            res.locals.data.courses.filter((course) => 
+            res.locals.data.filter((course) => 
                 course.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
             course.description.toLowerCase().includes(searchQuery.toLowerCase())||
             course.creationDate.toLowerCase().includes(searchQuery.toLowerCase())

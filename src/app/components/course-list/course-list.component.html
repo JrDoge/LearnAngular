@@ -1,5 +1,5 @@
 <app-search-section></app-search-section>
-<div class="list-container" *ngIf="!(notFound | async) || false">
+<div class="list-container" *ngIf="(courses$ | async)!.length !== 0">
    <app-course-data *ngFor="let course of courses$ | async"
                 [course]='course'
                 (deleteEvent)="showDialog(template); id = $event"
@@ -9,7 +9,7 @@
                 </app-course-data>
   <button id="LoadBtn" appearance="secondary" tuiButton data-automation-id="load-button" (click)="loadNewCourses()">Load more</button>
 </div>
-<ng-container *ngIf="(notFound | async) || false">
+<ng-container *ngIf="(courses$ | async)!.length === 0">
     <tui-block-status class="list-without-data">
         <img 
         [src]="informationIcon" 

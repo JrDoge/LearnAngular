@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs';
@@ -12,9 +13,8 @@ import { LoaderService } from './loader.service';
 })
 export class CoursesService {
   coursesCollection$ = new BehaviorSubject<CourseData[]>([]);
-
-  notFound = new BehaviorSubject<boolean>(false);
   currentPage = 1;
+  url = 'http://localhost:3001/courses';
   constructor(
     @Inject(HttpClient) private readonly http: HttpClient,
     @Inject(LoaderService) private readonly loader: LoaderService,
@@ -24,9 +24,14 @@ export class CoursesService {
   loadCourses$(): Observable<void> {
     this.loader.showLoader();
     return this.http
-      .get<CourseData[]>(
-        `http://localhost:3001/courses?q=&_sort=creationDate&_order=desc&_page=${this.currentPage}&_limit=3`
-      )
+      .get<CourseData[]>(this.url, {
+        params: {
+          _sort: 'creationDate',
+          _order: 'desc',
+          _page: this.currentPage,
+          _limit: 3,
+        },
+      })
       .pipe(
         tap((courses) => {
           this.coursesCollection$.next(courses);
@@ -41,9 +46,14 @@ export class CoursesService {
     const newPage = this.currentPage + 1;
 
     this.http
-      .get<CourseData[]>(
-        `http://localhost:3001/courses?q=&_sort=creationDate&_order=desc&_page=${newPage}&_limit=3`
-      )
+      .get<CourseData[]>(this.url, {
+        params: {
+          _sort: 'creationDate',
+          _order: 'desc',
+          _page: newPage,
+          _limit: 3,
+        },
+      })
       .pipe(
         tap((response) => {
           if (response.length !== 0) {
@@ -62,7 +72,7 @@ export class CoursesService {
   searchCourses(searchQuery: string) {
     this.loader.showLoader();
     return this.http
-      .get<CourseData[]>(`http://localhost:3001/courses`, {
+      .get<CourseData[]>(this.url, {
         params: {
           q: searchQuery,
         },
@@ -78,7 +88,11 @@ export class CoursesService {
   getCoursesById(id: string): Observable<CourseData | undefined> {
     this.loader.showLoader();
     return this.http
-      .get<CourseData>(`http://localhost:3001/courses/${id}`)
+      .get<CourseData>(this.url, {
+        params: {
+          id,
+        },
+      })
       .pipe(finalize(() => this.loader.hideLoader()));
   }
 
@@ -96,7 +110,11 @@ export class CoursesService {
   editCourse(id: string, info: Partial<CourseData>): void {
     this.loader.showLoader();
     this.http
-      .patch(`http://localhost:3001/courses/${id}`, info)
+      .patch(this.url, info, {
+        params: {
+          id,
+        },
+      })
       .pipe(
         tap(() => this.loadCourses$().subscribe()),
         finalize(() => this.loader.hideLoader())

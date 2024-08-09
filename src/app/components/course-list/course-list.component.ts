@@ -16,7 +16,7 @@ import type { CourseData } from '../../interfaces/course-data';
 })
 export class CourseListComponent {
   informationIcon = 'assets/svgs/information.svg';
-  notFound = this.courseService.notFound.asObservable();
+  notFound = false;
 
   id!: string;
 

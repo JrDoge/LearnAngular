@@ -23,8 +23,8 @@ export class LoginSectionComponent {
   logoSrc = './assets/svgs/Logo.svg';
 
   authForm = new FormGroup({
-    enteredLogin: new FormControl('JrDoge', { nonNullable: true }),
-    enteredPass: new FormControl('240399Saw', { nonNullable: true }),
+    enteredLogin: new FormControl('', { nonNullable: true }),
+    enteredPass: new FormControl('', { nonNullable: true }),
   });
 
   constructor(

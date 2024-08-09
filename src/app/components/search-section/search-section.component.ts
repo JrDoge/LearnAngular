@@ -38,13 +38,7 @@ export class SearchSectionComponent {
         filter((v) => v.length >= 3),
         switchMap((v) => this.courseService.searchCourses(v))
       )
-      .subscribe((val) => {
-        if (val.length === 0) {
-          this.courseService.notFound.next(true);
-          return;
-        }
-        this.courseService.notFound.next(false);
-      });
+      .subscribe();
   }
 
   addCourse() {

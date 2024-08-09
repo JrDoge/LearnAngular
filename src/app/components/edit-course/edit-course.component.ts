@@ -27,9 +27,9 @@ import { AuthorsService } from '../../services/authors.service';
       useValue: {
         required: 'This field must be filled!',
         maxlength: ({ requiredLength }: { requiredLength: string }) =>
-          `Maximum length — ${requiredLength}`,
+          of(`Maximum length — ${requiredLength}`),
         minlength: ({ requiredLength }: { requiredLength: string }) =>
-          of(`Minimum length — ${requiredLength}`),
+          `Minimum length — ${requiredLength}`,
       },
     },
   ],

@@ -18,40 +18,42 @@
          </div>
       </div>
       <form [formGroup]="courseInfo">
-         <div class="description">
-            <label tuiLabel="Description">
-               <tui-textarea 
-               [tuiTextfieldLabelOutside]="true" 
-               [maxLength]="500" 
-               formControlName="description">
-            </tui-textarea>
+         <div class="tui-form__row">
+            <div class="description tui-form__row">
+               <label tuiLabel="Description">
+                  <tui-textarea 
+                  [tuiTextfieldLabelOutside]="true" 
+                  [maxLength]="500" 
+                  formControlName="description">
+               </tui-textarea>
+                  <tui-error
+               formControlName="description"
+               [error]="[] | tuiFieldError | async">
+               </tui-error>
+               </label>
+            </div>
+            <div class="authors tui-form__row">
+               <tui-multi-select
+                  *tuiLet="items$ | async as items"
+                  class="b-form"
+                  [tuiTextfieldLabelOutside]="true"
+                  name="authors" 
+                  (click)="onClickChange()"
+                  formControlName="chosenAuthors"
+                  (searchChange)="onSearchChange($event)">
+                  <tui-data-list-wrapper
+                  *tuiDataList
+                  tuiMultiSelectGroup
+                  [items]="items">
+               </tui-data-list-wrapper></tui-multi-select>
                <tui-error
-            formControlName="description"
-            [error]="[] | tuiFieldError | async">
-            </tui-error>
-            </label>
-         </div>
-         <div class="authors">
-            <tui-multi-select
-               *tuiLet="items$ | async as items"
-               class="b-form"
-               [tuiTextfieldLabelOutside]="true"
-               name="authors" 
-               (click)="onClickChange()"
                formControlName="chosenAuthors"
-               (searchChange)="onSearchChange($event)">
-               <tui-data-list-wrapper
-               *tuiDataList
-               tuiMultiSelectGroup
-               [items]="items">
-            </tui-data-list-wrapper></tui-multi-select>
-            <tui-error
-            formControlName="chosenAuthors"
-            [error]="[] | tuiFieldError | async">
-            </tui-error>
+               [error]="[] | tuiFieldError | async">
+               </tui-error>
+            </div>
          </div>
       </form>
-      <div class="buttons">
+      <div class="buttons tui-form__button">
          <button data-id="save" tuiButton (click)="saveCourse()" [disabled]="courseInfo.invalid">
             Save
          </button>
